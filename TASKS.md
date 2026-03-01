@@ -6,38 +6,35 @@
 
 ---
 
-## 🚧 Blocked Tasks
+## ✅ Completed Tasks
 
 ### Task #1: Supabase Project Setup
 - **Assigned to:** DevOps Engineer
-- **Status:** ⛔ Blocked (waiting for Supabase access token from user)
+- **Status:** ✅ Complete (2026-03-01)
 - **Priority:** 🔴 Critical
-- **Acceptance Criteria:**
-  - [ ] Supabase project created (name: `ybc-erp`, region: Europe)
-  - [ ] Database connected and accessible
-  - [ ] Environment variables configured in Railway
-  - [ ] RLS enabled globally on database
-- **Dependencies:** None
-- **Blocker:** User (Олег) must provide Supabase access token
-- **Notes:** This blocks all backend development; highest priority to unblock
+- **Completion Notes:**
+  - ✅ Supabase project already created (ID: `iklibzcyfxcahbquuurv`)
+  - ✅ Region: Europe (Frankfurt)
+  - ✅ Database connected and accessible
+  - ✅ Credentials documented in `/tmp/ybc-erp/CREDENTIALS.md`
+
+### Task #2: Database Schema Migration
+- **Assigned to:** Backend Developer
+- **Status:** ✅ Complete (2026-03-01 11:45 AM)
+- **Priority:** 🔴 Critical
+- **Completion Notes:**
+  - ✅ All 25 tables created successfully
+  - ✅ Indexes added (foreign keys + frequently queried columns)
+  - ✅ Foreign key constraints and relationships set
+  - ✅ Migration file: `migrations/001_initial_schema.sql`
+  - ✅ RLS policies applied to all tables (tenant isolation)
+  - ✅ Auto-update triggers for `updated_at` columns
+  - ✅ Seed data: Default chart of accounts (IFRS)
+  - ✅ Verified: All 25 tables present in database
 
 ---
 
 ## 📋 Not Started Tasks
-
-### Task #2: Database Schema Migration
-- **Assigned to:** Backend Developer
-- **Status:** 📝 Not Started
-- **Priority:** 🔴 Critical
-- **Acceptance Criteria:**
-  - [ ] All 25 tables created with correct schema
-  - [ ] Indexes added for performance (foreign keys, frequently queried columns)
-  - [ ] Foreign key constraints and relationships set
-  - [ ] Migration files versioned (`001_initial_schema.sql`, etc.)
-  - [ ] RLS policies applied to all tables (filter by `tenant_id`)
-- **Dependencies:** Task #1 (Supabase setup)
-- **Estimated Time:** 4-6 hours
-- **Notes:** See `/docs/database-schema.md` for full table definitions
 
 ### Task #3: Authentication System
 - **Assigned to:** Backend Developer
