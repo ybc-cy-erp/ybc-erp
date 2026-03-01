@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import MembershipPlansPage from './pages/MembershipPlansPage';
 import MembershipsPage from './pages/MembershipsPage';
+import MembershipFormPage from './pages/MembershipFormPage';
 import './i18n/config';
 import './styles/global.css';
 
@@ -51,6 +52,18 @@ function App() {
           <Route path="/memberships" element={
             <PrivateRoute>
               <MembershipsPage />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/memberships/create" element={
+            <PrivateRoute>
+              <MembershipFormPage />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/memberships/:id/edit" element={
+            <PrivateRoute>
+              <MembershipFormPage />
             </PrivateRoute>
           } />
         </Routes>
