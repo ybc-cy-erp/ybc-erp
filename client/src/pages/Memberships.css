@@ -1,0 +1,375 @@
+.memberships-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.btn-create {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-create:hover {
+  background: #333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-create:active {
+  transform: translateY(0);
+}
+
+/* Filters Panel */
+.filters-panel {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #666;
+}
+
+.filter-input,
+.filter-select {
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s ease;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: #000;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.btn-clear-filters {
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  color: #666;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-clear-filters:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #000;
+  color: #000;
+}
+
+/* Memberships Count */
+.memberships-count {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.memberships-count strong {
+  color: #000;
+  font-weight: 600;
+}
+
+/* Table */
+.memberships-table-wrapper {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.memberships-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.memberships-table thead {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.memberships-table th {
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.memberships-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  color: #1a1a1a;
+}
+
+.memberships-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.memberships-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.customer-name {
+  font-weight: 500;
+}
+
+.amount {
+  font-weight: 600;
+  font-family: 'SF Mono', Monaco, monospace;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-active {
+  background: rgba(52, 199, 89, 0.15);
+  color: #34c759;
+}
+
+.status-frozen {
+  background: rgba(0, 122, 255, 0.15);
+  color: #007aff;
+}
+
+.status-expired {
+  background: rgba(255, 149, 0, 0.15);
+  color: #ff9500;
+}
+
+.status-cancelled {
+  background: rgba(255, 59, 48, 0.15);
+  color: #ff3b30;
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-action {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.btn-action:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.btn-view:hover {
+  background: rgba(0, 122, 255, 0.1);
+}
+
+.btn-edit:hover {
+  background: rgba(52, 199, 89, 0.1);
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 59, 48, 0.1);
+}
+
+/* Empty State */
+.empty-state {
+  padding: 3rem;
+  text-align: center;
+  color: #666;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.empty-state .hint {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+/* Loading & Error */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.error-message {
+  padding: 2rem;
+  text-align: center;
+  background: rgba(255, 59, 48, 0.05);
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+.error-message p {
+  color: #ff3b30;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.btn-retry {
+  background: #ff3b30;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-retry:hover {
+  background: #ff6259;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .filters-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-clear-filters {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 768px) {
+  .memberships-page {
+    padding: 1rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .btn-create {
+    width: 100%;
+  }
+
+  .memberships-table {
+    font-size: 0.85rem;
+  }
+
+  .memberships-table th,
+  .memberships-table td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .page-header h1 {
+    color: #fff;
+  }
+
+  .filter-group label,
+  .memberships-count {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .memberships-count strong {
+    color: #fff;
+  }
+
+  .filter-input,
+  .filter-select {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+
+  .filter-input:focus,
+  .filter-select:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+  }
+
+  .memberships-table th {
+    color: rgba(255, 255, 255, 0.6);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .memberships-table td {
+    color: #fff;
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .memberships-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .btn-action:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .empty-state {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .empty-state .hint {
+    color: rgba(255, 255, 255, 0.5);
+  }
+}

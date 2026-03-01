@@ -1,208 +1,253 @@
-import { useState, useEffect, useContext } from 'react';
-import { useTranslation } from 'react-i18next';
-import { AuthContext } from '../context/AuthContext';
-import { membershipService } from '../services/membershipService';
-import DashboardLayout from '../components/layout/DashboardLayout';
-import MembershipModal from '../components/memberships/MembershipModal';
-import '../styles/Memberships.css';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import membershipService from '../services/membershipService';
+import membershipPlanService from '../services/membershipPlanService';
+import './Memberships.css';
 
-export default function MembershipsPage() {
-  const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
+function MembershipsPage() {
+  const navigate = useNavigate();
   const [memberships, setMemberships] = useState([]);
+  const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [editingMembership, setEditingMembership] = useState(null);
   
   // Filters
-  const [statusFilter, setStatusFilter] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const canCreateEdit = ['Owner', 'Manager'].includes(user?.role);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [planFilter, setPlanFilter] = useState('all');
 
   useEffect(() => {
-    loadMemberships();
-  }, [statusFilter]);
+    loadData();
+  }, []);
 
-  const loadMemberships = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
-      const params = {};
-      if (statusFilter) params.status = statusFilter;
-      if (searchQuery) params.search = searchQuery;
-      
-      const response = await membershipService.getAll(params);
-      setMemberships(response.data.memberships);
+      const [membershipsData, plansData] = await Promise.all([
+        membershipService.getAll(),
+        membershipPlanService.getAll()
+      ]);
+      setMemberships(membershipsData);
+      setPlans(plansData);
       setError(null);
     } catch (err) {
-      console.error('Failed to load memberships:', err);
-      setError('Не вдалося завантажити членства');
+      console.error('Failed to load data:', err);
+      setError(err.message || 'Помилка завантаження даних');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    loadMemberships();
+  const handleCancel = async (membershipId) => {
+    if (!window.confirm('Ви впевнені, що хочете скасувати це членство?')) {
+      return;
+    }
+
+    try {
+      await membershipService.cancel(membershipId);
+      await loadData();
+    } catch (err) {
+      alert(`Помилка скасування: ${err.message}`);
+    }
   };
 
-  const handleCreate = () => {
-    setEditingMembership(null);
-    setShowModal(true);
-  };
+  // Filter memberships
+  const filteredMemberships = memberships.filter(membership => {
+    // Search by customer name
+    if (searchTerm && !membership.customer_name?.toLowerCase().includes(searchTerm.toLowerCase())) {
+      return false;
+    }
 
-  const handleEdit = (membership) => {
-    setEditingMembership(membership);
-    setShowModal(true);
-  };
+    // Filter by status
+    if (statusFilter !== 'all' && membership.status !== statusFilter) {
+      return false;
+    }
 
-  const handleModalClose = (saved) => {
-    setShowModal(false);
-    setEditingMembership(null);
-    if (saved) loadMemberships();
-  };
+    // Filter by plan
+    if (planFilter !== 'all' && membership.plan_id !== planFilter) {
+      return false;
+    }
 
-  const getStatusColor = (status) => {
-    const colors = {
-      active: 'green',
-      frozen: 'blue',
-      cancelled: 'gray',
-      expired: 'red'
-    };
-    return colors[status] || 'gray';
-  };
+    return true;
+  });
 
-  const getStatusLabel = (status) => {
-    const labels = {
-      active: 'Активне',
-      frozen: 'Заморожене',
-      cancelled: 'Скасоване',
-      expired: 'Закінчилося'
-    };
-    return labels[status] || status;
+  const getPlanName = (planId) => {
+    const plan = plans.find(p => p.id === planId);
+    return plan?.name || '—';
   };
 
   const formatDate = (dateString) => {
-    if (!dateString) return 'Не встановлено';
+    if (!dateString) return '—';
     return new Date(dateString).toLocaleDateString('uk-UA');
+  };
+
+  const getStatusBadge = (status) => {
+    const statusConfig = {
+      active: { label: 'Активне', className: 'status-active' },
+      frozen: { label: 'Заморожено', className: 'status-frozen' },
+      expired: { label: 'Закінчилось', className: 'status-expired' },
+      cancelled: { label: 'Скасовано', className: 'status-cancelled' }
+    };
+
+    const config = statusConfig[status] || { label: status, className: '' };
+    return <span className={`status-badge ${config.className}`}>{config.label}</span>;
   };
 
   if (loading) {
     return (
-      <DashboardLayout>
-        <div className="memberships">
-          <div className="loading">Завантаження...</div>
+      <div className="memberships-page">
+        <div className="loading">Завантаження...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="memberships-page">
+        <div className="error-message">
+          <p>❌ {error}</p>
+          <button onClick={loadData} className="btn-retry">Спробувати знову</button>
         </div>
-      </DashboardLayout>
+      </div>
     );
   }
 
   return (
-    <DashboardLayout>
-      <div className="memberships">
-        <div className="page-header">
-          <h1>Членства</h1>
-          {canCreateEdit && (
-            <button onClick={handleCreate} className="btn-primary">
-              + Створити членство
-            </button>
+    <div className="memberships-page">
+      <div className="page-header">
+        <h1>Членства</h1>
+        <button 
+          onClick={() => navigate('/memberships/create')}
+          className="btn-create"
+        >
+          + Створити членство
+        </button>
+      </div>
+
+      <div className="filters-panel glass-card">
+        <div className="filter-group">
+          <label>🔍 Пошук по клієнту</label>
+          <input
+            type="text"
+            placeholder="Введіть ім'я клієнта..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="filter-input"
+          />
+        </div>
+
+        <div className="filter-group">
+          <label>Статус</label>
+          <select 
+            value={statusFilter} 
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="filter-select"
+          >
+            <option value="all">Всі</option>
+            <option value="active">Активні</option>
+            <option value="frozen">Заморожені</option>
+            <option value="expired">Закінчились</option>
+            <option value="cancelled">Скасовані</option>
+          </select>
+        </div>
+
+        <div className="filter-group">
+          <label>Тарифний план</label>
+          <select 
+            value={planFilter} 
+            onChange={(e) => setPlanFilter(e.target.value)}
+            className="filter-select"
+          >
+            <option value="all">Всі плани</option>
+            {plans.map(plan => (
+              <option key={plan.id} value={plan.id}>{plan.name}</option>
+            ))}
+          </select>
+        </div>
+
+        {(searchTerm || statusFilter !== 'all' || planFilter !== 'all') && (
+          <button 
+            onClick={() => {
+              setSearchTerm('');
+              setStatusFilter('all');
+              setPlanFilter('all');
+            }}
+            className="btn-clear-filters"
+          >
+            Очистити фільтри
+          </button>
+        )}
+      </div>
+
+      <div className="memberships-count">
+        Знайдено членств: <strong>{filteredMemberships.length}</strong> з {memberships.length}
+      </div>
+
+      {filteredMemberships.length === 0 ? (
+        <div className="empty-state glass-card">
+          <p>📋 Членства не знайдені</p>
+          {(searchTerm || statusFilter !== 'all' || planFilter !== 'all') && (
+            <p className="hint">Спробуйте змінити фільтри</p>
           )}
         </div>
-
-        {error && <div className="error-message">{error}</div>}
-
-        <div className="filters glass-card">
-          <form onSubmit={handleSearch} className="search-form">
-            <input
-              type="text"
-              placeholder="Пошук по клієнту..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="search-input"
-            />
-            <button type="submit" className="btn-search">Шукати</button>
-          </form>
-
-          <div className="filter-group">
-            <label>Статус:</label>
-            <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
-              <option value="">Всі</option>
-              <option value="active">Активні</option>
-              <option value="frozen">Заморожені</option>
-              <option value="cancelled">Скасовані</option>
-              <option value="expired">Закінчилися</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="memberships-table glass-card">
-          <table>
+      ) : (
+        <div className="memberships-table-wrapper glass-card">
+          <table className="memberships-table">
             <thead>
               <tr>
                 <th>Клієнт</th>
-                <th>План</th>
-                <th>Початок</th>
-                <th>Закінчення</th>
+                <th>Тарифний план</th>
                 <th>Статус</th>
-                <th>Сума</th>
+                <th>Дата початку</th>
+                <th>Дата закінчення</th>
+                <th>Сума (EUR)</th>
                 <th>Дії</th>
               </tr>
             </thead>
             <tbody>
-              {memberships.map(membership => (
-                <tr key={membership.id} className={`status-${membership.status}`}>
-                  <td>
-                    <div className="client-info">
-                      <strong>{membership.client_name || membership.user?.name || 'Не вказано'}</strong>
-                      {membership.user?.email && (
-                        <small>{membership.user.email}</small>
-                      )}
-                    </div>
-                  </td>
-                  <td>{membership.plan?.name || 'Без плану'}</td>
+              {filteredMemberships.map(membership => (
+                <tr key={membership.id}>
+                  <td className="customer-name">{membership.customer_name || '—'}</td>
+                  <td>{getPlanName(membership.plan_id)}</td>
+                  <td>{getStatusBadge(membership.status)}</td>
                   <td>{formatDate(membership.start_date)}</td>
                   <td>{formatDate(membership.end_date)}</td>
-                  <td>
-                    <span className={`status-badge ${getStatusColor(membership.status)}`}>
-                      {getStatusLabel(membership.status)}
-                    </span>
-                  </td>
-                  <td>
-                    {membership.payment_amount} {membership.payment_currency}
-                  </td>
-                  <td>
-                    {canCreateEdit && (
-                      <button onClick={() => handleEdit(membership)} className="btn-small">
-                        Деталі
-                      </button>
+                  <td className="amount">€{membership.amount?.toFixed(2) || '0.00'}</td>
+                  <td className="actions">
+                    <button 
+                      onClick={() => navigate(`/memberships/${membership.id}`)}
+                      className="btn-action btn-view"
+                      title="Переглянути"
+                    >
+                      👁️
+                    </button>
+                    {membership.status === 'active' && (
+                      <>
+                        <button 
+                          onClick={() => navigate(`/memberships/${membership.id}/edit`)}
+                          className="btn-action btn-edit"
+                          title="Редагувати"
+                        >
+                          ✏️
+                        </button>
+                        <button 
+                          onClick={() => handleCancel(membership.id)}
+                          className="btn-action btn-cancel"
+                          title="Скасувати"
+                        >
+                          ❌
+                        </button>
+                      </>
                     )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-
-          {memberships.length === 0 && (
-            <div className="empty-table">
-              <p>Членства відсутні</p>
-              {canCreateEdit && (
-                <button onClick={handleCreate} className="btn-primary">
-                  Створити перше членство
-                </button>
-              )}
-            </div>
-          )}
         </div>
-
-        {showModal && (
-          <MembershipModal
-            membership={editingMembership}
-            onClose={handleModalClose}
-          />
-        )}
-      </div>
-    </DashboardLayout>
+      )}
+    </div>
   );
 }
+
+export default MembershipsPage;
