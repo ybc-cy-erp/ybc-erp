@@ -12,6 +12,8 @@ const performanceLogger = require('./middleware/performance');
 const authRoutes = require('./routes/auth');
 const tenantRoutes = require('./routes/tenants');
 const userRoutes = require('./routes/users');
+const membershipPlanRoutes = require('./routes/membershipPlans');
+const membershipRoutes = require('./routes/memberships');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -59,6 +61,8 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/tenants', tenantRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/membership-plans', membershipPlanRoutes);
+app.use('/api/memberships', membershipRoutes);
 
 // 404 handler
 app.use((req, res) => {
