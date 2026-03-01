@@ -6,6 +6,7 @@ import DashboardPage from './pages/DashboardPage';
 import MembershipPlansPage from './pages/MembershipPlansPage';
 import MembershipsPage from './pages/MembershipsPage';
 import MembershipFormPage from './pages/MembershipFormPage';
+import MembershipDetailsPage from './pages/MembershipDetailsPage';
 import './i18n/config';
 import './styles/global.css';
 
@@ -64,6 +65,12 @@ function App() {
           <Route path="/memberships/:id/edit" element={
             <PrivateRoute>
               <MembershipFormPage />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/memberships/:id" element={
+            <PrivateRoute>
+              <MembershipDetailsPage />
             </PrivateRoute>
           } />
         </Routes>
