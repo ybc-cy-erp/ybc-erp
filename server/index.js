@@ -15,6 +15,10 @@ const userRoutes = require('./routes/users');
 const membershipPlanRoutes = require('./routes/membershipPlans');
 const membershipRoutes = require('./routes/memberships');
 const dashboardRoutes = require('./routes/dashboard');
+const eventRoutes = require('./routes/events');
+const ticketRoutes = require('./routes/tickets');
+const billRoutes = require('./routes/bills');
+const paymentRoutes = require('./routes/payments');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -65,6 +69,10 @@ app.use('/api/users', userRoutes);
 app.use('/api/membership-plans', membershipPlanRoutes);
 app.use('/api/memberships', membershipRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/events', eventRoutes);
+app.use('/api', ticketRoutes); // Handles /tickets and /events/:id/ticket-types
+app.use('/api/bills', billRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // 404 handler
 app.use((req, res) => {
