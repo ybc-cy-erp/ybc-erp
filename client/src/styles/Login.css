@@ -1,0 +1,25 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-card h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.login-card form {
+  margin-top: 16px;
+}
+
+.login-card button[type="submit"] {
+  margin-top: 24px;
+}
