@@ -6,17 +6,17 @@ export default function Sidebar() {
   const { t } = useTranslation();
 
   const menuItems = [
-    { path: '/dashboard', label: t('nav.dashboard'), icon: '🏠' },
-    { path: '/membership-plans', label: 'Тарифні плани', icon: '📋' },
-    { path: '/memberships', label: t('nav.memberships'), icon: '👥' },
-    { path: '/events', label: t('nav.events'), icon: '📅' },
-    { path: '/bills', label: t('nav.bills'), icon: '🧾' },
-    { path: '/wallets', label: t('nav.wallets'), icon: '💰' },
-    { path: '/reports', label: t('nav.reports'), icon: '📊' },
+    { path: '/dashboard', label: t('nav.dashboard'), icon: '01' },
+    { path: '/membership-plans', label: 'Тарифні плани', icon: '02' },
+    { path: '/memberships', label: t('nav.memberships'), icon: '03' },
+    { path: '/events', label: t('nav.events'), icon: '04' },
+    { path: '/bills', label: t('nav.bills'), icon: '05' },
+    { path: '/wallets', label: t('nav.wallets'), icon: '06' },
+    { path: '/reports', label: t('nav.reports'), icon: '07' },
   ];
 
   return (
-    <aside className="sidebar glass-card">
+    <aside className="sidebar solid-card">
       <nav className="sidebar-nav">
         {menuItems.map((item) => (
           <NavLink

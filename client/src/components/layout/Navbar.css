@@ -6,6 +6,19 @@
   margin-bottom: 24px;
 }
 
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-logo {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
 .navbar-left h2 {
   font-size: 20px;
   font-weight: 700;
@@ -14,7 +27,7 @@
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .user-name {
@@ -22,17 +35,30 @@
   color: var(--text-secondary);
 }
 
+.btn-theme,
 .btn-logout {
   background: transparent;
   border: 1px solid var(--border-light);
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
   transition: all 0.2s;
+  color: var(--text-primary);
 }
 
+.btn-theme:hover,
 .btn-logout:hover {
   background: rgba(0, 0, 0, 0.05);
   border-color: var(--border-focus);
+}
+
+@media (max-width: 768px) {
+  .user-name {
+    display: none;
+  }
+
+  .navbar-left h2 {
+    font-size: 18px;
+  }
 }

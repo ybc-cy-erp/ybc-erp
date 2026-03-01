@@ -33,7 +33,16 @@
 }
 
 .sidebar-icon {
-  font-size: 20px;
+  font-size: 11px;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  letter-spacing: 0.3px;
 }
 
 .sidebar-label {

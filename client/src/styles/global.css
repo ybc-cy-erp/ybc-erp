@@ -1,4 +1,5 @@
-:root {
+:root,
+:root[data-theme='light'] {
   /* Backgrounds */
   --bg-primary: #F2F1F7;
   --bg-secondary: #FFFFFF;
@@ -15,13 +16,30 @@
   --btn-accent: #FA5255;
 
   /* Borders */
-  --border-light: rgba(0, 0, 0, 0.1);
-  --border-focus: rgba(0, 0, 0, 0.2);
+  --border-light: rgba(0, 0, 0, 0.12);
+  --border-focus: rgba(0, 0, 0, 0.25);
 
   /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme='dark'] {
+  --bg-primary: #111315;
+  --bg-secondary: #1b1f24;
+  --bg-overlay: rgba(27, 31, 36, 0.9);
+  --text-primary: #f5f5f5;
+  --text-secondary: #b7bec8;
+  --text-tertiary: #9aa3ad;
+  --btn-primary: #000000;
+  --btn-secondary: #1b1f24;
+  --btn-accent: #FA5255;
+  --border-light: rgba(255, 255, 255, 0.16);
+  --border-focus: rgba(255, 255, 255, 0.35);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.45);
 }
 
 * {
@@ -38,6 +56,7 @@ body {
   background: var(--bg-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -57,6 +76,14 @@ h3 { font-size: 20px; }
   border-radius: 16px;
   box-shadow: var(--shadow-md);
   padding: 24px;
+}
+
+.solid-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
 }
 
 .btn-primary {
