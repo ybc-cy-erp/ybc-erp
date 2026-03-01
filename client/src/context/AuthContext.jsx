@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import api from '../services/api';
+import { supabase } from '../services/supabase';
 
 export const AuthContext = createContext();
 
@@ -8,47 +8,93 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if user is logged in
-    const token = localStorage.getItem('jwt');
-    const savedUser = localStorage.getItem('user');
-    
-    if (token && savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-    setLoading(false);
+    let mounted = true;
+
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!mounted) return;
+
+      if (session?.user) {
+        const mapped = mapUser(session.user, session.access_token);
+        setUser(mapped);
+        localStorage.setItem('jwt', session.access_token || '');
+        localStorage.setItem('user', JSON.stringify(mapped));
+      } else {
+        setUser(null);
+        localStorage.removeItem('jwt');
+        localStorage.removeItem('user');
+      }
+      setLoading(false);
+    };
+
+    init();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return;
+      if (session?.user) {
+        const mapped = mapUser(session.user, session.access_token);
+        setUser(mapped);
+        localStorage.setItem('jwt', session.access_token || '');
+        localStorage.setItem('user', JSON.stringify(mapped));
+      } else {
+        setUser(null);
+        localStorage.removeItem('jwt');
+        localStorage.removeItem('user');
+      }
+    });
+
+    return () => {
+      mounted = false;
+      subscription?.unsubscribe();
+    };
   }, []);
 
+  const mapUser = (sbUser, token) => ({
+    id: sbUser.id,
+    email: sbUser.email,
+    name: sbUser.user_metadata?.name || sbUser.email,
+    role: sbUser.user_metadata?.role || 'Owner',
+    tenant_id: sbUser.user_metadata?.tenant_id || null,
+    force_password_change: !!sbUser.user_metadata?.force_password_change,
+    token,
+  });
+
   const login = async (email, password) => {
-    const response = await api.post('/auth/login', { email, password });
-    const { token, user } = response.data;
-    
-    localStorage.setItem('jwt', token);
-    localStorage.setItem('user', JSON.stringify(user));
-    setUser(user);
-    
-    return user;
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    return mapUser(data.user, data.session?.access_token);
   };
 
   const register = async (tenantName, email, password, name) => {
-    const response = await api.post('/auth/register', {
-      tenant_name: tenantName,
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      name
+      options: {
+        data: {
+          name,
+          tenant_name: tenantName,
+          role: 'Owner',
+        }
+      }
     });
-    const { token, user } = response.data;
-    
-    localStorage.setItem('jwt', token);
-    localStorage.setItem('user', JSON.stringify(user));
-    setUser(user);
-    
-    return user;
+    if (error) throw error;
+    return mapUser(data.user, data.session?.access_token);
   };
 
-  const logout = () => {
+  const updatePassword = async (newPassword) => {
+    const { data, error } = await supabase.auth.updateUser({
+      password: newPassword,
+      data: { force_password_change: false }
+    });
+    if (error) throw error;
+    return data;
+  };
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
     localStorage.removeItem('jwt');
     localStorage.removeItem('user');
-    setUser(null);
     window.location.href = '/login';
   };
 
@@ -57,8 +103,10 @@ export function AuthProvider({ children }) {
     loading,
     login,
     register,
+    updatePassword,
     logout,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
+    mustChangePassword: !!user?.force_password_change,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

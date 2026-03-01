@@ -9,21 +9,26 @@ import MembershipFormPage from './pages/MembershipFormPage';
 import MembershipDetailsPage from './pages/MembershipDetailsPage';
 import EventsPage from './pages/EventsPage';
 import BillsPage from './pages/BillsPage';
+import ChangePasswordPage from './pages/ChangePasswordPage';
 import './i18n/config';
 import './styles/global.css';
 
 function PrivateRoute({ children }) {
-  const { user, loading } = useContext(AuthContext);
-  
+  const { user, loading, mustChangePassword } = useContext(AuthContext);
+
   if (loading) {
     return <div>Завантаження...</div>;
   }
-  
-  return user ? children : <Navigate to="/login" />;
+
+  if (!user) return <Navigate to="/login" />;
+  if (mustChangePassword) return <Navigate to="/change-password" />;
+
+  return children;
 }
 
 function PublicRoute({ children }) {
-  const { user } = useContext(AuthContext);
+  const { user, mustChangePassword } = useContext(AuthContext);
+  if (user && mustChangePassword) return <Navigate to="/change-password" />;
   return user ? <Navigate to="/dashboard" /> : children;
 }
 
@@ -38,6 +43,12 @@ function App() {
             <PublicRoute>
               <LoginPage />
             </PublicRoute>
+          } />
+
+          <Route path="/change-password" element={
+            <PrivateRoute>
+              <ChangePasswordPage />
+            </PrivateRoute>
           } />
           
           <Route path="/dashboard" element={

@@ -30,7 +30,7 @@ export default function LoginPage() {
       await login(data.email, data.password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.error || t('auth.invalidCredentials'));
+      setError(err?.message || err.response?.data?.error || t('auth.invalidCredentials'));
     } finally {
       setLoading(false);
     }
