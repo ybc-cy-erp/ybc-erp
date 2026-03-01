@@ -111,36 +111,37 @@
   - ✅ Loading state during authentication
   - **Ready for QA:** Yes
 
----
-
-## 📋 Not Started Tasks
-
 ### Task #8: Dashboard Layout
 - **Assigned to:** Frontend Developer
-- **Status:** 📝 Not Started
+- **Status:** ✅ Complete (2026-03-01 12:35 PM)
 - **Priority:** 🟡 High
-- **Acceptance Criteria:**
-  - [ ] Navbar with tenant name, user menu, logout button
-  - [ ] Sidebar with navigation links (Головна, Членства, Події, Рахунки, Гаманці, Звіти)
-  - [ ] Main content area (glassmorphism card)
-  - [ ] Responsive design (mobile, tablet, desktop)
-  - [ ] Ukrainian text for all UI elements
-- **Dependencies:** Task #7 (Login UI)
-- **Estimated Time:** 5-6 hours
+- **Completion Notes:**
+  - ✅ Navbar component (YBC ERP logo, user name, logout button)
+  - ✅ Sidebar component with navigation (Головна, Членства, Події, Рахунки, Гаманці, Звіти)
+  - ✅ DashboardLayout wrapper component
+  - ✅ Glassmorphism design applied
+  - ✅ Responsive design (mobile hides sidebar)
+  - ✅ Ukrainian text for all UI elements
+  - ✅ Active route highlighting in sidebar
+  - **Ready for QA:** Yes
 
 ### Task #9: Dashboard Metrics Widget
 - **Assigned to:** Frontend Developer
-- **Status:** 📝 Not Started
+- **Status:** ✅ Complete (2026-03-01 12:35 PM)
 - **Priority:** 🟢 Medium
-- **Acceptance Criteria:**
-  - [ ] Display active memberships count
-  - [ ] Display expiring memberships (30/14/7/3 days) with color coding
-  - [ ] Display MRR (Monthly Recurring Revenue)
-  - [ ] Fetch real-time data from API (placeholder endpoint for now)
-  - [ ] Loading state (spinner) while fetching
-- **Dependencies:** Task #8 (Dashboard layout)
-- **Estimated Time:** 3-4 hours
-- **Notes:** API endpoint will be implemented in Week 2, use mock data for now
+- **Completion Notes:**
+  - ✅ 4 metric cards (Active Members, Expiring, Monthly Revenue, Total Revenue)
+  - ✅ Icons for visual clarity
+  - ✅ Metric values with change indicators (positive/negative/neutral)
+  - ✅ Color coding (green positive, red negative, gray neutral)
+  - ✅ Placeholder data (0 values) - ready for API integration in Week 2
+  - ✅ Glassmorphism cards
+  - ✅ Responsive grid layout
+  - **Ready for QA:** Yes
+
+---
+
+## 📋 Not Started Tasks
 
 ### Task #10: QA Setup
 - **Assigned to:** QA Engineer

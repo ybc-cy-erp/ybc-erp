@@ -1,11 +1,18 @@
 .dashboard {
-  padding: 32px;
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .dashboard-header {
   margin-bottom: 32px;
+}
+
+.dashboard-header h1 {
+  margin-bottom: 4px;
+}
+
+.dashboard-subtitle {
+  color: var(--text-secondary);
+  font-size: 14px;
 }
 
 .dashboard-metrics {
@@ -17,6 +24,13 @@
 
 .metric-card {
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
 }
 
 .metric-card h3 {
@@ -27,14 +41,49 @@
 }
 
 .metric-value {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
   color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.metric-change {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.metric-change.positive {
+  color: #10B981;
+}
+
+.metric-change.negative {
+  color: var(--btn-accent);
+}
+
+.metric-change.neutral {
+  color: var(--text-secondary);
 }
 
 .dashboard-content {
-  background: var(--bg-secondary);
-  border-radius: 16px;
   padding: 32px;
-  box-shadow: var(--shadow-sm);
+}
+
+.dashboard-content h2 {
+  margin-bottom: 16px;
+}
+
+.dashboard-content p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-metrics {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboard-header {
+    margin-bottom: 24px;
+  }
 }

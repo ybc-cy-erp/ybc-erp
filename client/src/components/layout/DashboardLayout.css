@@ -1,0 +1,25 @@
+.dashboard-layout {
+  padding: 24px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.dashboard-container {
+  display: flex;
+  gap: 24px;
+}
+
+.dashboard-main {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+  
+  .dashboard-layout {
+    padding: 16px;
+  }
+}
