@@ -1,0 +1,97 @@
+.bills-page {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.bills-table-wrapper {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.bills-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.bills-table thead {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.bills-table th {
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.bills-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+}
+
+.bills-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.bill-number {
+  font-weight: 600;
+  font-family: 'SF Mono', Monaco, monospace;
+}
+
+.amount {
+  font-weight: 600;
+  font-family: 'SF Mono', Monaco, monospace;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-action, .btn-approve {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-action {
+  background: #000;
+  color: #fff;
+}
+
+.btn-action:hover {
+  background: #333;
+}
+
+.btn-approve {
+  background: rgba(52, 199, 89, 0.15);
+  color: #34c759;
+}
+
+.btn-approve:hover {
+  background: rgba(52, 199, 89, 0.25);
+}
+
+.status-draft {
+  background: rgba(255, 149, 0, 0.15);
+  color: #ff9500;
+}
+
+.status-approved {
+  background: rgba(0, 122, 255, 0.15);
+  color: #007aff;
+}
+
+.status-paid {
+  background: rgba(52, 199, 89, 0.15);
+  color: #34c759;
+}

@@ -7,6 +7,8 @@ import MembershipPlansPage from './pages/MembershipPlansPage';
 import MembershipsPage from './pages/MembershipsPage';
 import MembershipFormPage from './pages/MembershipFormPage';
 import MembershipDetailsPage from './pages/MembershipDetailsPage';
+import EventsPage from './pages/EventsPage';
+import BillsPage from './pages/BillsPage';
 import './i18n/config';
 import './styles/global.css';
 
@@ -71,6 +73,18 @@ function App() {
           <Route path="/memberships/:id" element={
             <PrivateRoute>
               <MembershipDetailsPage />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/events" element={
+            <PrivateRoute>
+              <EventsPage />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/bills" element={
+            <PrivateRoute>
+              <BillsPage />
             </PrivateRoute>
           } />
         </Routes>
