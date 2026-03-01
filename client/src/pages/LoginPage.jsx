@@ -43,25 +43,27 @@ export default function LoginPage() {
         
         {error && <div className="error-message">{error}</div>}
         
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-group">
-            <label>{t('auth.email')}</label>
+        <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+          <div className="form-group login-form-group">
+            <label className="login-label">{t('auth.email')}</label>
             <input
               type="email"
               {...register('email')}
               autoComplete="email"
               placeholder="name@example.com"
+              className="login-input"
             />
             {errors.email && <span className="error">{errors.email.message}</span>}
           </div>
 
-          <div className="form-group">
-            <label>{t('auth.password')}</label>
+          <div className="form-group login-form-group">
+            <label className="login-label">{t('auth.password')}</label>
             <input
               type="password"
               {...register('password')}
               autoComplete="current-password"
               placeholder="••••••••"
+              className="login-input"
             />
             {errors.password && <span className="error">{errors.password.message}</span>}
           </div>
