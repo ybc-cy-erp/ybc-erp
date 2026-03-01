@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { membershipService, membershipPlanService } from '../../services/membershipService';
+import membershipService from '../../services/membershipService';
+import membershipPlanService from '../../services/membershipPlanService';
 import FreezePanel from './FreezePanel';
 import './PlanModal.css';
 

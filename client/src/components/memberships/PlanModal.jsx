@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { membershipPlanService } from '../../services/membershipService';
+import membershipPlanService from '../../services/membershipPlanService';
 import './PlanModal.css';
 
 const planSchema = z.object({

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
-import { membershipPlanService } from '../services/membershipService';
+import membershipPlanService from '../services/membershipPlanService';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import PlanModal from '../components/memberships/PlanModal';
 import '../styles/MembershipPlans.css';
