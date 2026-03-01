@@ -27,7 +27,7 @@
 - **ORM:** Direct Supabase client (no heavy ORM)
 - **Testing:** Jest + Supertest
 - **Linting:** ESLint
-- **PDF:** Puppeteer (HTML → PDF)
+- **PDF:** pdfkit + DejaVu Sans font (lightweight, Cyrillic-safe)
 
 ## Primary Responsibilities
 
@@ -342,41 +342,86 @@ async function createExpenseJournalEntry(bill) {
 }
 ```
 
-### 4. PDF Generation (Cyrillic-safe)
+### 4. PDF Generation (Cyrillic-safe, Lightweight)
 ```javascript
-const puppeteer = require('puppeteer');
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const path = require('path');
 
 async function generateInvoicePDF(invoiceData) {
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
+  return new Promise((resolve, reject) => {
+    const doc = new PDFDocument({ size: 'A4', margin: 50 });
+    const chunks = [];
 
-  // Generate HTML with Ukrainian text
-  const html = `
-    <!DOCTYPE html>
-    <html lang="uk">
-    <head>
-      <meta charset="UTF-8">
-      <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-        body { font-family: 'Roboto', sans-serif; }
-        h1 { color: #000; }
-      </style>
-    </head>
-    <body>
-      <h1>Рахунок №${invoiceData.id}</h1>
-      <p>Дата: ${invoiceData.date}</p>
-      <p>Клієнт: ${invoiceData.client}</p>
-      <p>Сума: ${invoiceData.amount} EUR</p>
-    </body>
-    </html>
-  `;
+    // Collect PDF data
+    doc.on('data', chunk => chunks.push(chunk));
+    doc.on('end', () => resolve(Buffer.concat(chunks)));
+    doc.on('error', reject);
 
-  await page.setContent(html, { waitUntil: 'networkidle0' });
-  const pdf = await page.pdf({ format: 'A4' });
+    // Register DejaVu Sans font (supports Cyrillic)
+    const fontPath = path.join(__dirname, '../../fonts/DejaVuSans.ttf');
+    doc.registerFont('DejaVu', fontPath);
+    doc.font('DejaVu');
 
-  await browser.close();
-  return pdf; // Buffer
+    // Header
+    doc.fontSize(24).text(`Рахунок №${invoiceData.id}`, { align: 'center' });
+    doc.moveDown();
+
+    // Invoice details
+    doc.fontSize(12);
+    doc.text(`Дата: ${invoiceData.date}`);
+    doc.text(`Клієнт: ${invoiceData.client}`);
+    doc.moveDown();
+
+    // Amount
+    doc.fontSize(16).text(`Сума: ${invoiceData.amount} EUR`, { bold: true });
+    doc.moveDown(2);
+
+    // Table of items (example)
+    doc.fontSize(10);
+    doc.text('Позиція', 50, doc.y, { continued: true, width: 200 });
+    doc.text('Кількість', { continued: true, width: 100 });
+    doc.text('Ціна', { width: 100 });
+    doc.moveDown(0.5);
+
+    invoiceData.items.forEach(item => {
+      doc.text(item.name, 50, doc.y, { continued: true, width: 200 });
+      doc.text(item.quantity.toString(), { continued: true, width: 100 });
+      doc.text(`${item.price} EUR`, { width: 100 });
+      doc.moveDown(0.5);
+    });
+
+    // Footer
+    doc.fontSize(8).text('YBC Business Club Cyprus', 50, 750, { align: 'center' });
+
+    doc.end();
+  });
 }
+
+// Usage
+const pdfBuffer = await generateInvoicePDF({
+  id: 'INV-001',
+  date: '2026-03-01',
+  client: 'Іван Петренко',
+  amount: 100,
+  items: [
+    { name: 'Членство річне', quantity: 1, price: 100 }
+  ]
+});
+
+// Save or send
+fs.writeFileSync('invoice.pdf', pdfBuffer);
+// or: res.setHeader('Content-Type', 'application/pdf'); res.send(pdfBuffer);
+```
+
+**Font Setup:**
+```bash
+# Download DejaVu Sans font
+mkdir -p server/fonts
+cd server/fonts
+wget https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.zip
+unzip dejavu-fonts-ttf-2.37.zip
+cp dejavu-fonts-ttf-2.37/ttf/DejaVuSans.ttf .
 ```
 
 ## Testing Requirements
