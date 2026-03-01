@@ -10,6 +10,8 @@ export default function ChangePasswordPage() {
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -37,11 +39,41 @@ export default function ChangePasswordPage() {
         <form className="login-form" onSubmit={onSubmit}>
           <div className="form-group login-form-group">
             <label className="login-label">Новый пароль</label>
-            <input className="login-input" type="password" value={password} onChange={(e)=>setPassword(e.target.value)} />
+            <div className="password-input-wrap">
+              <input
+                className="login-input"
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+              >
+                {showPassword ? '🙈' : '👁️'}
+              </button>
+            </div>
           </div>
           <div className="form-group login-form-group">
             <label className="login-label">Повторите пароль</label>
-            <input className="login-input" type="password" value={confirm} onChange={(e)=>setConfirm(e.target.value)} />
+            <div className="password-input-wrap">
+              <input
+                className="login-input"
+                type={showConfirm ? 'text' : 'password'}
+                value={confirm}
+                onChange={(e) => setConfirm(e.target.value)}
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowConfirm((v) => !v)}
+                aria-label={showConfirm ? 'Скрыть пароль' : 'Показать пароль'}
+              >
+                {showConfirm ? '🙈' : '👁️'}
+              </button>
+            </div>
           </div>
           <button className="btn-primary" type="submit" disabled={loading}>{loading ? 'Сохранение...' : 'Сменить пароль'}</button>
           <button style={{marginTop:8}} className="btn-primary" type="button" onClick={logout}>Выйти</button>
