@@ -1,0 +1,165 @@
+.memberships {
+  width: 100%;
+}
+
+.filters {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.search-form {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+}
+
+.search-input {
+  flex: 1;
+  max-width: 400px;
+}
+
+.btn-search {
+  padding: 12px 24px;
+  background: var(--btn-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.filter-group select {
+  min-width: 150px;
+}
+
+.memberships-table {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.memberships-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.memberships-table th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-light);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.memberships-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.memberships-table tr.status-active {
+  background: rgba(16, 185, 129, 0.02);
+}
+
+.memberships-table tr.status-frozen {
+  background: rgba(59, 130, 246, 0.02);
+}
+
+.memberships-table tr.status-expired {
+  background: rgba(239, 68, 68, 0.02);
+}
+
+.memberships-table tr.status-cancelled {
+  opacity: 0.6;
+}
+
+.client-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.client-info strong {
+  font-weight: 600;
+}
+
+.client-info small {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-badge.green {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+}
+
+.status-badge.blue {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3B82F6;
+}
+
+.status-badge.red {
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+
+.status-badge.gray {
+  background: rgba(107, 114, 128, 0.1);
+  color: #6B7280;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3B82F6;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-small:hover {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+.empty-table {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.empty-table p {
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-input {
+    max-width: none;
+  }
+}

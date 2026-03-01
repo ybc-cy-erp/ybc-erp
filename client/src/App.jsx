@@ -3,6 +3,8 @@ import { AuthProvider, AuthContext } from './context/AuthContext';
 import { useContext } from 'react';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
+import MembershipPlansPage from './pages/MembershipPlansPage';
+import MembershipsPage from './pages/MembershipsPage';
 import './i18n/config';
 import './styles/global.css';
 
@@ -37,6 +39,18 @@ function App() {
           <Route path="/dashboard" element={
             <PrivateRoute>
               <DashboardPage />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/membership-plans" element={
+            <PrivateRoute>
+              <MembershipPlansPage />
+            </PrivateRoute>
+          } />
+          
+          <Route path="/memberships" element={
+            <PrivateRoute>
+              <MembershipsPage />
             </PrivateRoute>
           } />
         </Routes>

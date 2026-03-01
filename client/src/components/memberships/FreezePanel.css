@@ -1,0 +1,142 @@
+.freeze-panel {
+  margin-top: 24px;
+}
+
+.freeze-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.freeze-header h4 {
+  margin: 0;
+}
+
+.freeze-form {
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.freeze-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.freeze-item {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.freeze-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.freeze-duration {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.freeze-reason {
+  font-size: 14px;
+  color: var(--text-secondary);
+  flex: 1;
+  margin: 0 16px;
+}
+
+.btn-remove {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-remove:hover {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+.empty-freezes {
+  text-align: center;
+  padding: 32px;
+}
+
+.empty-freezes p {
+  color: var(--text-secondary);
+}
+
+.revenue-info {
+  padding: 16px;
+  margin-top: 16px;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.revenue-info h4 {
+  margin: 0 0 12px 0;
+}
+
+.revenue-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.revenue-row.total {
+  border-bottom: none;
+  font-size: 18px;
+  padding-top: 12px;
+  margin-top: 8px;
+  border-top: 2px solid var(--border-focus);
+}
+
+.modal-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.modal-tabs .tab {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.2s;
+}
+
+.modal-tabs .tab:hover {
+  color: var(--text-primary);
+}
+
+.modal-tabs .tab.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--btn-primary);
+}
+
+.modal-content.large {
+  max-width: 700px;
+}

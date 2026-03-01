@@ -7,6 +7,7 @@ export default function Sidebar() {
 
   const menuItems = [
     { path: '/dashboard', label: t('nav.dashboard'), icon: '🏠' },
+    { path: '/membership-plans', label: 'Тарифні плани', icon: '📋' },
     { path: '/memberships', label: t('nav.memberships'), icon: '👥' },
     { path: '/events', label: t('nav.events'), icon: '📅' },
     { path: '/bills', label: t('nav.bills'), icon: '🧾' },
