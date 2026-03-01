@@ -1,0 +1,47 @@
+{
+  "common": {
+    "save": "Зберегти",
+    "cancel": "Скасувати",
+    "delete": "Видалити",
+    "edit": "Редагувати",
+    "search": "Пошук",
+    "loading": "Завантаження...",
+    "error": "Помилка",
+    "success": "Успішно",
+    "logout": "Вихід"
+  },
+  "auth": {
+    "login": "Вхід",
+    "register": "Реєстрація",
+    "email": "Електронна пошта",
+    "password": "Пароль",
+    "name": "Ім'я",
+    "tenantName": "Назва організації",
+    "loginButton": "Увійти",
+    "registerButton": "Зареєструватися",
+    "loginTitle": "Вхід до YBC ERP",
+    "registerTitle": "Реєстрація в YBC ERP",
+    "invalidCredentials": "Невірний email або пароль",
+    "registrationSuccess": "Реєстрація успішна!",
+    "alreadyHaveAccount": "Вже є обліковий запис?",
+    "noAccount": "Немає облікового запису?",
+    "clickHere": "Натисніть тут"
+  },
+  "dashboard": {
+    "title": "Головна панель",
+    "welcome": "Вітаємо",
+    "activeMembers": "Активні члени",
+    "expiringMembers": "Закінчуються членства",
+    "monthlyRevenue": "Місячний дохід",
+    "totalRevenue": "Загальний дохід"
+  },
+  "nav": {
+    "dashboard": "Головна",
+    "memberships": "Членства",
+    "events": "Події",
+    "bills": "Рахунки",
+    "wallets": "Гаманці",
+    "reports": "Звіти",
+    "settings": "Налаштування"
+  }
+}

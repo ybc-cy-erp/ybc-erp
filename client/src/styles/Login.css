@@ -20,6 +20,47 @@
   margin-top: 16px;
 }
 
+.login-card .form-group {
+  margin-bottom: 16px;
+}
+
+.login-card .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login-card input {
+  display: block;
+  width: 100%;
+  height: 44px;
+  padding: 10px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111827;
+}
+
+.login-card input:focus {
+  outline: none;
+  border-color: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
+}
+
 .login-card button[type="submit"] {
   margin-top: 24px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .login-card .form-group label {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .login-card input {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.18);
+    color: #fff;
+  }
 }

@@ -1,25 +1,23 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import ukTranslation from './locales/uk/translation.json';
 
 i18n
   .use(initReactI18next)
   .init({
-    resources: {},
-    lng: 'uk', // Ukrainian only
+    resources: {
+      uk: {
+        translation: ukTranslation
+      }
+    },
+    lng: 'uk',
     fallbackLng: 'uk',
     interpolation: {
       escapeValue: false
     },
-    backend: {
-      loadPath: '/locales/{{lng}}/{{ns}}.json'
+    react: {
+      useSuspense: false
     }
-  });
-
-// Load Ukrainian translations
-fetch('/locales/uk/translation.json')
-  .then(res => res.json())
-  .then(data => {
-    i18n.addResourceBundle('uk', 'translation', data);
   });
 
 export default i18n;
