@@ -50,6 +50,7 @@ export default function LoginPage() {
               type="email"
               {...register('email')}
               autoComplete="email"
+              placeholder="name@example.com"
             />
             {errors.email && <span className="error">{errors.email.message}</span>}
           </div>
@@ -60,6 +61,7 @@ export default function LoginPage() {
               type="password"
               {...register('password')}
               autoComplete="current-password"
+              placeholder="••••••••"
             />
             {errors.password && <span className="error">{errors.password.message}</span>}
           </div>
