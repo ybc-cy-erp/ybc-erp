@@ -16,15 +16,15 @@ export default function ChangePasswordPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    if (password.length < 8) return setError('Пароль должен быть минимум 8 символов');
-    if (password !== confirm) return setError('Пароли не совпадают');
+    if (password.length < 8) return setError('Пароль має бути мінімум 8 символів');
+    if (password !== confirm) return setError('Паролі не співпадають');
 
     try {
       setLoading(true);
       await updatePassword(password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.message || 'Ошибка смены пароля');
+      setError(err.message || 'Помилка зміни пароля');
     } finally {
       setLoading(false);
     }
@@ -33,12 +33,12 @@ export default function ChangePasswordPage() {
   return (
     <div className="login-container">
       <div className="login-card glass-card">
-        <h1>Смена пароля</h1>
-        <p style={{ marginBottom: 12, color: '#4b5563' }}>Это первый вход. Нужно заменить временный пароль.</p>
+        <h1>Зміна пароля</h1>
+        <p style={{ marginBottom: 12, color: '#4b5563' }}>Це перший вхід. Потрібно замінити тимчасовий пароль.</p>
         {error && <div className="error-message">{error}</div>}
         <form className="login-form" onSubmit={onSubmit}>
           <div className="form-group login-form-group">
-            <label className="login-label">Новый пароль</label>
+            <label className="login-label">Новий пароль</label>
             <div className="password-input-wrap">
               <input
                 className="login-input"
@@ -50,14 +50,14 @@ export default function ChangePasswordPage() {
                 type="button"
                 className="password-toggle"
                 onClick={() => setShowPassword((v) => !v)}
-                aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+                aria-label={showPassword ? 'Приховати пароль' : 'Показати пароль'}
               >
                 {showPassword ? '🙈' : '👁️'}
               </button>
             </div>
           </div>
           <div className="form-group login-form-group">
-            <label className="login-label">Повторите пароль</label>
+            <label className="login-label">Повторіть пароль</label>
             <div className="password-input-wrap">
               <input
                 className="login-input"
@@ -69,14 +69,14 @@ export default function ChangePasswordPage() {
                 type="button"
                 className="password-toggle"
                 onClick={() => setShowConfirm((v) => !v)}
-                aria-label={showConfirm ? 'Скрыть пароль' : 'Показать пароль'}
+                aria-label={showConfirm ? 'Приховати пароль' : 'Показати пароль'}
               >
                 {showConfirm ? '🙈' : '👁️'}
               </button>
             </div>
           </div>
-          <button className="btn-primary" type="submit" disabled={loading}>{loading ? 'Сохранение...' : 'Сменить пароль'}</button>
-          <button style={{marginTop:8}} className="btn-primary" type="button" onClick={logout}>Выйти</button>
+          <button className="btn-primary" type="submit" disabled={loading}>{loading ? 'Збереження...' : 'Змінити пароль'}</button>
+          <button style={{marginTop:8}} className="btn-primary" type="button" onClick={logout}>Вийти</button>
         </form>
       </div>
     </div>
