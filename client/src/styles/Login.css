@@ -31,7 +31,7 @@
 .login-label {
   display: block;
   margin-bottom: 8px;
-  color: #111827;
+  color: #111827 !important;
   font-size: 14px;
   font-weight: 600;
 }
@@ -44,7 +44,7 @@
   min-height: 46px;
   height: 46px;
   padding: 10px 14px;
-  border: 1.5px solid #9ca3af;
+  border: 1.5px solid #9ca3af !important;
   border-radius: 10px;
   background: #f9fafb !important;
   color: #111827 !important;
@@ -68,18 +68,4 @@
   margin-top: 24px;
 }
 
-@media (prefers-color-scheme: dark) {
-  .login-label {
-    color: rgba(255, 255, 255, 0.92);
-  }
-
-  .login-input {
-    background: rgba(255, 255, 255, 0.12) !important;
-    border-color: rgba(255, 255, 255, 0.35);
-    color: #fff !important;
-  }
-
-  .login-input::placeholder {
-    color: rgba(255, 255, 255, 0.65);
-  }
-}
+/* Keep login form high-contrast across browsers/modes */
