@@ -63,7 +63,7 @@ export default function PlanModal({ plan, onClose }) {
 
   return (
     <div className="modal-overlay" onClick={() => onClose(false)}>
-      <div className="modal-content glass-card" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content modal-solid" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>{isEditing ? 'Редагувати план' : 'Створити план'}</h2>
           <button onClick={() => onClose(false)} className="modal-close">×</button>

@@ -20,6 +20,32 @@
   padding: 32px;
 }
 
+.modal-solid {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 14px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+:root[data-theme='dark'] .modal-solid {
+  background: #ffffff;
+  color: #111827;
+}
+
+:root[data-theme='dark'] .modal-solid .modal-header h2,
+:root[data-theme='dark'] .modal-solid label,
+:root[data-theme='dark'] .modal-solid .btn-secondary,
+:root[data-theme='dark'] .modal-solid input,
+:root[data-theme='dark'] .modal-solid select {
+  color: #111827;
+}
+
+:root[data-theme='dark'] .modal-solid input,
+:root[data-theme='dark'] .modal-solid select {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
 .modal-header {
   display: flex;
   justify-content: space-between;
