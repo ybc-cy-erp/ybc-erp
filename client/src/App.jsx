@@ -9,6 +9,8 @@ import MembershipFormPage from './pages/MembershipFormPage';
 import MembershipDetailsPage from './pages/MembershipDetailsPage';
 import EventsPage from './pages/EventsPage';
 import BillsPage from './pages/BillsPage';
+import WalletsPage from './pages/WalletsPage';
+import ReportsPage from './pages/ReportsPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import './i18n/config';
 import './styles/global.css';
@@ -109,6 +111,20 @@ function App() {
               <BillsPage />
             </PrivateRoute>
           } />
+
+          <Route path="/wallets" element={
+            <PrivateRoute>
+              <WalletsPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/reports" element={
+            <PrivateRoute>
+              <ReportsPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
