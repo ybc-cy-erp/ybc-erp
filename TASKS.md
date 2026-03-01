@@ -52,35 +52,39 @@
   - **JWT Expiry:** 24 hours
   - **Ready for QA:** Yes
 
----
-
-## 📋 Not Started Tasks
-
 ### Task #4: Tenant Management API
 - **Assigned to:** Backend Developer
-- **Status:** 📝 Not Started
+- **Status:** ✅ Complete (2026-03-01 12:10 PM)
 - **Priority:** 🟡 High
-- **Acceptance Criteria:**
-  - [ ] `GET /api/tenants` - List all tenants (Owner only)
-  - [ ] `GET /api/tenants/:id` - Get single tenant (members only)
-  - [ ] `PUT /api/tenants/:id` - Update tenant settings (Owner only)
-  - [ ] RLS enforces tenant isolation (users can't see other tenants)
-- **Dependencies:** Task #3 (Auth system)
-- **Estimated Time:** 3-4 hours
+- **Completion Notes:**
+  - ✅ `GET /api/tenants` - List all tenants (Owner only)
+  - ✅ `GET /api/tenants/me` - Get current user's tenant
+  - ✅ `GET /api/tenants/:id` - Get single tenant (members only)
+  - ✅ `PUT /api/tenants/:id` - Update tenant settings (Owner only)
+  - ✅ Authorization middleware enforces Owner-only operations
+  - ✅ Tenant isolation via JWT tenant_id check
+  - ✅ Input validation with Joi
+  - **Ready for QA:** Yes
 
 ### Task #5: User Management API
 - **Assigned to:** Backend Developer
-- **Status:** 📝 Not Started
+- **Status:** ✅ Complete (2026-03-01 12:10 PM)
 - **Priority:** 🟡 High
-- **Acceptance Criteria:**
-  - [ ] `POST /api/users` - Create user, assign role (Owner only)
-  - [ ] `GET /api/users` - List users in tenant
-  - [ ] `GET /api/users/:id` - Get single user
-  - [ ] `PUT /api/users/:id` - Update role, status (Owner only)
-  - [ ] `DELETE /api/users/:id` - Soft delete user (Owner only)
-  - [ ] Role validation (Owner, Accountant, Manager, Event Manager, Cashier, Analyst)
-- **Dependencies:** Task #3 (Auth system)
-- **Estimated Time:** 4-5 hours
+- **Completion Notes:**
+  - ✅ `POST /api/users` - Create user, assign role (Owner only)
+  - ✅ `GET /api/users` - List users in tenant
+  - ✅ `GET /api/users/:id` - Get single user
+  - ✅ `PUT /api/users/:id` - Update role, status, password (Owner only)
+  - ✅ `DELETE /api/users/:id` - Soft delete (set inactive, Owner only)
+  - ✅ Role validation (all 6 roles supported)
+  - ✅ Can't delete own account (safety check)
+  - ✅ Password hashing on create/update
+  - ✅ Tenant isolation enforced
+  - **Ready for QA:** Yes
+
+---
+
+## 📋 Not Started Tasks
 
 ### Task #6: Frontend Project Setup
 - **Assigned to:** Frontend Developer
