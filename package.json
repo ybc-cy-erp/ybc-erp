@@ -1,0 +1,32 @@
+{
+  "name": "ybc-erp",
+  "version": "0.1.0",
+  "description": "YBC Business Club - Management Accounting ERP System",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm run dev --workspace=server",
+    "dev:client": "npm run dev --workspace=client",
+    "build": "npm run build --workspaces",
+    "start": "npm run start --workspace=server",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "keywords": [
+    "erp",
+    "accounting",
+    "business-club",
+    "membership",
+    "crypto",
+    "budgeting"
+  ],
+  "author": "YBC Cyprus",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
