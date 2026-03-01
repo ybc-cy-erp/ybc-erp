@@ -21,15 +21,26 @@ function PrivateRoute({ children }) {
   }
 
   if (!user) return <Navigate to="/login" />;
-  if (mustChangePassword) return <Navigate to="/change-password" />;
+  if (mustChangePassword) return <Navigate to="/change-password" replace />;
 
+  return children;
+}
+
+function PasswordChangeRoute({ children }) {
+  const { user, loading } = useContext(AuthContext);
+
+  if (loading) {
+    return <div>Завантаження...</div>;
+  }
+
+  if (!user) return <Navigate to="/login" />;
   return children;
 }
 
 function PublicRoute({ children }) {
   const { user, mustChangePassword } = useContext(AuthContext);
-  if (user && mustChangePassword) return <Navigate to="/change-password" />;
-  return user ? <Navigate to="/dashboard" /> : children;
+  if (user && mustChangePassword) return <Navigate to="/change-password" replace />;
+  return user ? <Navigate to="/dashboard" replace /> : children;
 }
 
 function App() {
@@ -46,9 +57,9 @@ function App() {
           } />
 
           <Route path="/change-password" element={
-            <PrivateRoute>
+            <PasswordChangeRoute>
               <ChangePasswordPage />
-            </PrivateRoute>
+            </PasswordChangeRoute>
           } />
           
           <Route path="/dashboard" element={
