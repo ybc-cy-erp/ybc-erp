@@ -14,6 +14,7 @@ const tenantRoutes = require('./routes/tenants');
 const userRoutes = require('./routes/users');
 const membershipPlanRoutes = require('./routes/membershipPlans');
 const membershipRoutes = require('./routes/memberships');
+const dashboardRoutes = require('./routes/dashboard');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -63,6 +64,7 @@ app.use('/api/tenants', tenantRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/membership-plans', membershipPlanRoutes);
 app.use('/api/memberships', membershipRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 // 404 handler
 app.use((req, res) => {
