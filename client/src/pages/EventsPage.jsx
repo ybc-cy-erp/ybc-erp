@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import eventService from '../services/eventService';
 import DashboardLayout from '../components/layout/DashboardLayout';
+import { usePageTitle } from '../context/PageTitleContext';
 import './Events.css';
 
 function EventsPage() {
   const navigate = useNavigate();
+  const { setPageTitle } = usePageTitle();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
 
   useEffect(() => {
+    setPageTitle('Події');
     loadEvents();
   }, [statusFilter]);
 
@@ -75,7 +78,7 @@ function EventsPage() {
     <DashboardLayout>
     <div className="events-page">
       <div className="page-header">
-        <h1>Події</h1>
+        
         <button onClick={() => navigate('/events/create')} className="btn-create">
           + Створити подію
         </button>

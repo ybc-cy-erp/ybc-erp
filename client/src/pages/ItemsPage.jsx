@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import DashboardLayout from '../components/layout/DashboardLayout';
+import { usePageTitle } from '../context/PageTitleContext';
 import itemService from '../services/itemService';
 import './ItemsPage.css';
 
 export default function ItemsPage() {
   const [items, setItems] = useState([]);
+  const { setPageTitle } = usePageTitle();
   const [folders, setFolders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState('list');
@@ -28,6 +30,7 @@ export default function ItemsPage() {
         itemService.getFolders(),
       ]);
       setItems(itemsData);
+  const { setPageTitle } = usePageTitle();
       setFolders(foldersData);
     } catch (err) {
       console.error('Load error:', err);

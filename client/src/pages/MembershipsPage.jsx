@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import membershipService from '../services/membershipService';
 import membershipPlanService from '../services/membershipPlanService';
 import DashboardLayout from '../components/layout/DashboardLayout';
+import { usePageTitle } from '../context/PageTitleContext';
 import './Memberships.css';
 
 function MembershipsPage() {
   const navigate = useNavigate();
+  const { setPageTitle } = usePageTitle();
   const [memberships, setMemberships] = useState([]);
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,6 +20,7 @@ function MembershipsPage() {
   const [planFilter, setPlanFilter] = useState('all');
 
   useEffect(() => {
+    setPageTitle('Членства');
     loadData();
   }, []);
 
@@ -121,7 +124,7 @@ function MembershipsPage() {
     <DashboardLayout>
     <div className="memberships-page">
       <div className="page-header">
-        <h1>Членства</h1>
+        
         <button 
           onClick={() => navigate('/memberships/create')}
           className="btn-create"

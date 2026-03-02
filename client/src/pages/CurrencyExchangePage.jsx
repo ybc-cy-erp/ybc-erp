@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import currencyExchangeService from '../services/currencyExchangeService';
 import DashboardLayout from '../components/layout/DashboardLayout';
+import { usePageTitle } from '../context/PageTitleContext';
 
 function CurrencyExchangePage() {
   const [exchanges, setExchanges] = useState([]);
+  const { setPageTitle } = usePageTitle();
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({
@@ -17,6 +19,7 @@ function CurrencyExchangePage() {
   });
 
   useEffect(() => {
+    setPageTitle('Обмін валют');
     loadExchanges();
   }, []);
 
@@ -25,6 +28,7 @@ function CurrencyExchangePage() {
       setLoading(true);
       const data = await currencyExchangeService.getAll();
       setExchanges(data);
+  const { setPageTitle } = usePageTitle();
     } catch (err) {
       console.error('Failed to load exchanges:', err);
     } finally {

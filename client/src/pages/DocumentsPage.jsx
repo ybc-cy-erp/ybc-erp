@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
 import DashboardLayout from '../components/layout/DashboardLayout';
+import { usePageTitle } from '../context/PageTitleContext';
 import documentService from '../services/documentService';
 import './DocumentsPage.css';
 
 export default function DocumentsPage() {
   const [documents, setDocuments] = useState([]);
+  const { setPageTitle } = usePageTitle();
   const [loading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
 
   useEffect(() => {
+    setPageTitle('Журнал документів');
     loadDocuments();
   }, [filterType, filterStatus]);
 
@@ -22,6 +25,7 @@ export default function DocumentsPage() {
       
       const data = await documentService.getAll(params);
       setDocuments(data);
+  const { setPageTitle } = usePageTitle();
     } catch (err) {
       console.error(err);
     } finally {

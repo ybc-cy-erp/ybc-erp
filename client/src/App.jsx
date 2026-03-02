@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './context/AuthContext';
+import { PageTitleProvider } from './context/PageTitleContext';
 import { useContext } from 'react';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
@@ -55,6 +56,7 @@ function PublicRoute({ children }) {
 function App() {
   return (
     <AuthProvider>
+      <PageTitleProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
@@ -182,6 +184,7 @@ function App() {
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </BrowserRouter>
+      </PageTitleProvider>
     </AuthProvider>
   );
 }

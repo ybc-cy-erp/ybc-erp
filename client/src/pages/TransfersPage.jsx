@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import transferService from '../services/transferService';
 import DashboardLayout from '../components/layout/DashboardLayout';
+import { usePageTitle } from '../context/PageTitleContext';
 
 function TransfersPage() {
   const [transfers, setTransfers] = useState([]);
+  const { setPageTitle } = usePageTitle();
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({
@@ -17,6 +19,7 @@ function TransfersPage() {
   });
 
   useEffect(() => {
+    setPageTitle('Перекази коштів');
     loadTransfers();
   }, []);
 
@@ -25,6 +28,7 @@ function TransfersPage() {
       setLoading(true);
       const data = await transferService.getAll();
       setTransfers(data);
+  const { setPageTitle } = usePageTitle();
     } catch (err) {
       console.error('Failed to load transfers:', err);
     } finally {

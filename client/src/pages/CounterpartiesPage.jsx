@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import DashboardLayout from '../components/layout/DashboardLayout';
+import { usePageTitle } from '../context/PageTitleContext';
 import counterpartyService from '../services/counterpartyService';
 import './CounterpartiesPage.css';
 
 export default function CounterpartiesPage() {
   const [counterparties, setCounterparties] = useState([]);
+  const { setPageTitle } = usePageTitle();
   const [folders, setFolders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState('list'); // list, icon, column, gallery
@@ -46,6 +48,7 @@ export default function CounterpartiesPage() {
         counterpartyService.getFolders(),
       ]);
       setCounterparties(cpData);
+  const { setPageTitle } = usePageTitle();
       setFolders(foldersData);
     } catch (err) {
       console.error('Load error:', err);

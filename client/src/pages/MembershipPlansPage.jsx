@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
+import { usePageTitle } from '../context/PageTitleContext';
 import membershipPlanService from '../services/membershipPlanService';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import PlanModal from '../components/memberships/PlanModal';
@@ -9,6 +10,7 @@ import '../styles/MembershipPlans.css';
 export default function MembershipPlansPage() {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
+  const { setPageTitle } = usePageTitle();
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,6 +18,10 @@ export default function MembershipPlansPage() {
   const [editingPlan, setEditingPlan] = useState(null);
 
   const isOwner = user?.role === 'Owner';
+
+  useEffect(() => {
+    setPageTitle('Тарифні плани');
+  }, []);
 
   useEffect(() => {
     loadPlans();
@@ -87,7 +93,6 @@ export default function MembershipPlansPage() {
     <DashboardLayout>
       <div className="membership-plans">
         <div className="page-header">
-          <h1>Тарифні плани</h1>
           {isOwner && (
             <button onClick={handleCreate} className="btn-primary">
               + Створити план
@@ -102,7 +107,7 @@ export default function MembershipPlansPage() {
             <div key={plan.id} className={`plan-card glass-card ${plan.status}`}>
               <div className="plan-header">
                 <h3>{plan.name}</h3>
-                <span className={`plan-type ${plan.type}`}>
+                <span className="plan-type">
                   {getPlanTypeName(plan.type)}
                 </span>
               </div>

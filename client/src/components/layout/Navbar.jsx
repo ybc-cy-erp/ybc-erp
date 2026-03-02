@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../context/AuthContext';
+import { usePageTitle } from '../../context/PageTitleContext';
 import './Navbar.css';
 
 export default function Navbar() {
   const { t } = useTranslation();
   const { user, logout } = useContext(AuthContext);
+  const { pageTitle } = usePageTitle();
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   useEffect(() => {
@@ -18,7 +20,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        {/* Search or breadcrumbs можна додати пізніше */}
+        {pageTitle && <h1 className="page-title">{pageTitle}</h1>}
       </div>
 
       <div className="navbar-right">

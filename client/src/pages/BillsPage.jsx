@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import billService from '../services/billService';
 import DashboardLayout from '../components/layout/DashboardLayout';
+import { usePageTitle } from '../context/PageTitleContext';
 import './Bills.css';
 
 function BillsPage() {
   const navigate = useNavigate();
+  const { setPageTitle } = usePageTitle();
   const [bills, setBills] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
 
   useEffect(() => {
+    setPageTitle('Рахунки');
     loadBills();
   }, [statusFilter]);
 
@@ -58,7 +61,7 @@ function BillsPage() {
     <DashboardLayout>
     <div className="bills-page">
       <div className="page-header">
-        <h1>Рахунки</h1>
+        
         <button onClick={() => navigate('/bills/create')} className="btn-create">
           + Створити рахунок
         </button>
