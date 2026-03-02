@@ -16,6 +16,8 @@ import CounterpartiesPage from './pages/CounterpartiesPage';
 import ItemsPage from './pages/ItemsPage';
 import DocumentsPage from './pages/DocumentsPage';
 import ChartOfAccountsPage from './pages/ChartOfAccountsPage';
+import CurrencyExchangePage from './pages/CurrencyExchangePage';
+import TransfersPage from './pages/TransfersPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import './i18n/config';
 import './styles/global.css';
@@ -156,6 +158,18 @@ function App() {
           <Route path="/chart-of-accounts" element={
             <PrivateRoute>
               <ChartOfAccountsPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/currency-exchange" element={
+            <PrivateRoute>
+              <CurrencyExchangePage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/transfers" element={
+            <PrivateRoute>
+              <TransfersPage />
             </PrivateRoute>
           } />
 

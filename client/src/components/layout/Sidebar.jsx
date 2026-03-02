@@ -85,6 +85,18 @@ const icons = {
       <rect x="3" y="14" width="7" height="7" rx="1" />
     </svg>
   ),
+  currencyExchange: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 6v6l4 2" />
+      <path d="M16 16l4 4" />
+    </svg>
+  ),
+  transfers: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+  ),
   reports: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
       <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
@@ -106,6 +118,8 @@ export default function Sidebar() {
     { path: '/events', label: t('nav.events'), icon: icons.events },
     { path: '/bills', label: t('nav.bills'), icon: icons.bills },
     { path: '/wallets', label: t('nav.wallets'), icon: icons.wallets },
+    { path: '/currency-exchange', label: 'Обмін валют', icon: icons.currencyExchange },
+    { path: '/transfers', label: 'Перекази', icon: icons.transfers },
     { path: '/chart-of-accounts', label: 'План рахунків', icon: icons.chartOfAccounts },
     { path: '/reports', label: t('nav.reports'), icon: icons.reports },
   ];

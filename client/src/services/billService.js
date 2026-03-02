@@ -23,7 +23,10 @@ const billService = {
 
     let query = supabase
       .from('bills')
-      .select('*')
+      .select(`
+        *,
+        counterparty:counterparties(name)
+      `)
       .eq('tenant_id', tenantId)
       .order('bill_date', { ascending: false });
 
@@ -33,7 +36,10 @@ const billService = {
     const { data, error } = await query;
     if (error) throw normError(error, 'Не вдалося завантажити рахунки');
 
-    return data || [];
+    return (data || []).map((row) => ({
+      ...row,
+      vendor_name: row.counterparty?.name || row.vendor || '—',
+    }));
   },
 
   async getById(id) {
