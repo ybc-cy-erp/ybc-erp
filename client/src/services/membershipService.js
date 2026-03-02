@@ -18,12 +18,9 @@ function normError(error, fallback = 'Помилка запиту') {
 
 function mapMembership(row) {
   if (!row) return row;
-  // client_name - actual DB column name
-  // customer_name - display field (from counterparty or manual entry)
-  const counterpartyName = row.counterparty?.name || null;
   return {
     ...row,
-    customer_name: counterpartyName || row.client_name || '—',
+    customer_name: row.client_name || '—',
     counterparty_id: row.counterparty_id || null,
     amount: Number(row.payment_amount || 0),
   };
@@ -36,10 +33,7 @@ const membershipService = {
 
     let query = supabase
       .from('memberships')
-      .select(`
-        *,
-        counterparty:counterparties(name)
-      `)
+      .select('*')
       .eq('tenant_id', tenantId)
       .order('created_at', { ascending: false });
 
@@ -58,10 +52,7 @@ const membershipService = {
 
     const { data, error } = await supabase
       .from('memberships')
-      .select(`
-        *,
-        counterparty:counterparties(name)
-      `)
+      .select('*')
       .eq('id', id)
       .eq('tenant_id', tenantId)
       .single();

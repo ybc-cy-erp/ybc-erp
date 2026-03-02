@@ -26,8 +26,8 @@
   --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
 
   /* Glass */
-  --glass-bg: rgba(255, 255, 255, 0.35);
-  --glass-border: rgba(255, 255, 255, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(0, 0, 0, 0.08);
 }
 
 :root[data-theme='dark'] {
