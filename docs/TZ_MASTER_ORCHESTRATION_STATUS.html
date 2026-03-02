@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YBC ERP — ТЗ + Оркестрация + Статус</title>
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;line-height:1.5;max-width:980px;margin:32px auto;padding:0 16px;color:#111}
+    h1,h2,h3{line-height:1.25}
+    h1{font-size:30px;margin:0 0 12px}
+    h2{font-size:22px;margin:28px 0 10px}
+    h3{font-size:18px;margin:20px 0 8px}
+    .meta{color:#666;margin-bottom:18px}
+    .ok{color:#0a7a2a;font-weight:600}
+    .part{color:#b26a00;font-weight:600}
+    .no{color:#9b1c1c;font-weight:600}
+    code,pre{background:#f6f8fa;border-radius:8px}
+    pre{padding:12px;overflow:auto}
+    ul{margin:8px 0 8px 20px}
+    .box{border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin:10px 0}
+  </style>
+</head>
+<body>
+  <h1>YBC ERP — Полное ТЗ + Оркестрация + Статус</h1>
+  <div class="meta">
+    <div><b>Версия:</b> 1.0</div>
+    <div><b>Дата:</b> 2026-03-01</div>
+    <div><b>Стек:</b> Supabase + Cloudflare (без Railway)</div>
+  </div>
+
+  <h2>1) Цель</h2>
+  <ul>
+    <li>Memberships</li>
+    <li>Events &amp; Tickets</li>
+    <li>Bills &amp; Payments (accrual)</li>
+    <li>GL (двойная запись)</li>
+    <li>Журнал документов</li>
+    <li>ПКО/РКО</li>
+    <li>Обмен валют</li>
+    <li>Перемещения между кассами/кошельками</li>
+    <li>Sandbox + demo data + reset</li>
+  </ul>
+
+  <h2>2) Архитектура</h2>
+  <ul>
+    <li><b>Frontend:</b> React + Vite</li>
+    <li><b>Data/Auth:</b> Supabase (Postgres + Auth + RLS)</li>
+    <li><b>Hosting:</b> Cloudflare Pages (<code>erp.ybc.com.cy</code>)</li>
+    <li><b>Railway:</b> не используется в целевом варианте</li>
+  </ul>
+
+  <h2>3) Оркестрация</h2>
+  <pre>PLAN -&gt; BUILD -&gt; QA -&gt; FIX -&gt; DONE</pre>
+
+  <h2>4) Блок-схемы</h2>
+  <h3>Auth</h3>
+  <pre>User -&gt; /login -&gt; Supabase signInWithPassword
+    -&gt; force_password_change=true ? /change-password : /dashboard</pre>
+
+  <h3>GL (целевая)</h3>
+  <pre>Document (Bill/PKO/RKO/Exchange/Transfer)
+  -&gt; balanced entries Dt/Kt
+  -&gt; document journal + journal entries
+  -&gt; debit == credit check</pre>
+
+  <h2>5) Этапы и статус</h2>
+
+  <div class="box">
+    <h3>Шаг 1 — Стабильная база</h3>
+    <ul>
+      <li class="ok">[x] Auth через Supabase</li>
+      <li class="ok">[x] Login + смена пароля</li>
+      <li class="ok">[x] Membership plans через Supabase</li>
+      <li class="ok">[x] Memberships базово через Supabase</li>
+      <li class="ok">[x] Dashboard метрики из Supabase</li>
+      <li class="ok">[x] Роутинг меню не падает</li>
+      <li class="part">[~] Events/Bills/Payments полностью на Supabase</li>
+      <li class="part">[~] Строгий enterprise UI везде</li>
+      <li class="part">[~] Все модалки строго белые</li>
+    </ul>
+    <div><b>Статус:</b> <span class="part">частично готов</span></div>
+  </div>
+
+  <div class="box">
+    <h3>Шаг 2 — Демо-данные + Sandbox reset</h3>
+    <ul>
+      <li class="no">[ ] Sandbox tenant</li>
+      <li class="no">[ ] Seed demo-data</li>
+      <li class="no">[ ] Кнопка reset sandbox</li>
+      <li class="no">[ ] Плановая автоочистка</li>
+    </ul>
+    <div><b>Статус:</b> <span class="no">не начат</span></div>
+  </div>
+
+  <div class="box">
+    <h3>Шаг 3 — GL ядро</h3>
+    <ul>
+      <li class="no">[ ] Журнал проводок Dt/Kt</li>
+      <li class="no">[ ] Контроль баланса</li>
+      <li class="no">[ ] Журнал документов + привязка</li>
+      <li class="no">[ ] UI журнала</li>
+    </ul>
+    <div><b>Статус:</b> <span class="no">не начат</span></div>
+  </div>
+
+  <div class="box">
+    <h3>Шаг 4 — ПКО/РКО</h3>
+    <ul>
+      <li class="no">[ ] Документы ПКО/РКО</li>
+      <li class="no">[ ] Автонумерация</li>
+      <li class="no">[ ] Проводки в GL</li>
+      <li class="no">[ ] Статусы и журнал</li>
+      <li class="no">[ ] UI</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Шаг 5 — Обмен валют + перемещения</h3>
+    <ul>
+      <li class="no">[ ] Exchange (курс/комиссия)</li>
+      <li class="no">[ ] Transfer между кассами/кошельками</li>
+      <li class="no">[ ] Автопроводки</li>
+      <li class="no">[ ] Контроль остатков</li>
+      <li class="no">[ ] UI</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Шаг 6 — Финализация</h3>
+    <ul>
+      <li class="no">[ ] QA end-to-end</li>
+      <li class="no">[ ] Регресс</li>
+      <li class="no">[ ] Исправления</li>
+      <li class="no">[ ] Production checklist</li>
+      <li class="no">[ ] Release notes</li>
+    </ul>
+  </div>
+
+  <h2>6) Mobile-first (must-have)</h2>
+  <ul>
+    <li>[ ] Полная работа на iOS Safari / Android Chrome</li>
+    <li>[ ] Все ключевые операции с телефона</li>
+    <li>[ ] Tap targets не меньше 44x44</li>
+    <li>[ ] Sticky actions в длинных формах</li>
+    <li>[ ] Нормальный UX на ширине 360–430px</li>
+    <li>[ ] Мобильный QA чеклист</li>
+  </ul>
+
+  <h2>7) Definition of Done</h2>
+  <ul>
+    <li>Все 6 шагов закрыты</li>
+    <li>Нет пустых экранов и критических save-ошибок</li>
+    <li>Все финоперации идут через GL</li>
+    <li>Sandbox reset работает</li>
+    <li>QA pass + mobile-first закрыт</li>
+  </ul>
+</body>
+</html>

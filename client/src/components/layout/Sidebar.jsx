@@ -53,6 +53,13 @@ const icons = {
       <circle cx="16.5" cy="14" r="1.2" />
     </svg>
   ),
+  counterparties: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  ),
   reports: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
       <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
@@ -67,6 +74,7 @@ export default function Sidebar() {
     { path: '/dashboard', label: t('nav.dashboard'), icon: icons.dashboard },
     { path: '/membership-plans', label: 'Тарифні плани', icon: icons.plans },
     { path: '/memberships', label: t('nav.memberships'), icon: icons.memberships },
+    { path: '/counterparties', label: 'Контрагенти', icon: icons.counterparties },
     { path: '/events', label: t('nav.events'), icon: icons.events },
     { path: '/bills', label: t('nav.bills'), icon: icons.bills },
     { path: '/wallets', label: t('nav.wallets'), icon: icons.wallets },
