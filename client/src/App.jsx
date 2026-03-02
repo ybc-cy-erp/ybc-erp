@@ -14,6 +14,9 @@ import BillsPage from './pages/BillsPage';
 import BillFormPage from './pages/BillFormPage';
 import WalletsPage from './pages/WalletsPage';
 import ReportsPage from './pages/ReportsPage';
+import ProfitLossReportPage from './pages/reports/ProfitLossReportPage';
+import BalanceSheetReportPage from './pages/reports/BalanceSheetReportPage';
+import CashFlowReportPage from './pages/reports/CashFlowReportPage';
 import CounterpartiesPage from './pages/CounterpartiesPage';
 import ItemsPage from './pages/ItemsPage';
 import DocumentsPage from './pages/DocumentsPage';
@@ -227,6 +230,24 @@ function App() {
           <Route path="/reports" element={
             <PrivateRoute>
               <ReportsPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/reports/profit-loss" element={
+            <PrivateRoute>
+              <ProfitLossReportPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/reports/balance-sheet" element={
+            <PrivateRoute>
+              <BalanceSheetReportPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/reports/cash-flow" element={
+            <PrivateRoute>
+              <CashFlowReportPage />
             </PrivateRoute>
           } />
 

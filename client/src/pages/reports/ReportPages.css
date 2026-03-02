@@ -1,0 +1,168 @@
+.report-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.report-header {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.report-title-section h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.report-period {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.report-filters {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.report-filters .filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.report-filters .filter-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.report-filters input[type="date"] {
+  padding: 8px 12px;
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  font-size: 14px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.report-content {
+  overflow-x: auto;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.report-table thead th {
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 2px solid var(--border-medium);
+}
+
+.report-table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-primary);
+}
+
+.report-table .section-header td {
+  padding-top: 20px;
+  padding-bottom: 8px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  border-bottom: none;
+}
+
+.report-table .indent-1 {
+  padding-left: 28px;
+}
+
+.report-table .subtotal {
+  border-top: 1px solid var(--border-medium);
+  border-bottom: 1px solid var(--border-medium);
+}
+
+.report-table .subtotal td {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-weight: 600;
+}
+
+.report-table .total {
+  border-top: 2px solid var(--border-strong);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+:root[data-theme='dark'] .report-table .total {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.report-table .total td {
+  padding-top: 14px;
+  padding-bottom: 14px;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.report-table .profit {
+  color: var(--text-primary);
+}
+
+.report-table .loss {
+  color: var(--text-primary);
+  opacity: 0.7;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-secondary);
+}
+
+.loading {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .report-header {
+    flex-direction: column;
+  }
+
+  .report-filters {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .report-filters .filter-group {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .report-table {
+    font-size: 12px;
+  }
+
+  .report-table tbody td,
+  .report-table thead th {
+    padding: 8px;
+  }
+
+  .report-table .indent-1 {
+    padding-left: 20px;
+  }
+}

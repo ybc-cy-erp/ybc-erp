@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { usePageTitle } from '../context/PageTitleContext';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import reportService from '../services/reportService';
 
 function ReportsPage() {
+  const navigate = useNavigate();
   const { setPageTitle } = usePageTitle();
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState('month');
@@ -118,6 +120,9 @@ function ReportsPage() {
                 </span>
               </div>
             </div>
+            <button onClick={() => navigate('/reports/profit-loss')} className="btn-secondary" style={{ width: '100%', marginTop: '16px' }}>
+              Детальний звіт →
+            </button>
           </div>
 
           {/* Balance Sheet */}
@@ -152,6 +157,9 @@ function ReportsPage() {
                 </span>
               </div>
             </div>
+            <button onClick={() => navigate('/reports/balance-sheet')} className="btn-secondary" style={{ width: '100%', marginTop: '16px' }}>
+              Детальний звіт →
+            </button>
           </div>
 
           {/* Cash Flow */}
@@ -193,6 +201,9 @@ function ReportsPage() {
                 </span>
               </div>
             </div>
+            <button onClick={() => navigate('/reports/cash-flow')} className="btn-secondary" style={{ width: '100%', marginTop: '16px' }}>
+              Детальний звіт →
+            </button>
           </div>
         </div>
 
