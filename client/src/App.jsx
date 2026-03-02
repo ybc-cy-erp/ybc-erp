@@ -8,6 +8,7 @@ import MembershipsPage from './pages/MembershipsPage';
 import MembershipFormPage from './pages/MembershipFormPage';
 import MembershipDetailsPage from './pages/MembershipDetailsPage';
 import EventsPage from './pages/EventsPage';
+import EventFormPage from './pages/EventFormPage';
 import BillsPage from './pages/BillsPage';
 import WalletsPage from './pages/WalletsPage';
 import ReportsPage from './pages/ReportsPage';
@@ -107,6 +108,18 @@ function App() {
           <Route path="/events" element={
             <PrivateRoute>
               <EventsPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/events/create" element={
+            <PrivateRoute>
+              <EventFormPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/events/:id/edit" element={
+            <PrivateRoute>
+              <EventFormPage />
             </PrivateRoute>
           } />
           

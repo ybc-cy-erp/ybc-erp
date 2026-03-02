@@ -27,6 +27,15 @@ function EventsPage() {
     }
   };
 
+  const handlePublish = async (id) => {
+    try {
+      await eventService.publish(id);
+      await loadEvents();
+    } catch (err) {
+      alert(`Помилка: ${err.message}`);
+    }
+  };
+
   const handleCancel = async (id) => {
     if (!window.confirm('Скасувати цю подію?')) return;
     
@@ -88,13 +97,23 @@ function EventsPage() {
               <h3>{event.name}</h3>
               {getStatusBadge(event.status)}
             </div>
+            {event.counterparty_name && (
+              <p className="event-organizer">🏢 {event.counterparty_name}</p>
+            )}
             <p className="event-date">📅 {formatDate(event.event_date)}</p>
             {event.location && <p className="event-location">📍 {event.location}</p>}
-            <p className="event-capacity">👥 Місткість: {event.capacity}</p>
+            {event.capacity && <p className="event-capacity">👥 Місткість: {event.capacity}</p>}
             <div className="event-actions">
-              <button onClick={() => navigate(`/events/${event.id}`)} className="btn-view">
-                Деталі
-              </button>
+              {event.status === 'draft' && (
+                <>
+                  <button onClick={() => navigate(`/events/${event.id}/edit`)} className="btn-edit">
+                    Редагувати
+                  </button>
+                  <button onClick={() => handlePublish(event.id)} className="btn-publish">
+                    Опублікувати
+                  </button>
+                </>
+              )}
               {event.status !== 'cancelled' && (
                 <button onClick={() => handleCancel(event.id)} className="btn-cancel">
                   Скасувати

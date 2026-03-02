@@ -101,6 +101,13 @@
   color: #ff3b30;
 }
 
+.event-organizer {
+  margin: 0.5rem 0;
+  color: #007AFF;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
 .event-date, .event-location, .event-capacity {
   margin: 0.5rem 0;
   color: #666;
@@ -115,7 +122,7 @@
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.btn-view, .btn-cancel {
+.btn-view, .btn-edit, .btn-publish, .btn-cancel {
   flex: 1;
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -133,6 +140,26 @@
 
 .btn-view:hover {
   background: #333;
+}
+
+.btn-edit {
+  background: #007AFF;
+  color: #fff;
+  border: none;
+}
+
+.btn-edit:hover {
+  background: #0051D5;
+}
+
+.btn-publish {
+  background: #34C759;
+  color: #fff;
+  border: none;
+}
+
+.btn-publish:hover {
+  background: #28A745;
 }
 
 .btn-cancel {

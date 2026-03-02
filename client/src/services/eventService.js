@@ -73,7 +73,7 @@ const eventService = {
       description: payload.description || null,
       event_date: payload.event_date,
       location: payload.location || null,
-      status: 'scheduled',
+      status: 'draft',
     };
 
     const { data, error } = await supabase
@@ -108,6 +108,22 @@ const eventService = {
       .single();
 
     if (error) throw normError(error, 'Помилка оновлення події');
+    return { data: { event: data } };
+  },
+
+  async publish(id) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
+
+    const { data, error } = await supabase
+      .from('events')
+      .update({ status: 'published', updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .eq('tenant_id', tenantId)
+      .select('*')
+      .single();
+
+    if (error) throw normError(error, 'Помилка публікації події');
     return { data: { event: data } };
   },
 
