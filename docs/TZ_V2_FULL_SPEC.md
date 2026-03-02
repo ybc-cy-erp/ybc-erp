@@ -676,3 +676,82 @@ EXECUTE FUNCTION auto_post_journal_entries();
 ---
 
 **Этот документ — source of truth для v2. Все решения фиксируем здесь.**
+
+---
+
+## 11. Credentials (Production)
+
+**⚠️ СЕКРЕТНЫЕ ДАННЫЕ - НЕ ПУБЛИКОВАТЬ**
+
+### Supabase
+
+- **Project ID:** `iklibzcyfxcahbquuurv`
+- **Project URL:** https://iklibzcyfxcahbquuurv.supabase.co
+- **Database Host:** `db.iklibzcyfxcahbquuurv.supabase.co`
+- **Database Name:** `postgres`
+- **Database User:** `postgres`
+- **Database Password:** `YbcErp2026_271347bf79c7581d`
+- **Region:** EU Frankfurt (eu-central-1)
+
+#### API Keys
+
+**Anon Key (public):**
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrbGliemN5ZnhjYWhicXV1dXJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzNTg1NjEsImV4cCI6MjA4NzkzNDU2MX0.ezhQTWc_aWufFFAw3g55-LmRDRW14EUeLlEKv7ePCi4
+```
+
+**Service Role Key (секретный):**
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrbGliemN5ZnhjYWhicXV1dXJ2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjM1ODU2MSwiZXhwIjoyMDg3OTM0NTYxfQ.DmLzLw9fQVb0huaI7EHq8qelGd6OTXKaEuir7bpgpPw
+```
+
+**Dashboard:** https://supabase.com/dashboard/project/iklibzcyfxcahbquuurv
+
+---
+
+### Cloudflare
+
+- **Account ID:** `7ad4e6b4f3733aa39a4df60b14f3750e`
+- **Zone ID (ybc.com.cy):** `f8c4ad0a630f84a1d205809d86259151`
+- **API Token:** `ILVlj_w3A3iLKTeuu87cDQNXvZzJsz-d4OvgfSGE`
+- **Production Domain:** https://erp.ybc.com.cy
+- **Pages Project:** `ybc-erp`
+
+**Dashboard:** https://dash.cloudflare.com/7ad4e6b4f3733aa39a4df60b14f3750e
+
+---
+
+### Admin Account
+
+- **Tenant ID:** `e5a61f2f-5a98-4ff3-bd16-a53a6720dd00`
+- **Tenant Name:** YBC Cyprus
+- **Admin Email:** `Oleg.Polchyn@gmail.com`
+- **Admin Role:** Owner
+- **Password:** Временный (first login требует смены)
+
+---
+
+### GitHub Repository
+
+- **Organization:** ybc-cy-erp
+- **Repository:** ybc-erp
+- **URL:** https://github.com/ybc-cy-erp/ybc-erp
+- **Local Path:** `/tmp/ybc-erp/`
+
+---
+
+### Connection Strings
+
+**PostgreSQL (Direct):**
+```
+postgresql://postgres:YbcErp2026_271347bf79c7581d@db.iklibzcyfxcahbquuurv.supabase.co:5432/postgres
+```
+
+**PostgreSQL (Pooler):**
+```
+postgresql://postgres.iklibzcyfxcahbquuurv:YbcErp2026_271347bf79c7581d@aws-0-eu-central-1.pooler.supabase.com:6543/postgres
+```
+
+---
+
+**Примечание:** Все креды действительны на 2026-03-02. При ротации ключей обновить этот раздел.
