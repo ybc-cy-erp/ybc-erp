@@ -13,6 +13,7 @@ import WalletsPage from './pages/WalletsPage';
 import ReportsPage from './pages/ReportsPage';
 import CounterpartiesPage from './pages/CounterpartiesPage';
 import ItemsPage from './pages/ItemsPage';
+import DocumentsPage from './pages/DocumentsPage';
 import ChartOfAccountsPage from './pages/ChartOfAccountsPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import './i18n/config';
@@ -130,6 +131,12 @@ function App() {
           <Route path="/items" element={
             <PrivateRoute>
               <ItemsPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/documents" element={
+            <PrivateRoute>
+              <DocumentsPage />
             </PrivateRoute>
           } />
 

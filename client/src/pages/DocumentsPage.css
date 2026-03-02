@@ -1,0 +1,75 @@
+.documents-page {
+  padding: 24px;
+}
+
+.documents-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.documents-toolbar h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.documents-filters {
+  display: flex;
+  gap: 12px;
+}
+
+.documents-filters select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.documents-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.documents-table thead th {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 2px solid var(--border-light);
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.documents-table tbody td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.documents-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.status-draft {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--text-primary);
+}
+
+.status-posted {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+}
+
+.status-cancelled {
+  background: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+}
