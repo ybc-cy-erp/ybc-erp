@@ -1,50 +1,194 @@
-import api from './api';
+import { supabase } from './supabase';
+
+function getTenantId() {
+  try {
+    const raw = localStorage.getItem('user');
+    if (!raw) return null;
+    const user = JSON.parse(raw);
+    return user?.tenant_id || null;
+  } catch {
+    return null;
+  }
+}
+
+function normError(error, fallback = 'Помилка запиту') {
+  const msg = error?.message || fallback;
+  return { response: { data: { error: msg } }, message: msg };
+}
 
 const eventService = {
-  /**
-   * Get all events
-   */
-  getAll: (params) => api.get('/events', { params }),
-  
-  /**
-   * Get single event
-   */
-  getById: (id) => api.get(`/events/${id}`),
-  
-  /**
-   * Create event
-   */
-  create: (data) => api.post('/events', data),
-  
-  /**
-   * Update event
-   */
-  update: (id, data) => api.put(`/events/${id}`, data),
-  
-  /**
-   * Cancel event (soft delete)
-   */
-  cancel: (id) => api.delete(`/events/${id}`),
+  async getAll(params = {}) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
 
-  /**
-   * Get ticket types for event
-   */
-  getTicketTypes: (eventId) => api.get(`/events/${eventId}/ticket-types`),
+    let query = supabase
+      .from('events')
+      .select('*')
+      .eq('tenant_id', tenantId)
+      .order('event_date', { ascending: false });
 
-  /**
-   * Create ticket type
-   */
-  createTicketType: (eventId, data) => api.post(`/events/${eventId}/ticket-types`, data),
+    if (params?.status) query = query.eq('status', params.status);
 
-  /**
-   * Update ticket type
-   */
-  updateTicketType: (id, data) => api.put(`/ticket-types/${id}`, data),
+    const { data, error } = await query;
+    if (error) throw normError(error, 'Не вдалося завантажити події');
 
-  /**
-   * Delete ticket type
-   */
-  deleteTicketType: (id) => api.delete(`/ticket-types/${id}`)
+    return data || [];
+  },
+
+  async getById(id) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
+
+    const { data, error } = await supabase
+      .from('events')
+      .select('*')
+      .eq('id', id)
+      .eq('tenant_id', tenantId)
+      .single();
+
+    if (error) throw normError(error, 'Подію не знайдено');
+    return data;
+  },
+
+  async create(payload) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
+
+    const row = {
+      tenant_id: tenantId,
+      name: payload.name,
+      description: payload.description || null,
+      event_date: payload.event_date,
+      location: payload.location || null,
+      status: 'scheduled',
+    };
+
+    const { data, error } = await supabase
+      .from('events')
+      .insert(row)
+      .select('*')
+      .single();
+
+    if (error) throw normError(error, 'Помилка створення події');
+    return { data: { event: data } };
+  },
+
+  async update(id, payload) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
+
+    const updateData = {
+      name: payload.name,
+      description: payload.description || null,
+      event_date: payload.event_date,
+      location: payload.location || null,
+      updated_at: new Date().toISOString(),
+    };
+
+    const { data, error } = await supabase
+      .from('events')
+      .update(updateData)
+      .eq('id', id)
+      .eq('tenant_id', tenantId)
+      .select('*')
+      .single();
+
+    if (error) throw normError(error, 'Помилка оновлення події');
+    return { data: { event: data } };
+  },
+
+  async cancel(id) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
+
+    const { data, error } = await supabase
+      .from('events')
+      .update({ status: 'cancelled', updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .eq('tenant_id', tenantId)
+      .select('*')
+      .single();
+
+    if (error) throw normError(error, 'Помилка скасування події');
+    return { data: { event: data } };
+  },
+
+  async getTicketTypes(eventId) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
+
+    const { data, error } = await supabase
+      .from('event_tickets')
+      .select('*')
+      .eq('event_id', eventId)
+      .eq('tenant_id', tenantId)
+      .order('created_at', { ascending: true });
+
+    if (error) throw normError(error, 'Помилка завантаження типів квитків');
+    return data || [];
+  },
+
+  async createTicketType(eventId, payload) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
+
+    const row = {
+      tenant_id: tenantId,
+      event_id: eventId,
+      ticket_type: payload.ticket_type,
+      price: Number(payload.price || 0),
+      currency: payload.currency || 'EUR',
+      quantity_total: Number(payload.quantity_total || 0),
+      quantity_sold: 0,
+    };
+
+    const { data, error } = await supabase
+      .from('event_tickets')
+      .insert(row)
+      .select('*')
+      .single();
+
+    if (error) throw normError(error, 'Помилка створення типу квитка');
+    return { data: { ticketType: data } };
+  },
+
+  async updateTicketType(id, payload) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
+
+    const updateData = {
+      ticket_type: payload.ticket_type,
+      price: Number(payload.price || 0),
+      currency: payload.currency || 'EUR',
+      quantity_total: Number(payload.quantity_total || 0),
+      updated_at: new Date().toISOString(),
+    };
+
+    const { data, error } = await supabase
+      .from('event_tickets')
+      .update(updateData)
+      .eq('id', id)
+      .eq('tenant_id', tenantId)
+      .select('*')
+      .single();
+
+    if (error) throw normError(error, 'Помилка оновлення типу квитка');
+    return { data: { ticketType: data } };
+  },
+
+  async deleteTicketType(id) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
+
+    const { error } = await supabase
+      .from('event_tickets')
+      .delete()
+      .eq('id', id)
+      .eq('tenant_id', tenantId);
+
+    if (error) throw normError(error, 'Помилка видалення типу квитка');
+    return { data: { success: true } };
+  },
 };
 
 export default eventService;
