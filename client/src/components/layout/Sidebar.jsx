@@ -82,7 +82,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="sidebar solid-card">
+    <aside className="sidebar">
       <nav className="sidebar-nav">
         {menuItems.map((item) => (
           <NavLink

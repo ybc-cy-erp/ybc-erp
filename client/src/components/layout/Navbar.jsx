@@ -16,7 +16,7 @@ export default function Navbar() {
   const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
 
   return (
-    <nav className="navbar solid-card">
+    <nav className="navbar">
       <div className="navbar-left">
         <img 
           src="/logo-ybc-full.png" 
