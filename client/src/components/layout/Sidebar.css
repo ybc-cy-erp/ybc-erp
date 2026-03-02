@@ -1,9 +1,9 @@
 .sidebar {
   width: 240px;
   padding: 16px;
-  height: calc(100vh - 80px);
+  max-height: calc(100vh - 120px);
   position: sticky;
-  top: 16px;
+  top: 0;
   background: rgba(255, 255, 255, 0.6) !important;
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
@@ -11,6 +11,7 @@
   border-radius: 14px !important;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06) !important;
   overflow-y: auto;
+  align-self: flex-start;
 }
 
 :root[data-theme='dark'] .sidebar {
