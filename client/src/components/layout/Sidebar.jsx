@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './Sidebar.css';
@@ -85,6 +86,7 @@ const icons = {
 
 export default function Sidebar() {
   const { t } = useTranslation();
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
   const menuItems = [
     { path: '/dashboard', label: t('nav.dashboard'), icon: icons.dashboard },
@@ -101,6 +103,13 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
+      <div className="sidebar-logo">
+        <img 
+          src="/logo-ybc-full.png" 
+          alt="YBC" 
+          className={`sidebar-logo-img ${theme === 'light' ? 'logo-inverted' : ''}`}
+        />
+      </div>
       <nav className="sidebar-nav">
         {menuItems.map((item) => (
           <NavLink

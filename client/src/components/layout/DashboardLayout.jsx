@@ -20,15 +20,15 @@ export default function DashboardLayout({ children }) {
   }, []);
 
   return (
-    <div className="dashboard-layout">
-      <Navbar />
-      <div className="dashboard-container">
-        <Sidebar />
+    <>
+      <Sidebar />
+      <div className="dashboard-layout">
+        <Navbar />
         <main className="dashboard-main">
           {children}
         </main>
       </div>
       <GlobalSearch isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
-    </div>
+    </>
   );
 }

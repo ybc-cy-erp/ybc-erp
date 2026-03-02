@@ -18,11 +18,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <img 
-          src="/logo-ybc-full.png" 
-          alt="YBC" 
-          className={`navbar-logo ${theme === 'light' ? 'logo-inverted' : ''}`}
-        />
+        {/* Search or breadcrumbs можна додати пізніше */}
       </div>
 
       <div className="navbar-right">
