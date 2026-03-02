@@ -25,14 +25,40 @@
   border: 1px solid rgba(0, 0, 0, 0.12) !important;
   border-radius: 14px;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.modal-solid .modal-header h2,
+.modal-solid label,
+.modal-solid .btn-secondary {
   color: #111827 !important;
+}
+
+.modal-solid input,
+.modal-solid select,
+.modal-solid textarea {
+  color: #111827 !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.18) !important;
 }
 
 :root[data-theme='dark'] .modal-solid {
   background: #1c1c1e !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6);
+}
+
+:root[data-theme='dark'] .modal-solid .modal-header h2,
+:root[data-theme='dark'] .modal-solid label,
+:root[data-theme='dark'] .modal-solid .btn-secondary {
   color: #ffffff !important;
+}
+
+:root[data-theme='dark'] .modal-solid input,
+:root[data-theme='dark'] .modal-solid select,
+:root[data-theme='dark'] .modal-solid textarea {
+  color: #ffffff !important;
+  background: #2c2c2e !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
 }
 
 .modal-header {
