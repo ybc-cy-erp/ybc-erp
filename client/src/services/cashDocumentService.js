@@ -1,5 +1,4 @@
 import { supabase } from './supabase';
-import documentService from './documentService';
 
 function getTenantId() {
   try {
@@ -12,7 +11,7 @@ function getTenantId() {
   }
 }
 
-function normError(error, fallback = 'Ошибка запроса') {
+function normError(error, fallback = 'Помилка запиту') {
   const msg = error?.message || fallback;
   return { response: { data: { error: msg } }, message: msg };
 }
@@ -20,53 +19,50 @@ function normError(error, fallback = 'Ошибка запроса') {
 const cashDocumentService = {
   async getAll(params = {}) {
     const tenantId = getTenantId();
-    if (!tenantId) throw normError(null, 'Tenant не определен');
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
 
     let query = supabase
       .from('cash_documents')
-      .select('*, counterparties(name), wallets(name, currency)')
+      .select('*')
       .eq('tenant_id', tenantId)
       .order('doc_date', { ascending: false });
 
     if (params?.doc_type) query = query.eq('doc_type', params.doc_type);
-    if (params?.status) query = query.eq('status', params.status);
 
     const { data, error } = await query;
-    if (error) throw normError(error, 'Не удалось загрузить кассовые документы');
+    if (error) throw normError(error, 'Не вдалося завантажити документи');
 
     return data || [];
   },
 
+  async getById(id) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
+
+    const { data, error } = await supabase
+      .from('cash_documents')
+      .select('*')
+      .eq('id', id)
+      .eq('tenant_id', tenantId)
+      .single();
+
+    if (error) throw normError(error, 'Документ не знайдено');
+    return data;
+  },
+
   async create(payload) {
     const tenantId = getTenantId();
-    if (!tenantId) throw normError(null, 'Tenant не определен');
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
 
-    const userId = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).id : null;
-
-    // Создаем запись в document_journal
-    const docJournal = await documentService.create({
-      doc_type: payload.doc_type,
-      doc_date: payload.doc_date,
-      counterparty_id: payload.counterparty_id,
-      amount: payload.amount,
-      currency: payload.currency,
-      notes: payload.purpose,
-    });
-
-    // Создаем кассовый документ
     const row = {
       tenant_id: tenantId,
       doc_type: payload.doc_type,
-      doc_number: docJournal.doc_number,
-      doc_date: payload.doc_date,
-      wallet_id: payload.wallet_id,
       counterparty_id: payload.counterparty_id || null,
+      doc_date: payload.doc_date,
       amount: Number(payload.amount),
       currency: payload.currency || 'EUR',
       purpose: payload.purpose || null,
       status: 'draft',
-      document_id: docJournal.id,
-      created_by: userId,
     };
 
     const { data, error } = await supabase
@@ -75,53 +71,38 @@ const cashDocumentService = {
       .select('*')
       .single();
 
-    if (error) throw normError(error, 'Ошибка создания кассового документа');
-    return data;
+    if (error) throw normError(error, 'Помилка створення документу');
+    return { data };
   },
 
   async post(id) {
     const tenantId = getTenantId();
-    if (!tenantId) throw normError(null, 'Tenant не определен');
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
 
-    // Получаем кассовый документ
-    const { data: cashDoc } = await supabase
+    const { data, error } = await supabase
       .from('cash_documents')
-      .select('*')
+      .update({ status: 'posted', updated_at: new Date().toISOString() })
       .eq('id', id)
       .eq('tenant_id', tenantId)
+      .select('*')
       .single();
 
-    if (!cashDoc) throw normError(null, 'Документ не найден');
-
-    // TODO: Создать проводки GL (требуется план счетов с ID счетов для cash/income/expense)
-    // Пока просто меняем статус
-
-    // Обновляем статус в cash_documents
-    await supabase
-      .from('cash_documents')
-      .update({ status: 'posted' })
-      .eq('id', id)
-      .eq('tenant_id', tenantId);
-
-    // Обновляем статус в document_journal
-    if (cashDoc.document_id) {
-      await documentService.post(cashDoc.document_id);
-    }
-
-    return { success: true };
+    if (error) throw normError(error, 'Помилка проведення документу');
+    return { data };
   },
 
   async delete(id) {
     const tenantId = getTenantId();
-    if (!tenantId) throw normError(null, 'Tenant не определен');
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
 
     const { error } = await supabase
       .from('cash_documents')
       .delete()
       .eq('id', id)
-      .eq('tenant_id', tenantId);
+      .eq('tenant_id', tenantId)
+      .eq('status', 'draft');
 
-    if (error) throw normError(error, 'Ошибка удаления');
+    if (error) throw normError(error, 'Помилка видалення документу');
     return { success: true };
   },
 };

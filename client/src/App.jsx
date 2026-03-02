@@ -17,12 +17,14 @@ import ReportsPage from './pages/ReportsPage';
 import CounterpartiesPage from './pages/CounterpartiesPage';
 import ItemsPage from './pages/ItemsPage';
 import DocumentsPage from './pages/DocumentsPage';
+import DocumentsHubPage from './pages/DocumentsHubPage';
 import ChartOfAccountsPage from './pages/ChartOfAccountsPage';
 import CurrencyExchangePage from './pages/CurrencyExchangePage';
 import TransfersPage from './pages/TransfersPage';
 import DirectoriesPage from './pages/DirectoriesPage';
 import FinancePage from './pages/FinancePage';
 import UsersPage from './pages/UsersPage';
+import CashDocumentsPage from './pages/CashDocumentsPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import './i18n/config';
 import './styles/global.css';
@@ -170,7 +172,19 @@ function App() {
 
           <Route path="/documents" element={
             <PrivateRoute>
+              <DocumentsHubPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/document-journal" element={
+            <PrivateRoute>
               <DocumentsPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/cash-documents" element={
+            <PrivateRoute>
+              <CashDocumentsPage />
             </PrivateRoute>
           } />
 
