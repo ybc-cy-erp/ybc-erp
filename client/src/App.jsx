@@ -28,6 +28,7 @@ import DirectoriesPage from './pages/DirectoriesPage';
 import FinancePage from './pages/FinancePage';
 import AccountsPage from './pages/AccountsPage';
 import UsersPage from './pages/UsersPage';
+import SettingsPage from './pages/SettingsPage';
 import CashDocumentsPage from './pages/CashDocumentsPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import './i18n/config';
@@ -231,6 +232,12 @@ function App() {
           <Route path="/users" element={
             <PrivateRoute>
               <UsersPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/settings" element={
+            <PrivateRoute>
+              <SettingsPage />
             </PrivateRoute>
           } />
 

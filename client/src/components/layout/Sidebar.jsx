@@ -110,6 +110,13 @@ const icons = {
       <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
     </svg>
   ),
+  settings: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <circle cx="12" cy="12" r="3" />
+      <path d="M12 1v6m0 6v6M1 12h6m6 0h6" />
+      <path d="M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24M4.93 19.07l4.24-4.24m5.66-5.66l4.24-4.24" />
+    </svg>
+  ),
 };
 
 export default function Sidebar() {
@@ -126,6 +133,7 @@ export default function Sidebar() {
     { path: '/documents', label: 'Документи', icon: icons.documents },
     { path: '/users', label: 'Користувачі', icon: icons.users },
     { path: '/reports', label: 'Звіти', icon: icons.reports },
+    { path: '/settings', label: 'Налаштування', icon: icons.settings },
   ];
 
   return (
