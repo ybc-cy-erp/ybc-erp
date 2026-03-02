@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import billService from '../services/billService';
+import DashboardLayout from '../components/layout/DashboardLayout';
 import './Bills.css';
 
 function BillsPage() {
@@ -50,10 +51,11 @@ function BillsPage() {
   };
 
   if (loading) {
-    return <div className="bills-page"><div className="loading">Завантаження...</div></div>;
+    return <DashboardLayout><div className="bills-page"><div className="loading">Завантаження...</div></div></DashboardLayout>;
   };
 
   return (
+    <DashboardLayout>
     <div className="bills-page">
       <div className="page-header">
         <h1>Рахунки</h1>
@@ -115,6 +117,7 @@ function BillsPage() {
         </div>
       )}
     </div>
+    </DashboardLayout>
   );
 }
 

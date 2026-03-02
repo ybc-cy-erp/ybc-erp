@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import membershipService from '../services/membershipService';
 import membershipPlanService from '../services/membershipPlanService';
+import DashboardLayout from '../components/layout/DashboardLayout';
 import './MembershipForm.css';
 
 // Zod validation schema
@@ -170,13 +171,16 @@ function MembershipFormPage() {
 
   if (loadingData) {
     return (
+      <DashboardLayout>
       <div className="membership-form-page">
         <div className="loading">Завантаження...</div>
       </div>
+      </DashboardLayout>
     );
   }
 
   return (
+    <DashboardLayout>
     <div className="membership-form-page">
       <div className="page-header">
         <h1>{isEditMode ? 'Редагувати членство' : 'Створити членство'}</h1>
@@ -329,6 +333,7 @@ function MembershipFormPage() {
         </div>
       </form>
     </div>
+    </DashboardLayout>
   );
 }
 

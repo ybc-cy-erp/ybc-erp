@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import membershipService from '../services/membershipService';
 import membershipPlanService from '../services/membershipPlanService';
 import FreezeModal from '../components/FreezeModal';
+import DashboardLayout from '../components/layout/DashboardLayout';
 import './MembershipDetails.css';
 
 function MembershipDetailsPage() {
@@ -101,14 +102,17 @@ function MembershipDetailsPage() {
 
   if (loading) {
     return (
+      <DashboardLayout>
       <div className="membership-details-page">
         <div className="loading">Завантаження...</div>
       </div>
+      </DashboardLayout>
     );
   }
 
   if (error || !membership) {
     return (
+      <DashboardLayout>
       <div className="membership-details-page">
         <div className="error-message">
           <p>❌ {error || 'Членство не знайдено'}</p>
@@ -117,10 +121,12 @@ function MembershipDetailsPage() {
           </button>
         </div>
       </div>
+      </DashboardLayout>
     );
   }
 
   return (
+    <DashboardLayout>
     <div className="membership-details-page">
       <div className="page-header">
         <div className="header-left">
@@ -271,6 +277,7 @@ function MembershipDetailsPage() {
         />
       )}
     </div>
+    </DashboardLayout>
   );
 }
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import membershipService from '../services/membershipService';
 import membershipPlanService from '../services/membershipPlanService';
+import DashboardLayout from '../components/layout/DashboardLayout';
 import './Memberships.css';
 
 function MembershipsPage() {
@@ -95,24 +96,29 @@ function MembershipsPage() {
 
   if (loading) {
     return (
+      <DashboardLayout>
       <div className="memberships-page">
         <div className="loading">Завантаження...</div>
       </div>
+      </DashboardLayout>
     );
   }
 
   if (error) {
     return (
+      <DashboardLayout>
       <div className="memberships-page">
         <div className="error-message">
           <p>❌ {error}</p>
           <button onClick={loadData} className="btn-retry">Спробувати знову</button>
         </div>
       </div>
+      </DashboardLayout>
     );
   }
 
   return (
+    <DashboardLayout>
     <div className="memberships-page">
       <div className="page-header">
         <h1>Членства</h1>
@@ -247,6 +253,7 @@ function MembershipsPage() {
         </div>
       )}
     </div>
+    </DashboardLayout>
   );
 }
 

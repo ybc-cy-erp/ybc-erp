@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import eventService from '../services/eventService';
+import DashboardLayout from '../components/layout/DashboardLayout';
 import './Events.css';
 
 function EventsPage() {
@@ -58,10 +59,11 @@ function EventsPage() {
   };
 
   if (loading) {
-    return <div className="events-page"><div className="loading">Завантаження...</div></div>;
+    return <DashboardLayout><div className="events-page"><div className="loading">Завантаження...</div></div></DashboardLayout>;
   }
 
   return (
+    <DashboardLayout>
     <div className="events-page">
       <div className="page-header">
         <h1>Події</h1>
@@ -109,6 +111,7 @@ function EventsPage() {
         </div>
       )}
     </div>
+    </DashboardLayout>
   );
 }
 
