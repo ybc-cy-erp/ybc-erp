@@ -148,6 +148,20 @@
   color: #d93d3f;
 }
 
+.tag-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 11px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+:root[data-theme='dark'] .tag-badge {
+  background: rgba(255, 255, 255, 0.12);
+}
+
 .items-content {
   flex: 1;
   overflow: auto;

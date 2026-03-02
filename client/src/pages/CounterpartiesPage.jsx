@@ -14,6 +14,7 @@ export default function CounterpartiesPage() {
   const [editingItem, setEditingItem] = useState(null);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [editingFolder, setEditingFolder] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   useEffect(() => {
     loadData();
@@ -191,6 +192,7 @@ export default function CounterpartiesPage() {
                     <th>Email</th>
                     <th>Телефон</th>
                     <th>ІПН/ЄДРПОУ</th>
+                    <th>Теги</th>
                     <th>Дії</th>
                   </tr>
                 </thead>
@@ -208,6 +210,19 @@ export default function CounterpartiesPage() {
                         <td>{cp.email || '—'}</td>
                         <td>{cp.phone || '—'}</td>
                         <td>{cp.tax_id || '—'}</td>
+                        <td>
+                          {cp.tags && cp.tags.length > 0 ? (
+                            <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                              {cp.tags.map((tag, i) => (
+                                <span key={i} className="tag-badge">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          ) : (
+                            '—'
+                          )}
+                        </td>
                         <td>
                           <button onClick={() => handleEdit(cp)} className="btn-sm">
                             Редагувати
@@ -368,6 +383,22 @@ function CounterpartyModal({ item, folders, onSave, onClose }) {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div className="form-group">
+            <label>Теги (через кому)</label>
+            <input
+              type="text"
+              placeholder="клієнт, vip, партнер"
+              value={formData.tags ? formData.tags.join(', ') : ''}
+              onChange={(e) => {
+                const tags = e.target.value
+                  .split(',')
+                  .map((t) => t.trim())
+                  .filter((t) => t.length > 0);
+                setFormData({ ...formData, tags });
+              }}
+            />
           </div>
 
           <div className="form-group">

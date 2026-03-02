@@ -182,6 +182,7 @@ export default function ItemsPage() {
                     <th>Тип</th>
                     <th>Ціна</th>
                     <th>Од.</th>
+                    <th>Теги</th>
                     <th>Дії</th>
                   </tr>
                 </thead>
@@ -204,6 +205,19 @@ export default function ItemsPage() {
                             : '—'}
                         </td>
                         <td>{item.unit}</td>
+                        <td>
+                          {item.tags && item.tags.length > 0 ? (
+                            <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                              {item.tags.map((tag, i) => (
+                                <span key={i} className="tag-badge">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          ) : (
+                            '—'
+                          )}
+                        </td>
                         <td>
                           <button onClick={() => handleEdit(item)} className="btn-sm">
                             Редагувати
@@ -276,6 +290,7 @@ function ItemModal({ item, folders, onSave, onClose }) {
     currency: item?.currency || 'EUR',
     item_type: item?.item_type || 'product',
     folder_id: item?.folder_id || null,
+    tags: item?.tags || [],
   });
 
   const handleSubmit = (e) => {
@@ -382,6 +397,22 @@ function ItemModal({ item, folders, onSave, onClose }) {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div className="form-group">
+            <label>Теги (через кому)</label>
+            <input
+              type="text"
+              placeholder="новинка, акція, популярне"
+              value={formData.tags ? formData.tags.join(', ') : ''}
+              onChange={(e) => {
+                const tags = e.target.value
+                  .split(',')
+                  .map((t) => t.trim())
+                  .filter((t) => t.length > 0);
+                setFormData({ ...formData, tags });
+              }}
+            />
           </div>
 
           <div className="modal-footer">
