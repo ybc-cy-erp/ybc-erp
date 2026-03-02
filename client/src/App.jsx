@@ -11,6 +11,7 @@ import MembershipDetailsPage from './pages/MembershipDetailsPage';
 import EventsPage from './pages/EventsPage';
 import EventFormPage from './pages/EventFormPage';
 import BillsPage from './pages/BillsPage';
+import BillFormPage from './pages/BillFormPage';
 import WalletsPage from './pages/WalletsPage';
 import ReportsPage from './pages/ReportsPage';
 import CounterpartiesPage from './pages/CounterpartiesPage';
@@ -131,6 +132,18 @@ function App() {
           <Route path="/bills" element={
             <PrivateRoute>
               <BillsPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/bills/create" element={
+            <PrivateRoute>
+              <BillFormPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/bills/:id/edit" element={
+            <PrivateRoute>
+              <BillFormPage />
             </PrivateRoute>
           } />
 

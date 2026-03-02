@@ -100,17 +100,44 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        <div className="dashboard-content glass-card">
-          <h2>Швидкий старт</h2>
-          <p><strong>Week 2 виконано:</strong> Модуль членства повністю функціональний!</p>
-          <ul>
-            <li>✅ Управління тарифними планами</li>
-            <li>✅ Створення та управління членствами</li>
-            <li>✅ Логіка заморозки членств</li>
-            <li>✅ Розрахунок щоденного доходу</li>
-            <li>✅ Реальні метрики на дашборді</li>
-          </ul>
-          <p>Наступні модулі (Події, Рахунки, Гаманці) будуть додані в наступних тижнях.</p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px', marginBottom: '32px' }}>
+          <div className="glass-card" style={{ padding: '20px', cursor: 'pointer' }} onClick={() => window.location.href = '/memberships/create'}>
+            <div style={{ fontSize: '24px', marginBottom: '8px' }}>👥</div>
+            <div style={{ fontWeight: '600', fontSize: '15px', marginBottom: '4px' }}>Нове членство</div>
+            <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Додати нового клієнта</div>
+          </div>
+
+          <div className="glass-card" style={{ padding: '20px', cursor: 'pointer' }} onClick={() => window.location.href = '/events/create'}>
+            <div style={{ fontSize: '24px', marginBottom: '8px' }}>📅</div>
+            <div style={{ fontWeight: '600', fontSize: '15px', marginBottom: '4px' }}>Нова подія</div>
+            <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Створити івент</div>
+          </div>
+
+          <div className="glass-card" style={{ padding: '20px', cursor: 'pointer' }} onClick={() => window.location.href = '/bills/create'}>
+            <div style={{ fontSize: '24px', marginBottom: '8px' }}>📄</div>
+            <div style={{ fontWeight: '600', fontSize: '15px', marginBottom: '4px' }}>Новий рахунок</div>
+            <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Додати витрати</div>
+          </div>
+
+          <div className="glass-card" style={{ padding: '20px', cursor: 'pointer' }} onClick={() => window.location.href = '/counterparties'}>
+            <div style={{ fontSize: '24px', marginBottom: '8px' }}>🏢</div>
+            <div style={{ fontWeight: '600', fontSize: '15px', marginBottom: '4px' }}>Контрагенти</div>
+            <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Клієнти та постачальники</div>
+          </div>
+        </div>
+
+        <div className="glass-card">
+          <h2 style={{ fontSize: '18px', marginBottom: '16px' }}>Система готова до роботи</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px', fontSize: '14px' }}>
+            <div>✅ Членства та тарифи</div>
+            <div>✅ Події та квитки</div>
+            <div>✅ Рахунки та платежі</div>
+            <div>✅ Контрагенти</div>
+            <div>✅ Товари та послуги</div>
+            <div>✅ Обмін валют</div>
+            <div>✅ Документи</div>
+            <div>✅ План рахунків</div>
+          </div>
         </div>
       </div>
     </DashboardLayout>
