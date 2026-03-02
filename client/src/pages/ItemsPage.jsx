@@ -13,6 +13,8 @@ export default function ItemsPage() {
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [showFolderModal, setShowFolderModal] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedType, setSelectedType] = useState('all');
 
   useEffect(() => {
     loadData();
@@ -93,6 +95,45 @@ export default function ItemsPage() {
     }
   };
 
+  const handleDragStart = (e, item) => {
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('itemId', item.id);
+  };
+
+  const handleDrop = async (e, folderId) => {
+    e.preventDefault();
+    const itemId = e.dataTransfer.getData('itemId');
+    if (!itemId) return;
+
+    try {
+      await itemService.update(itemId, { folder_id: folderId });
+      loadData();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const getAllTags = () => {
+    const tags = new Set();
+    items.forEach((item) => {
+      if (item.tags) item.tags.forEach((tag) => tags.add(tag));
+    });
+    return Array.from(tags).sort();
+  };
+
+  const filteredItems = items.filter((item) => {
+    if (selectedType !== 'all' && item.item_type !== selectedType) return false;
+    if (selectedTags.length > 0) {
+      if (!item.tags || !selectedTags.some((t) => item.tags.includes(t))) return false;
+    }
+    return true;
+  });
+
   return (
     <DashboardLayout>
       <div className="items-page">
@@ -144,6 +185,8 @@ export default function ItemsPage() {
               <li
                 className={selectedFolder === null ? 'active' : ''}
                 onClick={() => setSelectedFolder(null)}
+                onDrop={(e) => handleDrop(e, null)}
+                onDragOver={handleDragOver}
               >
                 Усі товари та послуги
               </li>
@@ -151,6 +194,8 @@ export default function ItemsPage() {
                 <li
                   key={folder.id}
                   className={selectedFolder === folder.id ? 'active' : ''}
+                  onDrop={(e) => handleDrop(e, folder.id)}
+                  onDragOver={handleDragOver}
                 >
                   <span onClick={() => setSelectedFolder(folder.id)}>
                     📁 {folder.name}
@@ -187,15 +232,20 @@ export default function ItemsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {items.length === 0 ? (
+                  {filteredItems.length === 0 ? (
                     <tr>
-                      <td colSpan="6" style={{ textAlign: 'center', color: '#6b7280' }}>
+                      <td colSpan="7" style={{ textAlign: 'center', color: '#6b7280' }}>
                         Немає товарів/послуг
                       </td>
                     </tr>
                   ) : (
-                    items.map((item) => (
-                      <tr key={item.id}>
+                    filteredItems.map((item) => (
+                      <tr
+                        key={item.id}
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, item)}
+                        style={{ cursor: 'move' }}
+                      >
                         <td>{item.code || '—'}</td>
                         <td>{item.name}</td>
                         <td>{getItemTypeLabel(item.item_type)}</td>
@@ -233,7 +283,7 @@ export default function ItemsPage() {
               </table>
             ) : (
               <div className="items-icon-grid">
-                {items.map((item) => (
+                {filteredItems.map((item) => (
                   <div key={item.id} className="items-icon-card" onClick={() => handleEdit(item)}>
                     <div className="items-icon">
                       {item.item_type === 'service' ? '⚙️' : '📦'}

@@ -15,10 +15,28 @@ export default function CounterpartiesPage() {
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [editingFolder, setEditingFolder] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
+  const [filterType, setFilterType] = useState('all');
 
   useEffect(() => {
     loadData();
   }, [selectedFolder, searchQuery]);
+
+  const getAllTags = () => {
+    const tags = new Set();
+    counterparties.forEach((cp) => {
+      if (cp.tags) cp.tags.forEach((tag) => tags.add(tag));
+    });
+    return Array.from(tags).sort();
+  };
+
+  const filteredCounterparties = counterparties.filter((cp) => {
+    if (selectedTags.length > 0) {
+      if (!cp.tags || !selectedTags.some((t) => cp.tags.includes(t))) {
+        return false;
+      }
+    }
+    return true;
+  });
 
   const loadData = async () => {
     try {
@@ -100,6 +118,29 @@ export default function CounterpartiesPage() {
     }
   };
 
+  const handleDragStart = (e, counterparty) => {
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('counterpartyId', counterparty.id);
+  };
+
+  const handleDrop = async (e, folderId) => {
+    e.preventDefault();
+    const counterpartyId = e.dataTransfer.getData('counterpartyId');
+    if (!counterpartyId) return;
+
+    try {
+      await counterpartyService.moveToFolder(counterpartyId, folderId);
+      loadData();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
   return (
     <DashboardLayout>
       <div className="counterparties-page">
@@ -154,6 +195,8 @@ export default function CounterpartiesPage() {
               <li
                 className={selectedFolder === null ? 'active' : ''}
                 onClick={() => setSelectedFolder(null)}
+                onDrop={(e) => handleDrop(e, null)}
+                onDragOver={handleDragOver}
               >
                 Усі контрагенти
               </li>
@@ -161,6 +204,8 @@ export default function CounterpartiesPage() {
                 <li
                   key={folder.id}
                   className={selectedFolder === folder.id ? 'active' : ''}
+                  onDrop={(e) => handleDrop(e, folder.id)}
+                  onDragOver={handleDragOver}
                 >
                   <span onClick={() => setSelectedFolder(folder.id)}>
                     📁 {folder.name}
@@ -197,15 +242,20 @@ export default function CounterpartiesPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {counterparties.length === 0 ? (
+                  {filteredCounterparties.length === 0 ? (
                     <tr>
-                      <td colSpan="5" style={{ textAlign: 'center', color: '#6b7280' }}>
+                      <td colSpan="6" style={{ textAlign: 'center', color: '#6b7280' }}>
                         Немає контрагентів
                       </td>
                     </tr>
                   ) : (
-                    counterparties.map((cp) => (
-                      <tr key={cp.id}>
+                    filteredCounterparties.map((cp) => (
+                      <tr
+                        key={cp.id}
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, cp)}
+                        style={{ cursor: 'move' }}
+                      >
                         <td>{cp.name}</td>
                         <td>{cp.email || '—'}</td>
                         <td>{cp.phone || '—'}</td>
@@ -238,7 +288,7 @@ export default function CounterpartiesPage() {
               </table>
             ) : (
               <div className="cp-icon-grid">
-                {counterparties.map((cp) => (
+                {filteredCounterparties.map((cp) => (
                   <div key={cp.id} className="cp-icon-card" onClick={() => handleEdit(cp)}>
                     <div className="cp-icon">👤</div>
                     <div className="cp-icon-name">{cp.name}</div>
