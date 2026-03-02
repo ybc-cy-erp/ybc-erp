@@ -26,6 +26,7 @@ import CurrencyExchangePage from './pages/CurrencyExchangePage';
 import TransfersPage from './pages/TransfersPage';
 import DirectoriesPage from './pages/DirectoriesPage';
 import FinancePage from './pages/FinancePage';
+import AccountsPage from './pages/AccountsPage';
 import UsersPage from './pages/UsersPage';
 import CashDocumentsPage from './pages/CashDocumentsPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
@@ -218,6 +219,12 @@ function App() {
           <Route path="/finance" element={
             <PrivateRoute>
               <FinancePage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/accounts" element={
+            <PrivateRoute>
+              <AccountsPage />
             </PrivateRoute>
           } />
 

@@ -12,7 +12,8 @@ function FinancePage() {
   }, [setPageTitle]);
 
   const sections = [
-    { id: 'bills', label: 'Рахунки', icon: '📄', path: '/bills', description: 'Витрати та зобов\'язання' },
+    { id: 'accounts', label: 'Рахунки', icon: '💰', path: '/accounts', description: 'Каси, банки, крипто' },
+    { id: 'bills', label: 'Витрати', icon: '📄', path: '/bills', description: 'Витрати та зобов\'язання' },
     { id: 'wallets', label: 'Гаманці', icon: '💳', path: '/wallets', description: '6 криптовалютних мереж' },
     { id: 'exchange', label: 'Обмін валют', icon: '💱', path: '/currency-exchange', description: 'Конвертація валют' },
     { id: 'transfers', label: 'Перекази', icon: '💸', path: '/transfers', description: 'Переміщення коштів' },

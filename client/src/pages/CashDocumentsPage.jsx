@@ -3,17 +3,20 @@ import { usePageTitle } from '../context/PageTitleContext';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import cashDocumentService from '../services/cashDocumentService';
 import counterpartyService from '../services/counterpartyService';
+import accountService from '../services/accountService';
 
 function CashDocumentsPage() {
   const { setPageTitle } = usePageTitle();
   const [documents, setDocuments] = useState([]);
   const [counterparties, setCounterparties] = useState([]);
+  const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [filter, setFilter] = useState('all');
   const [form, setForm] = useState({
     doc_type: 'PKO',
     counterparty_id: '',
+    account_id: '',
     doc_date: new Date().toISOString().slice(0, 10),
     amount: '',
     currency: 'EUR',
@@ -28,12 +31,14 @@ function CashDocumentsPage() {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [docsData, cpData] = await Promise.all([
+      const [docsData, cpData, accData] = await Promise.all([
         cashDocumentService.getAll(filter !== 'all' ? { doc_type: filter } : {}),
         counterpartyService.getAll(),
+        accountService.getAll(),
       ]);
       setDocuments(docsData);
       setCounterparties(cpData || []);
+      setAccounts(accData || []);
     } catch (err) {
       console.error('Failed to load documents:', err);
     } finally {
@@ -49,6 +54,7 @@ function CashDocumentsPage() {
       setForm({
         doc_type: 'PKO',
         counterparty_id: '',
+        account_id: '',
         doc_date: new Date().toISOString().slice(0, 10),
         amount: '',
         currency: 'EUR',
@@ -109,6 +115,7 @@ function CashDocumentsPage() {
                 <th>Тип</th>
                 <th>Дата</th>
                 <th>Контрагент</th>
+                <th>Рахунок</th>
                 <th>Сума</th>
                 <th>Призначення</th>
                 <th>Статус</th>
@@ -122,8 +129,9 @@ function CashDocumentsPage() {
                   <td><span className="badge">{doc.doc_type}</span></td>
                   <td>{new Date(doc.doc_date).toLocaleDateString('uk-UA')}</td>
                   <td style={{ fontSize: '13px' }}>{doc.counterparty_name || '—'}</td>
+                  <td style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{doc.account_name || '—'}</td>
                   <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>{doc.amount} {doc.currency}</td>
-                  <td style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{doc.purpose || '—'}</td>
+                  <td style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{doc.notes || '—'}</td>
                   <td><span className="status-badge">{doc.status === 'posted' ? 'Проведено' : 'Чернетка'}</span></td>
                   <td>
                     {doc.status === 'draft' && (
@@ -169,6 +177,40 @@ function CashDocumentsPage() {
                     {counterparties.map((cp) => (
                       <option key={cp.id} value={cp.id}>{cp.name}</option>
                     ))}
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label>Рахунок</label>
+                  <select value={form.account_id} onChange={(e) => setForm({ ...form, account_id: e.target.value })} required>
+                    <option value="">Виберіть рахунок</option>
+                    {accounts.filter(a => a.account_type === 'cash').length > 0 && (
+                      <optgroup label="💵 Готівка">
+                        {accounts.filter(a => a.account_type === 'cash').map(acc => (
+                          <option key={acc.id} value={acc.id}>
+                            {acc.account_name} ({acc.currency}) - Баланс: {Number(acc.balance || 0).toFixed(2)}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                    {accounts.filter(a => a.account_type === 'bank').length > 0 && (
+                      <optgroup label="🏦 Банк">
+                        {accounts.filter(a => a.account_type === 'bank').map(acc => (
+                          <option key={acc.id} value={acc.id}>
+                            {acc.account_name} ({acc.currency}) - Баланс: {Number(acc.balance || 0).toFixed(2)}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
+                    {accounts.filter(a => a.account_type === 'crypto').length > 0 && (
+                      <optgroup label="🪙 Крипто">
+                        {accounts.filter(a => a.account_type === 'crypto').map(acc => (
+                          <option key={acc.id} value={acc.id}>
+                            {acc.account_name} ({acc.network}) - Баланс: {Number(acc.balance || 0).toFixed(2)}
+                          </option>
+                        ))}
+                      </optgroup>
+                    )}
                   </select>
                 </div>
 
