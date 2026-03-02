@@ -60,6 +60,14 @@ const icons = {
       <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
     </svg>
   ),
+  chartOfAccounts: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <rect x="3" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="14" width="7" height="7" rx="1" />
+      <rect x="3" y="14" width="7" height="7" rx="1" />
+    </svg>
+  ),
   reports: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
       <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
@@ -78,6 +86,7 @@ export default function Sidebar() {
     { path: '/events', label: t('nav.events'), icon: icons.events },
     { path: '/bills', label: t('nav.bills'), icon: icons.bills },
     { path: '/wallets', label: t('nav.wallets'), icon: icons.wallets },
+    { path: '/chart-of-accounts', label: 'План рахунків', icon: icons.chartOfAccounts },
     { path: '/reports', label: t('nav.reports'), icon: icons.reports },
   ];
 

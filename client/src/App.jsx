@@ -12,6 +12,7 @@ import BillsPage from './pages/BillsPage';
 import WalletsPage from './pages/WalletsPage';
 import ReportsPage from './pages/ReportsPage';
 import CounterpartiesPage from './pages/CounterpartiesPage';
+import ChartOfAccountsPage from './pages/ChartOfAccountsPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import './i18n/config';
 import './styles/global.css';
@@ -122,6 +123,12 @@ function App() {
           <Route path="/counterparties" element={
             <PrivateRoute>
               <CounterpartiesPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/chart-of-accounts" element={
+            <PrivateRoute>
+              <ChartOfAccountsPage />
             </PrivateRoute>
           } />
 
