@@ -12,6 +12,8 @@ export default function CounterpartiesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [showFolderModal, setShowFolderModal] = useState(false);
+  const [editingFolder, setEditingFolder] = useState(null);
 
   useEffect(() => {
     loadData();
@@ -67,6 +69,36 @@ export default function CounterpartiesPage() {
     }
   };
 
+  const handleCreateFolder = () => {
+    setEditingFolder(null);
+    setShowFolderModal(true);
+  };
+
+  const handleSaveFolder = async (formData) => {
+    try {
+      if (editingFolder) {
+        await counterpartyService.updateFolder(editingFolder.id, formData);
+      } else {
+        await counterpartyService.createFolder(formData);
+      }
+      setShowFolderModal(false);
+      loadData();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleDeleteFolder = async (id) => {
+    if (!confirm('Видалити папку? Контрагенти залишаться без папки.')) return;
+    try {
+      await counterpartyService.deleteFolder(id);
+      if (selectedFolder === id) setSelectedFolder(null);
+      loadData();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="counterparties-page">
@@ -113,6 +145,9 @@ export default function CounterpartiesPage() {
           <div className="cp-sidebar">
             <div className="cp-sidebar-header">
               <h3>Папки</h3>
+              <button className="btn-sm" onClick={handleCreateFolder} title="Нова папка">
+                +
+              </button>
             </div>
             <ul className="cp-folder-list">
               <li
@@ -125,9 +160,20 @@ export default function CounterpartiesPage() {
                 <li
                   key={folder.id}
                   className={selectedFolder === folder.id ? 'active' : ''}
-                  onClick={() => setSelectedFolder(folder.id)}
                 >
-                  📁 {folder.name}
+                  <span onClick={() => setSelectedFolder(folder.id)}>
+                    📁 {folder.name}
+                  </span>
+                  <button
+                    className="folder-delete-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteFolder(folder.id);
+                    }}
+                    title="Видалити папку"
+                  >
+                    ×
+                  </button>
                 </li>
               ))}
             </ul>
@@ -195,6 +241,15 @@ export default function CounterpartiesPage() {
             folders={folders}
             onSave={handleSave}
             onClose={() => setShowModal(false)}
+          />
+        )}
+
+        {/* Folder Modal */}
+        {showFolderModal && (
+          <FolderModal
+            folder={editingFolder}
+            onSave={handleSaveFolder}
+            onClose={() => setShowFolderModal(false)}
           />
         )}
       </div>
@@ -321,6 +376,78 @@ function CounterpartyModal({ item, folders, onSave, onClose }) {
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               rows="3"
+            />
+          </div>
+
+          <div className="modal-footer">
+            <button type="button" onClick={onClose} className="btn-secondary">
+              Скасувати
+            </button>
+            <button type="submit" className="btn-primary">
+              Зберегти
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function FolderModal({ folder, onSave, onClose }) {
+  const [formData, setFormData] = useState({
+    name: folder?.name || '',
+    color: folder?.color || '',
+    icon: folder?.icon || '',
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.name.trim()) {
+      alert("Назва папки обов'язкова");
+      return;
+    }
+    onSave(formData);
+  };
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content modal-solid" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <h2>{folder ? 'Редагувати папку' : 'Нова папка'}</h2>
+          <button onClick={onClose} className="modal-close">
+            ×
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="modal-form">
+          <div className="form-group">
+            <label>Назва папки *</label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+              autoFocus
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Колір (опціонально)</label>
+            <input
+              type="text"
+              placeholder="#FF5733"
+              value={formData.color}
+              onChange={(e) => setFormData({ ...formData, color: e.target.value })}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Іконка (опціонально)</label>
+            <input
+              type="text"
+              placeholder="📁"
+              value={formData.icon}
+              onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
             />
           </div>
 

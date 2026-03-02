@@ -76,12 +76,25 @@
   padding: 16px;
 }
 
+.cp-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
 .cp-sidebar-header h3 {
   font-size: 14px;
   font-weight: 600;
-  margin: 0 0 12px;
+  margin: 0;
   text-transform: uppercase;
   color: var(--text-secondary);
+}
+
+.cp-sidebar-header .btn-sm {
+  padding: 4px 8px;
+  font-size: 16px;
+  line-height: 1;
 }
 
 .cp-folder-list {
@@ -97,6 +110,13 @@
   font-size: 14px;
   margin-bottom: 4px;
   transition: background 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cp-folder-list li span {
+  flex: 1;
 }
 
 .cp-folder-list li:hover {
@@ -106,6 +126,26 @@
 .cp-folder-list li.active {
   background: rgba(0, 0, 0, 0.1);
   font-weight: 600;
+}
+
+.folder-delete-btn {
+  background: transparent;
+  border: none;
+  color: #fa5255;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.cp-folder-list li:hover .folder-delete-btn {
+  opacity: 1;
+}
+
+.folder-delete-btn:hover {
+  color: #d93d3f;
 }
 
 .cp-content {
