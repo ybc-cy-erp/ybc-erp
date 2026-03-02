@@ -1,7 +1,7 @@
 :root,
 :root[data-theme='light'] {
   /* Backgrounds */
-  --bg-primary: #FAFAFA;
+  --bg-primary: #F2F1F7;
   --bg-secondary: #FFFFFF;
   --bg-overlay: rgba(255, 255, 255, 0.95);
 
