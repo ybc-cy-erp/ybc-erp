@@ -21,11 +21,8 @@ export default function MembershipPlansPage() {
 
   useEffect(() => {
     setPageTitle('Тарифні плани');
-  }, []);
-
-  useEffect(() => {
     loadPlans();
-  }, []);
+  }, [setPageTitle]);
 
   const loadPlans = async () => {
     try {

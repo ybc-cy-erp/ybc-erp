@@ -20,6 +20,9 @@ import DocumentsPage from './pages/DocumentsPage';
 import ChartOfAccountsPage from './pages/ChartOfAccountsPage';
 import CurrencyExchangePage from './pages/CurrencyExchangePage';
 import TransfersPage from './pages/TransfersPage';
+import DirectoriesPage from './pages/DirectoriesPage';
+import FinancePage from './pages/FinancePage';
+import UsersPage from './pages/UsersPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import './i18n/config';
 import './styles/global.css';
@@ -186,6 +189,24 @@ function App() {
           <Route path="/transfers" element={
             <PrivateRoute>
               <TransfersPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/directories" element={
+            <PrivateRoute>
+              <DirectoriesPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/finance" element={
+            <PrivateRoute>
+              <FinancePage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/users" element={
+            <PrivateRoute>
+              <UsersPage />
             </PrivateRoute>
           } />
 
