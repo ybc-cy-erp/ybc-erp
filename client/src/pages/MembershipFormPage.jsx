@@ -5,20 +5,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import membershipService from '../services/membershipService';
 import membershipPlanService from '../services/membershipPlanService';
+import counterpartyService from '../services/counterpartyService';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import './MembershipForm.css';
 
 // Zod validation schema
 const membershipSchema = z.object({
-  customer_name: z.string()
-    .min(2, 'Ім\'я клієнта має містити мінімум 2 символи')
-    .max(100, 'Ім\'я клієнта не може перевищувати 100 символів'),
+  counterparty_id: z.string().optional(),
+  customer_name: z.string().optional(),
   plan_id: z.string().uuid('Виберіть тарифний план'),
   start_date: z.string().min(1, 'Вкажіть дату початку'),
   amount: z.number()
     .min(0, 'Сума не може бути від\'ємною')
     .optional(),
   notes: z.string().max(500, 'Примітки не можуть перевищувати 500 символів').optional()
+}).refine(data => data.counterparty_id || (data.customer_name && data.customer_name.length >= 2), {
+  message: 'Виберіть контрагента або введіть ім\'я клієнта',
+  path: ['counterparty_id']
 });
 
 function MembershipFormPage() {
@@ -27,6 +30,7 @@ function MembershipFormPage() {
   const isEditMode = Boolean(id);
 
   const [plans, setPlans] = useState([]);
+  const [counterparties, setCounterparties] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(isEditMode);
   const [error, setError] = useState(null);
@@ -53,9 +57,10 @@ function MembershipFormPage() {
   const planId = watch('plan_id');
   const startDate = watch('start_date');
 
-  // Load plans
+  // Load plans and counterparties
   useEffect(() => {
     loadPlans();
+    loadCounterparties();
   }, []);
 
   // Load membership data if editing
@@ -88,6 +93,15 @@ function MembershipFormPage() {
     }
   };
 
+  const loadCounterparties = async () => {
+    try {
+      const data = await counterpartyService.getAll();
+      setCounterparties(data || []);
+    } catch (err) {
+      console.error('Failed to load counterparties:', err);
+    }
+  };
+
   const loadMembership = async () => {
     try {
       setLoadingData(true);
@@ -95,6 +109,7 @@ function MembershipFormPage() {
       
       // Populate form with existing data
       reset({
+        counterparty_id: data.counterparty_id || '',
         customer_name: data.customer_name || '',
         plan_id: data.plan_id || '',
         start_date: data.start_date?.split('T')[0] || '',
@@ -142,7 +157,8 @@ function MembershipFormPage() {
 
       // Prepare payload
       const payload = {
-        customer_name: data.customer_name,
+        counterparty_id: data.counterparty_id || null,
+        customer_name: data.customer_name || null,
         plan_id: data.plan_id,
         start_date: data.start_date,
         amount: data.amount || 0,
@@ -197,20 +213,42 @@ function MembershipFormPage() {
           <h2>Інформація про клієнта</h2>
           
           <div className="form-group">
+            <label htmlFor="counterparty_id">
+              Контрагент
+            </label>
+            <select
+              id="counterparty_id"
+              {...register('counterparty_id')}
+              className={errors.counterparty_id ? 'error' : ''}
+              disabled={loading}
+            >
+              <option value="">Не вибрано (введіть ім'я вручну нижче)</option>
+              {counterparties.map((cp) => (
+                <option key={cp.id} value={cp.id}>
+                  {cp.name}
+                </option>
+              ))}
+            </select>
+            {errors.counterparty_id && (
+              <span className="error-message">{errors.counterparty_id.message}</span>
+            )}
+          </div>
+
+          <div className="form-group">
             <label htmlFor="customer_name">
-              Ім'я клієнта <span className="required">*</span>
+              Або введіть ім'я вручну
             </label>
             <input
               id="customer_name"
               type="text"
               {...register('customer_name')}
-              placeholder="Введіть ім'я клієнта"
+              placeholder="Ім'я клієнта (якщо не обрано контрагента)"
               className={errors.customer_name ? 'error' : ''}
               disabled={loading}
             />
-            {errors.customer_name && (
-              <span className="error-message">{errors.customer_name.message}</span>
-            )}
+            <span className="field-hint">
+              Виберіть контрагента зі списку або введіть ім'я вручну
+            </span>
           </div>
         </div>
 

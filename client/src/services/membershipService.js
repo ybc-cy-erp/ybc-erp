@@ -20,7 +20,8 @@ function mapMembership(row) {
   if (!row) return row;
   return {
     ...row,
-    customer_name: row.client_name,
+    customer_name: row.counterparty_name || row.client_name || '—',
+    counterparty_id: row.counterparty_id || null,
     amount: Number(row.payment_amount || 0),
   };
 }
@@ -32,7 +33,10 @@ const membershipService = {
 
     let query = supabase
       .from('memberships')
-      .select('*')
+      .select(`
+        *,
+        counterparty:counterparties(name)
+      `)
       .eq('tenant_id', tenantId)
       .order('created_at', { ascending: false });
 
@@ -42,7 +46,10 @@ const membershipService = {
     const { data, error } = await query;
     if (error) throw normError(error, 'Не вдалося завантажити членства');
 
-    return (data || []).map(mapMembership);
+    return (data || []).map((row) => ({
+      ...mapMembership(row),
+      counterparty_name: row.counterparty?.name || null,
+    }));
   },
 
   async getById(id) {
@@ -51,13 +58,19 @@ const membershipService = {
 
     const { data, error } = await supabase
       .from('memberships')
-      .select('*')
+      .select(`
+        *,
+        counterparty:counterparties(name)
+      `)
       .eq('id', id)
       .eq('tenant_id', tenantId)
       .single();
 
     if (error) throw normError(error, 'Членство не знайдено');
-    return mapMembership(data);
+    return {
+      ...mapMembership(data),
+      counterparty_name: data.counterparty?.name || null,
+    };
   },
 
   async getRevenue(id) {
@@ -97,7 +110,8 @@ const membershipService = {
     const row = {
       tenant_id: tenantId,
       plan_id: payload.plan_id,
-      client_name: payload.customer_name,
+      counterparty_id: payload.counterparty_id || null,
+      client_name: payload.customer_name || null,
       start_date: payload.start_date,
       end_date: endDate ? endDate.toISOString().slice(0, 10) : null,
       payment_amount: Number(payload.amount || 0),
@@ -120,7 +134,8 @@ const membershipService = {
     if (!tenantId) throw normError(null, 'Tenant не визначено');
 
     const updateData = {
-      client_name: payload.customer_name,
+      counterparty_id: payload.counterparty_id || null,
+      client_name: payload.customer_name || null,
       start_date: payload.start_date,
       payment_amount: Number(payload.amount || 0),
       updated_at: new Date().toISOString(),

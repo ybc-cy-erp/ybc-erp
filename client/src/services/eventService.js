@@ -23,7 +23,10 @@ const eventService = {
 
     let query = supabase
       .from('events')
-      .select('*')
+      .select(`
+        *,
+        counterparty:counterparties(name)
+      `)
       .eq('tenant_id', tenantId)
       .order('event_date', { ascending: false });
 
@@ -32,7 +35,10 @@ const eventService = {
     const { data, error } = await query;
     if (error) throw normError(error, 'Не вдалося завантажити події');
 
-    return data || [];
+    return (data || []).map((row) => ({
+      ...row,
+      counterparty_name: row.counterparty?.name || null,
+    }));
   },
 
   async getById(id) {
@@ -41,13 +47,19 @@ const eventService = {
 
     const { data, error } = await supabase
       .from('events')
-      .select('*')
+      .select(`
+        *,
+        counterparty:counterparties(name)
+      `)
       .eq('id', id)
       .eq('tenant_id', tenantId)
       .single();
 
     if (error) throw normError(error, 'Подію не знайдено');
-    return data;
+    return {
+      ...data,
+      counterparty_name: data.counterparty?.name || null,
+    };
   },
 
   async create(payload) {
@@ -56,6 +68,7 @@ const eventService = {
 
     const row = {
       tenant_id: tenantId,
+      counterparty_id: payload.counterparty_id || null,
       name: payload.name,
       description: payload.description || null,
       event_date: payload.event_date,
@@ -78,6 +91,7 @@ const eventService = {
     if (!tenantId) throw normError(null, 'Tenant не визначено');
 
     const updateData = {
+      counterparty_id: payload.counterparty_id || null,
       name: payload.name,
       description: payload.description || null,
       event_date: payload.event_date,
