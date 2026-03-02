@@ -22,7 +22,7 @@ function MembershipsPage() {
   useEffect(() => {
     setPageTitle('Членства');
     loadData();
-  }, []);
+  }, [setPageTitle]);
 
   const loadData = async () => {
     try {

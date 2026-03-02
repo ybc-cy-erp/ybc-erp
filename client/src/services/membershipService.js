@@ -18,9 +18,12 @@ function normError(error, fallback = 'Помилка запиту') {
 
 function mapMembership(row) {
   if (!row) return row;
+  // client_name - actual DB column name
+  // customer_name - display field (from counterparty or manual entry)
+  const counterpartyName = row.counterparty?.name || null;
   return {
     ...row,
-    customer_name: row.counterparty_name || row.client_name || '—',
+    customer_name: counterpartyName || row.client_name || '—',
     counterparty_id: row.counterparty_id || null,
     amount: Number(row.payment_amount || 0),
   };
@@ -46,10 +49,7 @@ const membershipService = {
     const { data, error } = await query;
     if (error) throw normError(error, 'Не вдалося завантажити членства');
 
-    return (data || []).map((row) => ({
-      ...mapMembership(row),
-      counterparty_name: row.counterparty?.name || null,
-    }));
+    return (data || []).map((row) => mapMembership(row));
   },
 
   async getById(id) {
@@ -67,10 +67,7 @@ const membershipService = {
       .single();
 
     if (error) throw normError(error, 'Членство не знайдено');
-    return {
-      ...mapMembership(data),
-      counterparty_name: data.counterparty?.name || null,
-    };
+    return mapMembership(data);
   },
 
   async getRevenue(id) {
