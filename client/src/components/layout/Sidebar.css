@@ -1,14 +1,15 @@
 .sidebar {
   width: 240px;
-  height: 100vh;
+  height: calc(100vh - 24px);
   position: fixed;
-  left: 0;
-  top: 0;
-  background: rgba(255, 255, 255, 0.6) !important;
+  left: 12px;
+  top: 12px;
+  background: rgba(255, 255, 255, 0.7) !important;
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
-  border-right: 1px solid rgba(0, 0, 0, 0.08) !important;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -16,9 +17,9 @@
 }
 
 :root[data-theme='dark'] .sidebar {
-  background: rgba(28, 28, 30, 0.6) !important;
-  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.3) !important;
+  background: rgba(28, 28, 30, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
 }
 
 .sidebar-logo {

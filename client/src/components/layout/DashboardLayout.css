@@ -1,5 +1,5 @@
 .dashboard-layout {
-  margin-left: 240px;
+  margin-left: 264px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -8,7 +8,8 @@
 .dashboard-main {
   flex: 1;
   padding: 24px;
-  padding-top: 80px;
+  padding-top: 92px;
+  padding-right: 24px;
 }
 
 @media (max-width: 768px) {
