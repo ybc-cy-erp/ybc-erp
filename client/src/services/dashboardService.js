@@ -51,16 +51,23 @@ export const dashboardService = {
       })
       .filter(Boolean)
       .filter((m) => m.days_remaining >= 0 && m.days_remaining <= 30)
-      .sort((a, b) => a.days_remaining - b.days_remaining)
-      .slice(0, 10);
+      .sort((a, b) => a.days_remaining - b.days_remaining);
+
+    const within_7_days = expiring.filter((m) => m.days_remaining <= 7).length;
+    const within_30_days = expiring.length;
 
     return {
       data: {
         active_members: activeMembers,
         mrr: Number(mrr.toFixed(2)),
         total_revenue: Number(totalRevenue.toFixed(2)),
+        currency: 'EUR',
         churn_rate: 0,
-        expiring_members: expiring,
+        expiring_members: {
+          within_7_days,
+          within_30_days,
+          list: expiring.slice(0, 10),
+        },
       },
     };
   },
