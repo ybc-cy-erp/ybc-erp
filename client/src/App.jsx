@@ -22,6 +22,7 @@ import TransfersPage from './pages/TransfersPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import './i18n/config';
 import './styles/global.css';
+import './styles/premium.css';
 
 function PrivateRoute({ children }) {
   const { user, loading, mustChangePassword } = useContext(AuthContext);

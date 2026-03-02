@@ -81,17 +81,5 @@
   background: rgba(52, 199, 89, 0.25);
 }
 
-.status-draft {
-  background: rgba(255, 149, 0, 0.15);
-  color: #ff9500;
-}
 
-.status-approved {
-  background: rgba(0, 122, 255, 0.15);
-  color: #007aff;
-}
 
-.status-paid {
-  background: rgba(52, 199, 89, 0.15);
-  color: #34c759;
-}

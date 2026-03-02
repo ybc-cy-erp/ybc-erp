@@ -1,0 +1,209 @@
+/* Premium Monochrome Design System */
+
+/* Page Headers */
+.page-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 28px;
+  gap: 12px;
+}
+
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Premium Buttons */
+.btn-create,
+.btn-primary {
+  background: var(--btn-primary);
+  color: var(--bg-secondary);
+  padding: 9px 18px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-create:hover,
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.btn-secondary,
+.btn-action,
+.btn-edit,
+.btn-delete,
+.btn-cancel,
+.btn-publish {
+  background: transparent;
+  color: var(--text-primary);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  border: 1px solid var(--border-medium);
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-secondary:hover,
+.btn-action:hover,
+.btn-edit:hover,
+.btn-delete:hover,
+.btn-cancel:hover,
+.btn-publish:hover {
+  border-color: var(--border-strong);
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* Premium Cards */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.glass-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Premium Badges */
+.badge,
+.status-badge,
+.plan-type {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+}
+
+:root[data-theme='dark'] .badge,
+:root[data-theme='dark'] .status-badge,
+:root[data-theme='dark'] .plan-type {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--border-medium);
+}
+
+/* Premium Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table thead {
+  background: rgba(0, 0, 0, 0.02);
+  border-bottom: 1px solid var(--border-light);
+}
+
+table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+table tbody tr {
+  transition: background 0.12s ease;
+}
+
+table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.01);
+}
+
+/* Premium Inputs */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border-medium);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: all 0.15s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+.empty-state p {
+  font-size: 15px;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+
+/* Filters Panel */
+.filters-panel {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.filters-panel select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-medium);
+  border-radius: 7px;
+  font-size: 13px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
