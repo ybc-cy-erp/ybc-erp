@@ -219,7 +219,7 @@ function CounterpartyModal({ item, folders, onSave, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name.trim()) {
-      alert('Назва обов'язкова');
+      alert("Назва обов'язкова");
       return;
     }
     onSave(formData);
