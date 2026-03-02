@@ -18,8 +18,11 @@ export default function Navbar() {
   return (
     <nav className="navbar solid-card">
       <div className="navbar-left">
-        <img src="/logo-ybc-white.png" alt="YBC" className="navbar-logo" />
-        <h2>YBC ERP</h2>
+        <img 
+          src="/logo-ybc-full.png" 
+          alt="YBC" 
+          className={`navbar-logo ${theme === 'light' ? 'logo-inverted' : ''}`}
+        />
       </div>
 
       <div className="navbar-right">
