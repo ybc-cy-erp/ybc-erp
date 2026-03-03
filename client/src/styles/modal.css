@@ -91,12 +91,12 @@
 .modal-content textarea {
   width: 100%;
   padding: 11px 14px;
-  border: 1px solid var(--border-medium);
+  border: 1px solid var(--border-medium) !important;
   border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
-  background: var(--bg-primary);
-  color: var(--text-primary);
+  background: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
   transition: all 0.15s ease;
 }
 

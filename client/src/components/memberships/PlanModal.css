@@ -20,6 +20,29 @@
   padding: 32px;
 }
 
+/* Glass card variant - visible inputs on light theme */
+.modal-content.glass-card input,
+.modal-content.glass-card select,
+.modal-content.glass-card textarea {
+  background: var(--bg-primary) !important;
+  border: 1px solid var(--border-medium) !important;
+  color: var(--text-primary) !important;
+}
+
+.modal-content.glass-card input:focus,
+.modal-content.glass-card select:focus,
+.modal-content.glass-card textarea:focus {
+  background: var(--bg-secondary) !important;
+  border-color: var(--border-focus) !important;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+}
+
+:root[data-theme='dark'] .modal-content.glass-card input:focus,
+:root[data-theme='dark'] .modal-content.glass-card select:focus,
+:root[data-theme='dark'] .modal-content.glass-card textarea:focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+
 .modal-solid {
   background: #ffffff !important;
   border: 1px solid rgba(0, 0, 0, 0.12) !important;
