@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import MembershipPlansPage from './pages/MembershipPlansPage';
+import MembershipPlansFinderPage from './pages/MembershipPlansFinderPage';
 import MembershipsPage from './pages/MembershipsPage';
 import MembershipFormPage from './pages/MembershipFormPage';
 import MembershipDetailsPage from './pages/MembershipDetailsPage';
@@ -94,7 +95,7 @@ function App() {
           
           <Route path="/membership-plans" element={
             <PrivateRoute>
-              <MembershipPlansPage />
+              <MembershipPlansFinderPage />
             </PrivateRoute>
           } />
           

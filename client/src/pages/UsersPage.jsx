@@ -68,9 +68,8 @@ function UsersPage({ embedded = false }) {
     );
   }
 
-  return (
-    <DashboardLayout>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+  const pageContent = (
+    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
           <button onClick={() => setShowInviteModal(true)} className="btn-primary">
             + Запросити користувача
@@ -179,9 +178,10 @@ function UsersPage({ embedded = false }) {
             </div>
           </div>
         )}
-      </div>
-    </DashboardLayout>
+    </div>
   );
+
+  return embedded ? pageContent : <DashboardLayout>{pageContent}</DashboardLayout>;
 }
 
 export default UsersPage;

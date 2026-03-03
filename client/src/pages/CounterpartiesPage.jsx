@@ -144,9 +144,8 @@ export default function CounterpartiesPage({ embedded = false }) {
     e.dataTransfer.dropEffect = 'move';
   };
 
-  return (
-    <DashboardLayout>
-      <div className="counterparties-page">
+  const pageContent = (
+    <div className="counterparties-page">
         {/* Toolbar */}
         <div className="cp-toolbar">
           <div className="cp-toolbar-left">
@@ -320,9 +319,10 @@ export default function CounterpartiesPage({ embedded = false }) {
             onClose={() => setShowFolderModal(false)}
           />
         )}
-      </div>
-    </DashboardLayout>
+    </div>
   );
+
+  return embedded ? pageContent : <DashboardLayout>{pageContent}</DashboardLayout>;
 }
 
 function CounterpartyModal({ item, folders, onSave, onClose }) {
