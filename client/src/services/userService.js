@@ -73,6 +73,15 @@ const userService = {
     const tenantId = getTenantId();
     if (!tenantId) throw normError(null, 'Tenant не визначено');
 
+    // Check permissions: only Owner/Admin can invite
+    const currentUserRaw = localStorage.getItem('user');
+    if (currentUserRaw) {
+      const currentUser = JSON.parse(currentUserRaw);
+      if (!['Owner', 'Admin'].includes(currentUser.role)) {
+        throw normError(null, 'Недостатньо прав. Тільки Owner та Admin можуть запрошувати користувачів.');
+      }
+    }
+
     // Generate temporary password (user will reset it via email link)
     const tempPassword = Math.random().toString(36).slice(-12) + 'Aa1!';
 
