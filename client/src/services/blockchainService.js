@@ -275,15 +275,6 @@ const blockchainService = {
   async getEVMTransactions(network, address, limit) {
     const config = NETWORK_APIS[network.toLowerCase()];
     
-    // Deprecated networks don't have free transaction API
-    const deprecatedNetworks = ['arbitrum', 'optimism', 'base'];
-    if (deprecatedNetworks.includes(network.toLowerCase())) {
-      return {
-        transactions: [],
-        error: 'Transaction history temporarily unavailable for L2 networks',
-      };
-    }
-
     const url = `${config.explorer}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=${limit}&sort=desc`;
 
     const response = await fetch(url);
