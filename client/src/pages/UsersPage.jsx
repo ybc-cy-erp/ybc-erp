@@ -50,13 +50,23 @@ function UsersPage({ embedded = false }) {
   const handleInvite = async (e) => {
     e.preventDefault();
     try {
-      await userService.invite(inviteForm.email, inviteForm.name, inviteForm.role);
+      const result = await userService.invite(inviteForm.email, inviteForm.name, inviteForm.role);
+      const tempPassword = result.data.tempPassword;
+      
       setShowInviteModal(false);
       setInviteForm({ email: '', name: '', role: 'Staff' });
       loadUsers();
-      alert('Запрошення надіслано на ' + inviteForm.email);
+      
+      // Show temporary password to admin
+      alert(
+        `✅ Користувача створено!\n\n` +
+        `Email: ${inviteForm.email}\n` +
+        `Тимчасовий пароль: ${tempPassword}\n\n` +
+        `⚠️ Збережіть пароль і передайте користувачу!\n` +
+        `Він повинен змінити його після першого входу.`
+      );
     } catch (err) {
-      alert(`Помилка: ${err.message}`);
+      alert(`❌ Помилка: ${err.message}`);
     }
   };
 

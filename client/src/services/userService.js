@@ -73,18 +73,51 @@ const userService = {
     const tenantId = getTenantId();
     if (!tenantId) throw normError(null, 'Tenant не визначено');
 
-    // Call Supabase Auth to invite user
-    const { data: authData, error: authError } = await supabase.auth.admin.inviteUserByEmail(email, {
-      data: {
-        name,
-        tenant_id: tenantId,
-        role,
+    // Generate temporary password
+    const tempPassword = Math.random().toString(36).slice(-12) + 'Aa1!';
+
+    // Create auth user
+    const { data: authUser, error: signUpError } = await supabase.auth.signUp({
+      email,
+      password: tempPassword,
+      options: {
+        data: {
+          name,
+          tenant_id: tenantId,
+          role,
+        },
+        emailRedirectTo: `${window.location.origin}/login`,
       },
     });
 
-    if (authError) throw normError(authError, 'Помилка запрошення користувача');
+    if (signUpError) throw normError(signUpError, 'Помилка створення користувача');
 
-    return { data: { user: authData.user } };
+    // Create user record in users table
+    const { data: userData, error: userError } = await supabase
+      .from('users')
+      .insert({
+        id: authUser.user.id,
+        tenant_id: tenantId,
+        email,
+        name,
+        role,
+        status: 'active',
+      })
+      .select('*')
+      .single();
+
+    if (userError) {
+      // Rollback: delete auth user if users table insert fails
+      console.error('Failed to create user record, rollback needed:', userError);
+      throw normError(userError, 'Помилка створення запису користувача');
+    }
+
+    return { 
+      data: { 
+        user: userData,
+        tempPassword,
+      } 
+    };
   },
 };
 
