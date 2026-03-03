@@ -135,14 +135,16 @@ function CashDocumentsPage() {
                   <td><span className="status-badge">{doc.status === 'posted' ? 'Проведено' : 'Чернетка'}</span></td>
                   <td>
                     {doc.status === 'draft' && (
-                      <>
-                        <button onClick={() => handlePost(doc.id)} className="btn-secondary" style={{ padding: '6px 12px', fontSize: '12px', marginRight: '6px' }}>
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        <button onClick={() => handlePost(doc.id)} className="btn-secondary" style={{ padding: '6px 12px', fontSize: '12px' }}>
                           Провести
                         </button>
-                        <button onClick={() => handleDelete(doc.id)} className="btn-secondary" style={{ padding: '6px 12px', fontSize: '12px' }}>
-                          Видалити
+                        <button onClick={() => handleDelete(doc.id)} className="btn-icon delete" title="Видалити">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6h14" />
+                          </svg>
                         </button>
-                      </>
+                      </div>
                     )}
                   </td>
                 </tr>

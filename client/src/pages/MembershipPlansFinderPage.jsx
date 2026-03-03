@@ -200,11 +200,15 @@ export default function MembershipPlansFinderPage({ embedded = false }) {
                       <td>
                         {isOwner && (
                           <div className="pf-actions">
-                            <button onClick={() => handleEdit(plan)} className="btn-edit">
-                              Редагувати
+                            <button onClick={() => handleEdit(plan)} className="btn-icon edit" title="Редагувати">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                              </svg>
                             </button>
-                            <button onClick={() => handleDelete(plan.id)} className="btn-delete">
-                              Видалити
+                            <button onClick={() => handleDelete(plan.id)} className="btn-icon delete" title="Видалити">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6h14" />
+                              </svg>
                             </button>
                           </div>
                         )}

@@ -41,7 +41,6 @@
 .btn-secondary,
 .btn-action,
 .btn-edit,
-.btn-delete,
 .btn-cancel,
 .btn-publish {
   background: transparent;
@@ -56,14 +55,70 @@
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.btn-delete {
+  background: transparent;
+  color: #FA5255;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  border: 1px solid #FA5255;
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .btn-secondary:hover,
 .btn-action:hover,
 .btn-edit:hover,
-.btn-delete:hover,
 .btn-cancel:hover,
 .btn-publish:hover {
   border-color: var(--border-strong);
   background: rgba(0, 0, 0, 0.02);
+}
+
+.btn-delete:hover {
+  background: rgba(250, 82, 85, 0.08);
+  border-color: #FA5255;
+}
+
+/* Icon Buttons */
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border-medium);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.btn-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+}
+
+.btn-icon:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: var(--border-strong);
+}
+
+.btn-icon.edit {
+  color: var(--text-primary);
+}
+
+.btn-icon.delete {
+  color: #FA5255;
+  border-color: #FA5255;
+}
+
+.btn-icon.delete:hover {
+  background: rgba(250, 82, 85, 0.08);
 }
 
 /* Premium Cards */
