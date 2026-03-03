@@ -8,19 +8,23 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 24px;
-  background: rgba(255, 255, 255, 0.4) !important;
-  backdrop-filter: blur(40px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(60px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(60px) saturate(200%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
   border-radius: 14px !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 
+              0 2px 8px rgba(0, 0, 0, 0.04),
+              inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
   z-index: 90;
 }
 
 :root[data-theme='dark'] .navbar {
-  background: rgba(28, 28, 30, 0.4) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  background: rgba(28, 28, 30, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 
+              0 2px 8px rgba(0, 0, 0, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
 .page-title {
@@ -96,11 +100,71 @@
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 60px;
+    padding: 0 16px;
+    border-radius: 0 0 16px 16px !important;
+    /* Stronger glass effect on mobile */
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(80px) saturate(220%) !important;
+    -webkit-backdrop-filter: blur(80px) saturate(220%) !important;
+  }
+
+  :root[data-theme='dark'] .navbar {
+    background: rgba(28, 28, 30, 0.3) !important;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 100%;
+  }
+
+  .navbar-left {
+    flex: 0 0 auto;
+  }
+
+  .navbar-right {
+    flex: 0 0 auto;
+  }
+
+  .page-title {
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .user-name {
     display: none;
   }
 
-  .navbar-left h2 {
-    font-size: 18px;
+  .btn-back,
+  .btn-theme,
+  .btn-logout {
+    height: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .btn-back {
+    width: 40px;
+    min-width: 40px;
+  }
+
+  .btn-theme,
+  .btn-logout {
+    padding: 8px 12px;
+    font-size: 12px;
   }
 }
