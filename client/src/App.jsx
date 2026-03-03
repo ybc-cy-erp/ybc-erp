@@ -34,6 +34,7 @@ import AccountsPage from './pages/AccountsPage';
 import UsersPage from './pages/UsersPage';
 import SettingsPage from './pages/SettingsPage';
 import CashDocumentsPage from './pages/CashDocumentsPage';
+import ERPManualPage from './pages/ERPManualPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import './i18n/config';
 import './styles/global.css';
@@ -252,6 +253,12 @@ function App() {
           <Route path="/settings" element={
             <PrivateRoute>
               <SettingsPage />
+            </PrivateRoute>
+          } />
+
+          <Route path="/manual" element={
+            <PrivateRoute>
+              <ERPManualPage />
             </PrivateRoute>
           } />
 

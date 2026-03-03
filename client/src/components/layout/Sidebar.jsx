@@ -117,6 +117,13 @@ const icons = {
       <path d="M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24M4.93 19.07l4.24-4.24m5.66-5.66l4.24-4.24" />
     </svg>
   ),
+  manual: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 16v.01" />
+      <path d="M9.2 9.5a2.8 2.8 0 1 1 4.9 1.8c-.7.7-1.2 1.1-1.2 2.2" />
+    </svg>
+  ),
 };
 
 export default function Sidebar() {
@@ -134,6 +141,7 @@ export default function Sidebar() {
     { path: '/users', label: 'Користувачі', icon: icons.users },
     { path: '/reports', label: 'Звіти', icon: icons.reports },
     { path: '/settings', label: 'Налаштування', icon: icons.settings },
+    { path: '/manual', label: 'Довідка ERP', icon: icons.manual },
   ];
 
   return (
