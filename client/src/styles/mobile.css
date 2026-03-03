@@ -1,0 +1,218 @@
+/* Mobile Optimizations - Touch-First Design */
+
+/* Base mobile viewport */
+@media (max-width: 768px) {
+  /* Typography adjustments */
+  body {
+    font-size: 16px; /* Prevents zoom on iOS */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  h1 { font-size: 24px; }
+  h2 { font-size: 20px; }
+  h3 { font-size: 18px; }
+
+  /* Touch targets - minimum 44px */
+  button, a, input, select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improved input fields for mobile */
+  input, select, textarea {
+    font-size: 16px; /* Prevents iOS zoom */
+    padding: 12px 16px;
+  }
+
+  /* Modals take full screen on mobile */
+  .modal-overlay {
+    padding: 0;
+  }
+
+  .modal-content {
+    max-height: 100vh;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  /* Stack buttons vertically */
+  .btn-group, .modal-footer, .action-buttons {
+    flex-direction: column;
+  }
+
+  .btn-group button,
+  .modal-footer button,
+  .action-buttons button {
+    width: 100%;
+  }
+
+  /* Tables scroll horizontally */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Cards stack on mobile */
+  .glass-card, .solid-card {
+    margin-bottom: 16px;
+  }
+
+  /* Reduce padding globally */
+  .glass-card, .solid-card {
+    padding: 16px;
+  }
+
+  /* Dashboard grid becomes single column */
+  .dashboard-charts,
+  .quick-actions,
+  .dashboard-metrics {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Finder toolbar wraps */
+  .cp-toolbar, .pf-toolbar, .finder-toolbar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .cp-toolbar-center, .pf-toolbar-center {
+    order: 3;
+    width: 100%;
+  }
+
+  /* Sidebar takes full screen when open */
+  .sidebar {
+    width: 100vw;
+    z-index: 999;
+    box-shadow: none;
+  }
+
+  .sidebar.open {
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Hide sidebar by default on mobile */
+  .pf-sidebar, .cp-sidebar {
+    display: none;
+  }
+
+  /* Full width content when sidebar hidden */
+  .pf-content, .cp-content {
+    width: 100%;
+  }
+}
+
+/* Small mobile phones */
+@media (max-width: 375px) {
+  .dashboard-main {
+    padding: 12px;
+  }
+
+  .glass-card, .solid-card {
+    padding: 12px;
+  }
+
+  h1 { font-size: 22px; }
+  h2 { font-size: 18px; }
+
+  /* Smaller buttons on tiny screens */
+  .btn-primary, .btn-secondary {
+    font-size: 13px;
+    padding: 10px 16px;
+  }
+}
+
+/* Landscape mode on mobile */
+@media (max-width: 900px) and (orientation: landscape) {
+  .modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .dashboard-main {
+    padding-top: 70px;
+  }
+}
+
+/* Hamburger menu button */
+.hamburger-btn {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.hamburger-btn svg {
+  width: 24px;
+  height: 24px;
+  color: var(--text-primary);
+}
+
+.hamburger-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex;
+  }
+}
+
+/* Mobile overlay when sidebar is open */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  animation: fadeIn 0.2s ease;
+}
+
+.mobile-overlay.active {
+  display: block;
+}
+
+/* Swipe gesture indicators */
+.swipeable {
+  touch-action: pan-y;
+}
+
+/* Prevent pull-to-refresh on specific elements */
+.no-pull-refresh {
+  overscroll-behavior-y: contain;
+}
+
+/* Better tap highlights */
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.05);
+}
+
+button, a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+}
+
+/* iOS safe areas */
+@supports (padding: max(0px)) {
+  .navbar {
+    padding-top: max(12px, env(safe-area-inset-top));
+  }
+
+  .sidebar {
+    padding-top: max(20px, env(safe-area-inset-top));
+  }
+
+  .dashboard-main {
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+}
