@@ -31,19 +31,30 @@ const membershipService = {
     const tenantId = getTenantId();
     if (!tenantId) throw normError(null, 'Tenant не визначено');
 
-    let query = supabase
-      .from('memberships')
-      .select('*')
-      .eq('tenant_id', tenantId)
-      .order('created_at', { ascending: false });
+    try {
+      let query = supabase
+        .from('memberships')
+        .select('*')
+        .eq('tenant_id', tenantId)
+        .order('created_at', { ascending: false });
 
-    if (params?.status) query = query.eq('status', params.status);
-    if (params?.plan_id) query = query.eq('plan_id', params.plan_id);
+      if (params?.status) query = query.eq('status', params.status);
+      if (params?.plan_id) query = query.eq('plan_id', params.plan_id);
 
-    const { data, error } = await query;
-    if (error) throw normError(error, 'Не вдалося завантажити членства');
+      const { data, error } = await query;
+      
+      if (error) {
+        console.error('Supabase error:', error);
+        throw normError(error, 'Не вдалося завантажити членства');
+      }
 
-    return (data || []).map((row) => mapMembership(row));
+      if (!data) return [];
+      
+      return data.map((row) => mapMembership(row));
+    } catch (err) {
+      console.error('membershipService.getAll error:', err);
+      throw err;
+    }
   },
 
   async getById(id) {

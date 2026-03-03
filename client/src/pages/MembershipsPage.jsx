@@ -27,16 +27,23 @@ function MembershipsPage() {
   const loadData = async () => {
     try {
       setLoading(true);
+      setError(null);
+      
       const [membershipsData, plansData] = await Promise.all([
         membershipService.getAll(),
         membershipPlanService.getAll()
       ]);
-      setMemberships(membershipsData);
-      setPlans(plansData);
-      setError(null);
+      
+      console.log('Memberships loaded:', membershipsData);
+      console.log('Plans loaded:', plansData);
+      
+      setMemberships(Array.isArray(membershipsData) ? membershipsData : []);
+      setPlans(Array.isArray(plansData?.data?.plans) ? plansData.data.plans : []);
     } catch (err) {
       console.error('Failed to load data:', err);
       setError(err.message || 'Помилка завантаження даних');
+      setMemberships([]);
+      setPlans([]);
     } finally {
       setLoading(false);
     }
@@ -56,7 +63,9 @@ function MembershipsPage() {
   };
 
   // Filter memberships
-  const filteredMemberships = memberships.filter(membership => {
+  const filteredMemberships = Array.isArray(memberships) ? memberships.filter(membership => {
+    if (!membership) return false;
+    
     // Search by customer name
     if (searchTerm && !membership.customer_name?.toLowerCase().includes(searchTerm.toLowerCase())) {
       return false;
@@ -73,10 +82,11 @@ function MembershipsPage() {
     }
 
     return true;
-  });
+  }) : [];
 
   const getPlanName = (planId) => {
-    const plan = plans.find(p => p.id === planId);
+    if (!planId || !Array.isArray(plans)) return '—';
+    const plan = plans.find(p => p && p.id === planId);
     return plan?.name || '—';
   };
 
