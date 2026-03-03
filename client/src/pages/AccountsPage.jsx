@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { usePageTitle } from '../context/PageTitleContext';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import accountService from '../services/accountService';
+import blockchainService from '../services/blockchainService';
 import './AccountsPage.css';
 
 export default function AccountsPage() {
@@ -10,6 +11,9 @@ export default function AccountsPage() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [blockchainData, setBlockchainData] = useState({});
+  const [loadingBlockchain, setLoadingBlockchain] = useState({});
+  const [showTransactions, setShowTransactions] = useState(null);
   const [form, setForm] = useState({
     account_type: 'cash',
     account_name: '',
@@ -31,11 +35,64 @@ export default function AccountsPage() {
       setLoading(true);
       const data = await accountService.getAll();
       setAccounts(data);
+      
+      // Auto-load blockchain balances for crypto accounts
+      data.forEach(account => {
+        if (account.account_type === 'crypto' && account.wallet_address) {
+          loadBlockchainBalance(account.id, account.network, account.wallet_address);
+        }
+      });
     } catch (err) {
       console.error(err);
       alert(`Помилка: ${err.message}`);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadBlockchainBalance = async (accountId, network, address) => {
+    try {
+      setLoadingBlockchain(prev => ({ ...prev, [accountId]: true }));
+      
+      const balanceData = await blockchainService.getBalance(network, address);
+      
+      setBlockchainData(prev => ({
+        ...prev,
+        [accountId]: {
+          balance: balanceData.balance,
+          currency: balanceData.currency,
+          error: balanceData.error,
+        },
+      }));
+    } catch (err) {
+      console.error(`Failed to load blockchain balance for ${accountId}:`, err);
+      setBlockchainData(prev => ({
+        ...prev,
+        [accountId]: {
+          balance: null,
+          error: err.message,
+        },
+      }));
+    } finally {
+      setLoadingBlockchain(prev => ({ ...prev, [accountId]: false }));
+    }
+  };
+
+  const loadBlockchainTransactions = async (account) => {
+    try {
+      const txData = await blockchainService.getTransactions(
+        account.network,
+        account.wallet_address,
+        20 // last 20 transactions
+      );
+      
+      setShowTransactions({
+        account,
+        transactions: txData.transactions,
+        error: txData.error,
+      });
+    } catch (err) {
+      alert(`Помилка завантаження транзакцій: ${err.message}`);
     }
   };
 
@@ -137,11 +194,79 @@ export default function AccountsPage() {
                 </div>
 
                 <div className="account-balance">
-                  <div className="balance-label">Баланс</div>
+                  <div className="balance-label">Баланс в БД</div>
                   <div className="balance-amount">
-                    {Number(account.balance || 0).toFixed(2)} {account.currency}
+                    {Number(account.balance || 0).toFixed(8)} {account.currency}
                   </div>
                 </div>
+
+                {account.account_type === 'crypto' && account.wallet_address && (
+                  <div className="blockchain-balance">
+                    {loadingBlockchain[account.id] ? (
+                      <div style={{ textAlign: 'center', padding: '12px', color: 'var(--text-secondary)' }}>
+                        ⏳ Завантаження з блокчейну...
+                      </div>
+                    ) : blockchainData[account.id] ? (
+                      <>
+                        <div className="balance-label">Баланс в блокчейні</div>
+                        <div className="balance-amount" style={{ 
+                          color: blockchainData[account.id].error ? '#FA5255' : 'var(--text-primary)' 
+                        }}>
+                          {blockchainData[account.id].error ? (
+                            `❌ ${blockchainData[account.id].error}`
+                          ) : (
+                            <>
+                              {blockchainData[account.id].balance?.toFixed(8)} {blockchainData[account.id].currency}
+                            </>
+                          )}
+                        </div>
+                        {!blockchainData[account.id].error && (
+                          <>
+                            {(() => {
+                              const comparison = blockchainService.compareBalances(
+                                blockchainData[account.id].balance,
+                                Number(account.balance || 0)
+                              );
+                              return (
+                                <div style={{ 
+                                  marginTop: '8px', 
+                                  fontSize: '12px',
+                                  padding: '6px 10px',
+                                  borderRadius: '6px',
+                                  background: comparison.match ? 'rgba(34, 197, 94, 0.1)' : 'rgba(250, 82, 85, 0.1)',
+                                  color: comparison.match ? '#16a34a' : '#FA5255',
+                                  textAlign: 'center',
+                                }}>
+                                  {comparison.message}
+                                  {!comparison.match && comparison.difference !== null && (
+                                    <div style={{ marginTop: '4px', fontSize: '11px' }}>
+                                      Різниця: {comparison.difference > 0 ? '+' : ''}{comparison.difference.toFixed(8)}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })()}
+                          </>
+                        )}
+                        <button
+                          onClick={() => loadBlockchainTransactions(account)}
+                          className="btn-secondary"
+                          style={{ width: '100%', marginTop: '12px', padding: '8px', fontSize: '12px' }}
+                        >
+                          📜 Показати транзакції з блокчейну
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        onClick={() => loadBlockchainBalance(account.id, account.network, account.wallet_address)}
+                        className="btn-secondary"
+                        style={{ width: '100%', marginTop: '12px', padding: '8px', fontSize: '12px' }}
+                      >
+                        🔄 Завантажити з блокчейну
+                      </button>
+                    )}
+                  </div>
+                )}
 
                 {account.account_type === 'bank' && (
                   <div className="account-details">
@@ -300,6 +425,81 @@ export default function AccountsPage() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        )}
+
+        {showTransactions && (
+          <div className="modal-overlay" onClick={() => setShowTransactions(null)}>
+            <div className="modal-content modal-solid" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '800px', maxHeight: '80vh', overflow: 'auto' }}>
+              <h2>Транзакції з блокчейну</h2>
+              <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '16px' }}>
+                Рахунок: <strong>{showTransactions.account.account_name}</strong>
+                <br />
+                Мережа: <strong>{showTransactions.account.network}</strong>
+                <br />
+                Адреса: <code style={{ fontSize: '11px', background: 'rgba(0,0,0,0.05)', padding: '2px 6px', borderRadius: '4px' }}>
+                  {showTransactions.account.wallet_address}
+                </code>
+              </p>
+
+              {showTransactions.error ? (
+                <div style={{ padding: '20px', textAlign: 'center', color: '#FA5255' }}>
+                  ❌ Помилка: {showTransactions.error}
+                </div>
+              ) : showTransactions.transactions.length === 0 ? (
+                <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-secondary)' }}>
+                  Транзакції не знайдено
+                </div>
+              ) : (
+                <div style={{ overflow: 'auto' }}>
+                  <table style={{ width: '100%', fontSize: '13px' }}>
+                    <thead>
+                      <tr style={{ borderBottom: '2px solid var(--border-medium)' }}>
+                        <th style={{ padding: '10px', textAlign: 'left' }}>Хеш</th>
+                        <th style={{ padding: '10px', textAlign: 'left' }}>Дата/час</th>
+                        <th style={{ padding: '10px', textAlign: 'right' }}>Сума</th>
+                        <th style={{ padding: '10px', textAlign: 'center' }}>Статус</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {showTransactions.transactions.map((tx, idx) => (
+                        <tr key={idx} style={{ borderBottom: '1px solid var(--border-light)' }}>
+                          <td style={{ padding: '10px', fontFamily: 'monospace', fontSize: '11px' }}>
+                            <a 
+                              href={`https://etherscan.io/tx/${tx.hash}`} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              style={{ color: 'var(--text-primary)', textDecoration: 'none' }}
+                            >
+                              {tx.hash.slice(0, 10)}...{tx.hash.slice(-8)}
+                            </a>
+                          </td>
+                          <td style={{ padding: '10px' }}>
+                            {new Date(tx.timestamp).toLocaleString('uk-UA')}
+                          </td>
+                          <td style={{ padding: '10px', textAlign: 'right', fontFamily: 'monospace' }}>
+                            {tx.value?.toFixed(8)} {tx.currency}
+                          </td>
+                          <td style={{ padding: '10px', textAlign: 'center' }}>
+                            {tx.isError ? (
+                              <span style={{ color: '#FA5255' }}>❌ Помилка</span>
+                            ) : (
+                              <span style={{ color: '#16a34a' }}>✅ OK</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+
+              <div style={{ marginTop: '20px', textAlign: 'right' }}>
+                <button onClick={() => setShowTransactions(null)} className="btn-secondary">
+                  Закрити
+                </button>
+              </div>
             </div>
           </div>
         )}
