@@ -187,6 +187,13 @@ const blockchainService = {
       throw new Error(`No contract address for ${currency} on ${network}`);
     }
 
+    // For networks with deprecated V1 API (Arbitrum, Optimism, Base), use alternative method
+    const deprecatedNetworks = ['arbitrum', 'optimism', 'base'];
+    
+    if (deprecatedNetworks.includes(network.toLowerCase())) {
+      return await this.getEVMTokenBalanceViaRPC(network, address, contractAddress, currency);
+    }
+
     const url = `${config.explorer}?module=account&action=tokenbalance&contractaddress=${contractAddress}&address=${address}&tag=latest`;
 
     const response = await fetch(url);
@@ -203,7 +210,66 @@ const blockchainService = {
       };
     }
 
+    // If API fails, try RPC fallback
+    if (data.message === 'NOTOK' || data.status === '0') {
+      return await this.getEVMTokenBalanceViaRPC(network, address, contractAddress, currency);
+    }
+
     throw new Error(data.message || 'Failed to fetch token balance');
+  },
+
+  /**
+   * Fallback method using public RPC nodes for token balance
+   */
+  async getEVMTokenBalanceViaRPC(network, address, contractAddress, currency) {
+    const rpcUrls = {
+      ethereum: 'https://eth.llamarpc.com',
+      arbitrum: 'https://arb1.arbitrum.io/rpc',
+      optimism: 'https://mainnet.optimism.io',
+      base: 'https://mainnet.base.org',
+      polygon: 'https://polygon-rpc.com',
+      bsc: 'https://bsc-dataseed.binance.org',
+      avalanche: 'https://api.avax.network/ext/bc/C/rpc',
+    };
+
+    const rpcUrl = rpcUrls[network.toLowerCase()];
+    if (!rpcUrl) {
+      throw new Error(`No RPC URL for ${network}`);
+    }
+
+    // ERC-20 balanceOf(address) function signature
+    const data = `0x70a08231000000000000000000000000${address.slice(2).toLowerCase()}`;
+
+    const response = await fetch(rpcUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'eth_call',
+        params: [
+          {
+            to: contractAddress,
+            data: data,
+          },
+          'latest',
+        ],
+      }),
+    });
+
+    const result = await response.json();
+
+    if (result.result) {
+      const decimals = currency === 'USDT' || currency === 'USDC' ? 6 : 18;
+      const balance = parseInt(result.result, 16) / Math.pow(10, decimals);
+      return {
+        balance,
+        currency,
+        raw: result.result,
+      };
+    }
+
+    throw new Error('Failed to fetch token balance via RPC');
   },
 
   async getEVMTransactions(network, address, limit) {
