@@ -39,7 +39,7 @@ export default function AccountsPage() {
       // Auto-load blockchain balances for crypto accounts
       data.forEach(account => {
         if (account.account_type === 'crypto' && account.wallet_address) {
-          loadBlockchainBalance(account.id, account.network, account.wallet_address);
+          loadBlockchainBalance(account.id, account.network, account.wallet_address, account.currency);
         }
       });
     } catch (err) {
@@ -50,11 +50,11 @@ export default function AccountsPage() {
     }
   };
 
-  const loadBlockchainBalance = async (accountId, network, address) => {
+  const loadBlockchainBalance = async (accountId, network, address, currency) => {
     try {
       setLoadingBlockchain(prev => ({ ...prev, [accountId]: true }));
       
-      const balanceData = await blockchainService.getBalance(network, address);
+      const balanceData = await blockchainService.getBalance(network, address, currency);
       
       setBlockchainData(prev => ({
         ...prev,
@@ -258,7 +258,7 @@ export default function AccountsPage() {
                       </>
                     ) : (
                       <button
-                        onClick={() => loadBlockchainBalance(account.id, account.network, account.wallet_address)}
+                        onClick={() => loadBlockchainBalance(account.id, account.network, account.wallet_address, account.currency)}
                         className="btn-secondary"
                         style={{ width: '100%', marginTop: '12px', padding: '8px', fontSize: '12px' }}
                       >
