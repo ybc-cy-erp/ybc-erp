@@ -303,57 +303,55 @@
   }
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .page-header h1 {
-    color: #fff;
-  }
+/* Dark mode support (app theme only, not OS preference) */
+:root[data-theme='dark'] .page-header h1 {
+  color: #fff;
+}
 
-  .filter-group label,
-  .memberships-count {
-    color: rgba(255, 255, 255, 0.7);
-  }
+:root[data-theme='dark'] .filter-group label,
+:root[data-theme='dark'] .memberships-count {
+  color: rgba(255, 255, 255, 0.7);
+}
 
-  .memberships-count strong {
-    color: #fff;
-  }
+:root[data-theme='dark'] .memberships-count strong {
+  color: #fff;
+}
 
-  .filter-input,
-  .filter-select {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-  }
+:root[data-theme='dark'] .filter-input,
+:root[data-theme='dark'] .filter-select {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
 
-  .filter-input:focus,
-  .filter-select:focus {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: #fff;
-  }
+:root[data-theme='dark'] .filter-input:focus,
+:root[data-theme='dark'] .filter-select:focus {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
 
-  .memberships-table th {
-    color: rgba(255, 255, 255, 0.6);
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-  }
+:root[data-theme='dark'] .memberships-table th {
+  color: rgba(255, 255, 255, 0.6);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
 
-  .memberships-table td {
-    color: #fff;
-    border-bottom-color: rgba(255, 255, 255, 0.05);
-  }
+:root[data-theme='dark'] .memberships-table td {
+  color: #fff;
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
 
-  .memberships-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
+:root[data-theme='dark'] .memberships-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
 
-  .btn-action:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
+:root[data-theme='dark'] .btn-action:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
 
-  .empty-state {
-    color: rgba(255, 255, 255, 0.7);
-  }
+:root[data-theme='dark'] .empty-state {
+  color: rgba(255, 255, 255, 0.7);
+}
 
-  .empty-state .hint {
-    color: rgba(255, 255, 255, 0.5);
-  }
+:root[data-theme='dark'] .empty-state .hint {
+  color: rgba(255, 255, 255, 0.5);
 }
