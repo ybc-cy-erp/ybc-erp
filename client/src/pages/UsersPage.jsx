@@ -3,7 +3,7 @@ import { usePageTitle } from '../context/PageTitleContext';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import userService from '../services/userService';
 
-function UsersPage() {
+function UsersPage({ embedded = false }) {
   const { setPageTitle } = usePageTitle();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,9 +11,11 @@ function UsersPage() {
   const [inviteForm, setInviteForm] = useState({ email: '', name: '', role: 'Staff' });
 
   useEffect(() => {
-    setPageTitle('Користувачі');
+    if (!embedded) {
+      setPageTitle('Користувачі');
+    }
     loadUsers();
-  }, [setPageTitle]);
+  }, [setPageTitle, embedded]);
 
   const loadUsers = async () => {
     try {

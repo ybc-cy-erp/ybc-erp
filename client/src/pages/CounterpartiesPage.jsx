@@ -4,7 +4,7 @@ import { usePageTitle } from '../context/PageTitleContext';
 import counterpartyService from '../services/counterpartyService';
 import './CounterpartiesPage.css';
 
-export default function CounterpartiesPage() {
+export default function CounterpartiesPage({ embedded = false }) {
   const [counterparties, setCounterparties] = useState([]);
   const { setPageTitle } = usePageTitle();
   const [folders, setFolders] = useState([]);

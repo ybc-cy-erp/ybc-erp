@@ -7,7 +7,7 @@ import DashboardLayout from '../components/layout/DashboardLayout';
 import PlanModal from '../components/memberships/PlanModal';
 import '../styles/MembershipPlans.css';
 
-export default function MembershipPlansPage() {
+export default function MembershipPlansPage({ embedded = false }) {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { setPageTitle } = usePageTitle();
@@ -16,13 +16,18 @@ export default function MembershipPlansPage() {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [editingPlan, setEditingPlan] = useState(null);
+  const [viewMode, setViewMode] = useState('list');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all');
 
   const isOwner = user?.role === 'Owner';
 
   useEffect(() => {
-    setPageTitle('Тарифні плани');
+    if (!embedded) {
+      setPageTitle('Тарифні плани');
+    }
     loadPlans();
-  }, [setPageTitle]);
+  }, [setPageTitle, embedded]);
 
   const loadPlans = async () => {
     try {
@@ -76,31 +81,77 @@ export default function MembershipPlansPage() {
     return types[type] || type;
   };
 
+  const filteredPlans = plans.filter((plan) => {
+    if (searchQuery && !plan.name.toLowerCase().includes(searchQuery.toLowerCase())) {
+      return false;
+    }
+    if (filterStatus !== 'all' && plan.status !== filterStatus) {
+      return false;
+    }
+    return true;
+  });
+
   if (loading) {
-    return (
-      <DashboardLayout>
-        <div className="membership-plans">
-          <div className="loading">Завантаження...</div>
-        </div>
-      </DashboardLayout>
+    const content = (
+      <div className="membership-plans">
+        <div className="loading">Завантаження...</div>
+      </div>
     );
+    return embedded ? content : <DashboardLayout>{content}</DashboardLayout>;
   }
 
-  return (
-    <DashboardLayout>
-      <div className="membership-plans">
-        <div className="page-header">
+  const pageContent = (
+    <div className="membership-plans">
+      {/* Finder-style toolbar */}
+      <div className="finder-toolbar glass-card">
+        <div className="toolbar-left">
+          <input
+            type="text"
+            placeholder="🔍 Пошук планів..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="finder-search"
+          />
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="finder-filter"
+          >
+            <option value="all">Всі статуси</option>
+            <option value="active">Активні</option>
+            <option value="inactive">Неактивні</option>
+          </select>
+        </div>
+
+        <div className="toolbar-right">
+          <div className="view-mode-buttons">
+            <button
+              onClick={() => setViewMode('list')}
+              className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
+              title="Список"
+            >
+              ☰
+            </button>
+            <button
+              onClick={() => setViewMode('icon')}
+              className={`view-btn ${viewMode === 'icon' ? 'active' : ''}`}
+              title="Сітка"
+            >
+              ⊞
+            </button>
+          </div>
           {isOwner && (
             <button onClick={handleCreate} className="btn-primary">
-              + Створити план
+              + Новий план
             </button>
           )}
         </div>
+      </div>
 
-        {error && <div className="error-message">{error}</div>}
+      {error && <div className="error-message">{error}</div>}
 
-        <div className="plans-grid">
-          {plans.map(plan => (
+      <div className={`plans-grid view-${viewMode}`}>
+          {filteredPlans.map(plan => (
             <div key={plan.id} className={`plan-card glass-card ${plan.status}`}>
               <div className="plan-header">
                 <h3>{plan.name}</h3>
@@ -157,13 +208,14 @@ export default function MembershipPlansPage() {
           </div>
         )}
 
-        {showModal && (
-          <PlanModal
-            plan={editingPlan}
-            onClose={handleModalClose}
-          />
-        )}
-      </div>
-    </DashboardLayout>
+      {showModal && (
+        <PlanModal
+          plan={editingPlan}
+          onClose={handleModalClose}
+        />
+      )}
+    </div>
   );
+
+  return embedded ? pageContent : <DashboardLayout>{pageContent}</DashboardLayout>;
 }

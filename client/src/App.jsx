@@ -25,6 +25,7 @@ import ChartOfAccountsPage from './pages/ChartOfAccountsPage';
 import CurrencyExchangePage from './pages/CurrencyExchangePage';
 import TransfersPage from './pages/TransfersPage';
 import DirectoriesPage from './pages/DirectoriesPage';
+import DirectoriesTabsPage from './pages/DirectoriesTabsPage';
 import FinancePage from './pages/FinancePage';
 import AccountsPage from './pages/AccountsPage';
 import UsersPage from './pages/UsersPage';
@@ -213,7 +214,7 @@ function App() {
 
           <Route path="/directories" element={
             <PrivateRoute>
-              <DirectoriesPage />
+              <DirectoriesTabsPage />
             </PrivateRoute>
           } />
 
