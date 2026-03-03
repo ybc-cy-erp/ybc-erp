@@ -27,7 +27,7 @@
 }
 
 .sidebar-logo {
-  padding: 20px 16px;
+  padding: 16px 16px 16px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   overflow: hidden;
   position: relative;
@@ -41,7 +41,7 @@
   height: 192px;
   width: auto;
   display: block;
-  margin-left: 18px;
+  margin-left: 0;
   transform-origin: left center;
 }
 
