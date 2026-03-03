@@ -12,12 +12,12 @@ function FinancePage() {
   }, [setPageTitle]);
 
   const sections = [
-    { id: 'accounts', label: 'Рахунки', icon: '', path: '/accounts', description: 'Каси, банки, крипто' },
-    { id: 'bills', label: 'Витрати', icon: '', path: '/bills', description: 'Витрати та зобов\'язання' },
-    { id: 'wallets', label: 'Гаманці', icon: '', path: '/wallets', description: '6 криптовалютних мереж' },
-    { id: 'exchange', label: 'Обмін валют', icon: '', path: '/currency-exchange', description: 'Конвертація валют' },
-    { id: 'transfers', label: 'Перекази', icon: '', path: '/transfers', description: 'Переміщення коштів' },
-    { id: 'chart', label: 'План рахунків', icon: '', path: '/chart-of-accounts', description: 'IFRS класифікація' },
+    { id: 'accounts', label: 'Рахунки', path: '/accounts', description: 'Каси, банки, крипто' },
+    { id: 'bills', label: 'Витрати', path: '/bills', description: 'Витрати та зобов\'язання' },
+    { id: 'wallets', label: 'Гаманці', path: '/wallets', description: '6 криптовалютних мереж' },
+    { id: 'exchange', label: 'Обмін валют', path: '/currency-exchange', description: 'Конвертація валют' },
+    { id: 'transfers', label: 'Перекази', path: '/transfers', description: 'Переміщення коштів' },
+    { id: 'chart', label: 'План рахунків', path: '/chart-of-accounts', description: 'IFRS класифікація' },
   ];
 
   return (
@@ -45,8 +45,7 @@ function FinancePage() {
               e.currentTarget.style.boxShadow = '';
             }}
           >
-            <div style={{ fontSize: '32px', marginBottom: '12px' }}>{section.icon}</div>
-            <div style={{ fontSize: '15px', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '4px' }}>
+            <div style={{ fontSize: '15px', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '8px' }}>
               {section.label}
             </div>
             <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>

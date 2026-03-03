@@ -94,15 +94,6 @@ export default function AccountsPage() {
     });
   };
 
-  const getTypeIcon = (type) => {
-    switch (type) {
-      case 'cash': return '';
-      case 'bank': return '';
-      case 'crypto': return '';
-      default: return '';
-    }
-  };
-
   const getTypeLabel = (type) => {
     switch (type) {
       case 'cash': return 'Готівка';
@@ -139,7 +130,6 @@ export default function AccountsPage() {
             accounts.map((account) => (
               <div key={account.id} className="account-card glass-card">
                 <div className="account-header">
-                  <div className="account-icon">{getTypeIcon(account.account_type)}</div>
                   <div className="account-info">
                     <h3>{account.account_name}</h3>
                     <span className="badge">{getTypeLabel(account.account_type)}</span>

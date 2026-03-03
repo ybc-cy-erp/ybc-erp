@@ -22,8 +22,8 @@ function DirectoriesPage() {
   }, [activeTab, navigate]);
 
   const tabs = [
-    { id: 'counterparties', label: 'Контрагенти', icon: '' },
-    { id: 'items', label: 'Товари та послуги', icon: '📦' },
+    { id: 'counterparties', label: 'Контрагенти' },
+    { id: 'items', label: 'Товари та послуги' },
   ];
 
   return (
@@ -53,7 +53,6 @@ function DirectoriesPage() {
               e.currentTarget.style.boxShadow = '';
             }}
           >
-            <div style={{ fontSize: '32px', marginBottom: '12px' }}>{tab.icon}</div>
             <div style={{ fontSize: '16px', fontWeight: '600', color: 'var(--text-primary)' }}>
               {tab.label}
             </div>
