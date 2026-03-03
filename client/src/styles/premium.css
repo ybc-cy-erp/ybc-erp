@@ -298,7 +298,7 @@ textarea:focus {
 
 input:not([type="checkbox"]):not([type="radio"])::placeholder,
 textarea::placeholder {
-  color: var(--text-secondary) !important;
+  color: #4A4A4A !important;
   opacity: 1 !important;
 }
 
