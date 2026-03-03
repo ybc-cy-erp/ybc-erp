@@ -9,6 +9,7 @@ function UsersPage({ embedded = false }) {
   const [loading, setLoading] = useState(true);
   const [showInviteModal, setShowInviteModal] = useState(false);
   const [inviteForm, setInviteForm] = useState({ email: '', name: '', role: 'Staff' });
+  const [statusFilter, setStatusFilter] = useState('all');
 
   useEffect(() => {
     if (!embedded) {
@@ -87,6 +88,18 @@ function UsersPage({ embedded = false }) {
     }
   };
 
+  const handleActivate = async (userId, userName) => {
+    if (!window.confirm(`Активувати користувача ${userName}?`)) return;
+    
+    try {
+      await userService.update(userId, { status: 'active' });
+      alert(`✅ Користувача ${userName} активовано`);
+      loadUsers();
+    } catch (err) {
+      alert(`❌ Помилка: ${err.message}`);
+    }
+  };
+
   if (loading) {
     return (
       <DashboardLayout>
@@ -95,9 +108,36 @@ function UsersPage({ embedded = false }) {
     );
   }
 
+  const filteredUsers = statusFilter === 'all' 
+    ? users 
+    : users.filter(u => u.status === statusFilter);
+
   const pageContent = (
     <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', gap: '12px' }}>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+            <select
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              style={{
+                padding: '8px 12px',
+                fontSize: '13px',
+                borderRadius: '8px',
+                border: '1px solid var(--border-medium)',
+                background: 'var(--bg-secondary)',
+                color: 'var(--text-primary)',
+              }}
+            >
+              <option value="all">Всі користувачі</option>
+              <option value="active">Активні</option>
+              <option value="inactive">Очікують активації</option>
+            </select>
+            {statusFilter === 'inactive' && (
+              <span style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
+                {filteredUsers.length} очікують активації
+              </span>
+            )}
+          </div>
           <button onClick={() => setShowInviteModal(true)} className="btn-primary">
             + Запросити користувача
           </button>
@@ -116,7 +156,7 @@ function UsersPage({ embedded = false }) {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr key={user.id}>
                   <td style={{ fontWeight: '600' }}>{user.name}</td>
                   <td style={{ fontFamily: 'monospace', fontSize: '13px' }}>{user.email}</td>
@@ -146,14 +186,27 @@ function UsersPage({ embedded = false }) {
                     {new Date(user.created_at).toLocaleDateString('uk-UA')}
                   </td>
                   <td>
-                    <button
-                      onClick={() => handleResetPassword(user.id, user.email)}
-                      className="btn-secondary"
-                      style={{ padding: '6px 12px', fontSize: '12px', whiteSpace: 'nowrap' }}
-                      title="Відправити посилання для встановлення нового пароля"
-                    >
-                      🔑 Скинути пароль
-                    </button>
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                      {user.status === 'inactive' ? (
+                        <button
+                          onClick={() => handleActivate(user.id, user.name)}
+                          className="btn-primary"
+                          style={{ padding: '6px 12px', fontSize: '12px', whiteSpace: 'nowrap' }}
+                          title="Активувати доступ користувача"
+                        >
+                          ✅ Активувати
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleResetPassword(user.id, user.email)}
+                          className="btn-secondary"
+                          style={{ padding: '6px 12px', fontSize: '12px', whiteSpace: 'nowrap' }}
+                          title="Відправити посилання для встановлення нового пароля"
+                        >
+                          🔑 Скинути пароль
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

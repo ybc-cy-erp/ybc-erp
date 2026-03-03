@@ -72,6 +72,20 @@ export default function LoginPage() {
             {loading ? t('common.loading') : t('auth.loginButton')}
           </button>
         </form>
+
+        <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '14px' }}>
+          <span style={{ color: 'var(--text-secondary)' }}>Немає облікового запису? </span>
+          <a
+            href="/signup"
+            style={{
+              color: 'var(--text-primary)',
+              fontWeight: '500',
+              textDecoration: 'none'
+            }}
+          >
+            Зареєструватись
+          </a>
+        </div>
       </div>
     </div>
   );

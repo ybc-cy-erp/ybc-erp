@@ -3,6 +3,7 @@ import { AuthProvider, AuthContext } from './context/AuthContext';
 import { PageTitleProvider } from './context/PageTitleContext';
 import { useContext } from 'react';
 import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import DashboardPage from './pages/DashboardPage';
 import MembershipPlansPage from './pages/MembershipPlansPage';
@@ -81,6 +82,12 @@ function App() {
           <Route path="/login" element={
             <PublicRoute>
               <LoginPage />
+            </PublicRoute>
+          } />
+
+          <Route path="/signup" element={
+            <PublicRoute>
+              <SignUpPage />
             </PublicRoute>
           } />
 
