@@ -210,7 +210,7 @@ export default function CounterpartiesPage({ embedded = false }) {
                   onDragOver={handleDragOver}
                 >
                   <span onClick={() => setSelectedFolder(folder.id)}>
-                    📁 {folder.name}
+                     {folder.name}
                   </span>
                   <button
                     className="folder-delete-btn"
@@ -529,7 +529,7 @@ function FolderModal({ folder, onSave, onClose }) {
             <label>Іконка (опціонально)</label>
             <input
               type="text"
-              placeholder="📁"
+              placeholder=""
               value={formData.icon}
               onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
             />

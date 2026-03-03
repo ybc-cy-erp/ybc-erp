@@ -204,7 +204,7 @@ function MembershipsPage() {
 
       {filteredMemberships.length === 0 ? (
         <div className="empty-state glass-card">
-          <p>📋 Членства не знайдені</p>
+          <p> Членства не знайдені</p>
           {(searchTerm || statusFilter !== 'all' || planFilter !== 'all') && (
             <p className="hint">Спробуйте змінити фільтри</p>
           )}

@@ -96,10 +96,10 @@ export default function AccountsPage() {
 
   const getTypeIcon = (type) => {
     switch (type) {
-      case 'cash': return '💵';
-      case 'bank': return '🏦';
-      case 'crypto': return '🪙';
-      default: return '💰';
+      case 'cash': return '';
+      case 'bank': return '';
+      case 'crypto': return '';
+      default: return '';
     }
   };
 
@@ -132,7 +132,7 @@ export default function AccountsPage() {
         <div className="accounts-grid">
           {accounts.length === 0 ? (
             <div className="empty-state glass-card">
-              <p>📋 Рахунки не знайдені</p>
+              <p> Рахунки не знайдені</p>
               <p className="hint">Створіть перший рахунок для обліку грошей</p>
             </div>
           ) : (
@@ -207,9 +207,9 @@ export default function AccountsPage() {
                     onChange={(e) => setForm({ ...form, account_type: e.target.value })}
                     disabled={!!editingId}
                   >
-                    <option value="cash">💵 Готівка</option>
-                    <option value="bank">🏦 Банківський рахунок</option>
-                    <option value="crypto">🪙 Криптогаманець</option>
+                    <option value="cash"> Готівка</option>
+                    <option value="bank"> Банківський рахунок</option>
+                    <option value="crypto"> Криптогаманець</option>
                   </select>
                 </div>
 

@@ -221,7 +221,7 @@ function MembershipDetailsPage() {
 
           {freezes.length === 0 ? (
             <div className="empty-state">
-              <p>📋 Заморозок немає</p>
+              <p> Заморозок немає</p>
               {membership.status === 'active' && (
                 <p className="hint">Натисніть "Додати заморозку" щоб створити</p>
               )}
@@ -252,7 +252,7 @@ function MembershipDetailsPage() {
                       className="btn-remove-freeze"
                       title="Видалити заморозку"
                     >
-                      🗑️
+                      
                     </button>
                   )}
                 </div>

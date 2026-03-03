@@ -49,7 +49,7 @@ export default function SettingsPage() {
     try {
       setLoading(true);
       await telegramService.updateSettings(telegramForm);
-      alert('✅ Налаштування Telegram збережено!');
+      alert(' Налаштування Telegram збережено!');
       loadTelegramSettings();
     } catch (err) {
       alert(`Помилка: ${err.message}`);
@@ -67,7 +67,7 @@ export default function SettingsPage() {
     try {
       setLoading(true);
       await telegramService.testConnection(telegramForm.bot_token, telegramForm.chat_id);
-      alert('✅ Тестове повідомлення надіслано!');
+      alert(' Тестове повідомлення надіслано!');
     } catch (err) {
       alert(`Помилка: ${err.message}`);
     } finally {
@@ -129,7 +129,7 @@ export default function SettingsPage() {
       }
 
       // Reload page to trigger demo data migration
-      alert('✅ Sandbox скинуто! Сторінка перезавантажиться.');
+      alert(' Sandbox скинуто! Сторінка перезавантажиться.');
       window.location.reload();
     } catch (err) {
       console.error('Reset error:', err);
@@ -143,7 +143,7 @@ export default function SettingsPage() {
     <DashboardLayout>
       <div className="settings-page">
         <div className="settings-section glass-card">
-          <h2>📲 Telegram Сповіщення</h2>
+          <h2> Telegram Сповіщення</h2>
           <p className="section-description">
             Підключіть Telegram бот для отримання сповіщень про важливі події в системі.
           </p>
@@ -234,7 +234,7 @@ export default function SettingsPage() {
         </div>
 
         <div className="settings-section glass-card">
-          <h2>🗑️ Sandbox Reset</h2>
+          <h2> Sandbox Reset</h2>
           <p className="section-description">
             Видалити всі дані поточного tenant та завантажити демо-дані для тестування.
           </p>
@@ -271,12 +271,12 @@ export default function SettingsPage() {
             disabled={loading || resetConfirm !== 'RESET'}
             className="btn-danger"
           >
-            {loading ? 'Видалення...' : '🗑️ Скинути Sandbox'}
+            {loading ? 'Видалення...' : ' Скинути Sandbox'}
           </button>
         </div>
 
         <div className="settings-section glass-card">
-          <h2>ℹ️ Інформація про систему</h2>
+          <h2> Інформація про систему</h2>
           <div className="info-grid">
             <div className="info-item">
               <div className="info-label">Версія:</div>

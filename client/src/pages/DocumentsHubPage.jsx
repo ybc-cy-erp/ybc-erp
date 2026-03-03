@@ -12,8 +12,8 @@ function DocumentsHubPage() {
   }, [setPageTitle]);
 
   const sections = [
-    { id: 'journal', label: 'Журнал документів', icon: '📋', path: '/document-journal', description: 'Всі документи' },
-    { id: 'cash', label: 'ПКО / РКО', icon: '💵', path: '/cash-documents', description: 'Касові документи' },
+    { id: 'journal', label: 'Журнал документів', icon: '', path: '/document-journal', description: 'Всі документи' },
+    { id: 'cash', label: 'ПКО / РКО', icon: '', path: '/cash-documents', description: 'Касові документи' },
   ];
 
   return (

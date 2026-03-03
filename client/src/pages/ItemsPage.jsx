@@ -201,7 +201,7 @@ export default function ItemsPage() {
                   onDragOver={handleDragOver}
                 >
                   <span onClick={() => setSelectedFolder(folder.id)}>
-                    📁 {folder.name}
+                     {folder.name}
                   </span>
                   <button
                     className="folder-delete-btn"

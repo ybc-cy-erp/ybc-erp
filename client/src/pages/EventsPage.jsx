@@ -101,11 +101,11 @@ function EventsPage() {
               {getStatusBadge(event.status)}
             </div>
             {event.counterparty_name && (
-              <p className="event-organizer">🏢 {event.counterparty_name}</p>
+              <p className="event-organizer"> {event.counterparty_name}</p>
             )}
-            <p className="event-date">📅 {formatDate(event.event_date)}</p>
+            <p className="event-date"> {formatDate(event.event_date)}</p>
             {event.location && <p className="event-location">📍 {event.location}</p>}
-            {event.capacity && <p className="event-capacity">👥 Місткість: {event.capacity}</p>}
+            {event.capacity && <p className="event-capacity"> Місткість: {event.capacity}</p>}
             <div className="event-actions">
               {event.status === 'draft' && (
                 <>
@@ -129,7 +129,7 @@ function EventsPage() {
 
       {events.length === 0 && (
         <div className="empty-state glass-card">
-          <p>📋 Подій не знайдено</p>
+          <p> Подій не знайдено</p>
         </div>
       )}
     </div>

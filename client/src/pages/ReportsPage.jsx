@@ -91,7 +91,7 @@ function ReportsPage() {
           {/* P&L Statement */}
           <div className="glass-card" style={{ padding: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-              <div style={{ fontSize: '32px' }}>📊</div>
+              <div style={{ fontSize: '32px' }}></div>
               <div>
                 <div style={{ fontSize: '16px', fontWeight: '600' }}>Прибутки та збитки (P&L)</div>
                 <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Доходи та витрати</div>
@@ -128,7 +128,7 @@ function ReportsPage() {
           {/* Balance Sheet */}
           <div className="glass-card" style={{ padding: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-              <div style={{ fontSize: '32px' }}>⚖️</div>
+              <div style={{ fontSize: '32px' }}></div>
               <div>
                 <div style={{ fontSize: '16px', fontWeight: '600' }}>Баланс</div>
                 <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Активи та капітал</div>
@@ -165,7 +165,7 @@ function ReportsPage() {
           {/* Cash Flow */}
           <div className="glass-card" style={{ padding: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-              <div style={{ fontSize: '32px' }}>💰</div>
+              <div style={{ fontSize: '32px' }}></div>
               <div>
                 <div style={{ fontSize: '16px', fontWeight: '600' }}>Рух коштів</div>
                 <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>Cash Flow</div>

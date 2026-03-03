@@ -22,7 +22,7 @@ function DirectoriesPage() {
   }, [activeTab, navigate]);
 
   const tabs = [
-    { id: 'counterparties', label: 'Контрагенти', icon: '🏢' },
+    { id: 'counterparties', label: 'Контрагенти', icon: '' },
     { id: 'items', label: 'Товари та послуги', icon: '📦' },
   ];
 

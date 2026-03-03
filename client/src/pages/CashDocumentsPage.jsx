@@ -185,7 +185,7 @@ function CashDocumentsPage() {
                   <select value={form.account_id} onChange={(e) => setForm({ ...form, account_id: e.target.value })} required>
                     <option value="">Виберіть рахунок</option>
                     {accounts.filter(a => a.account_type === 'cash').length > 0 && (
-                      <optgroup label="💵 Готівка">
+                      <optgroup label=" Готівка">
                         {accounts.filter(a => a.account_type === 'cash').map(acc => (
                           <option key={acc.id} value={acc.id}>
                             {acc.account_name} ({acc.currency}) - Баланс: {Number(acc.balance || 0).toFixed(2)}
@@ -194,7 +194,7 @@ function CashDocumentsPage() {
                       </optgroup>
                     )}
                     {accounts.filter(a => a.account_type === 'bank').length > 0 && (
-                      <optgroup label="🏦 Банк">
+                      <optgroup label=" Банк">
                         {accounts.filter(a => a.account_type === 'bank').map(acc => (
                           <option key={acc.id} value={acc.id}>
                             {acc.account_name} ({acc.currency}) - Баланс: {Number(acc.balance || 0).toFixed(2)}
@@ -203,7 +203,7 @@ function CashDocumentsPage() {
                       </optgroup>
                     )}
                     {accounts.filter(a => a.account_type === 'crypto').length > 0 && (
-                      <optgroup label="🪙 Крипто">
+                      <optgroup label=" Крипто">
                         {accounts.filter(a => a.account_type === 'crypto').map(acc => (
                           <option key={acc.id} value={acc.id}>
                             {acc.account_name} ({acc.network}) - Баланс: {Number(acc.balance || 0).toFixed(2)}

@@ -116,7 +116,7 @@ function BillsPage() {
 
       {bills.length === 0 && (
         <div className="empty-state glass-card">
-          <p>📋 Рахунків не знайдено</p>
+          <p> Рахунків не знайдено</p>
         </div>
       )}
     </div>
