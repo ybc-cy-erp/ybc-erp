@@ -104,26 +104,37 @@
     left: 0;
     top: 0;
     right: 0;
-    height: 60px;
+    height: 64px;
     padding: 0 16px;
-    border-radius: 0 0 16px 16px !important;
-    /* Stronger glass effect on mobile */
-    background: rgba(255, 255, 255, 0.25) !important;
-    backdrop-filter: blur(80px) saturate(220%) !important;
-    -webkit-backdrop-filter: blur(80px) saturate(220%) !important;
+    margin: 0;
+    border-radius: 0 0 20px 20px !important;
+    border-top: none !important;
+    /* Ultra glass effect on mobile */
+    background: rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(100px) saturate(250%) brightness(1.05) !important;
+    -webkit-backdrop-filter: blur(100px) saturate(250%) brightness(1.05) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
   }
 
   :root[data-theme='dark'] .navbar {
-    background: rgba(28, 28, 30, 0.3) !important;
+    background: rgba(0, 0, 0, 0.15) !important;
+    backdrop-filter: blur(100px) saturate(250%) brightness(0.95) !important;
+    -webkit-backdrop-filter: blur(100px) saturate(250%) brightness(0.95) !important;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
   }
 
+  /* Perfect vertical centering */
   .navbar-left,
   .navbar-right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     gap: 10px;
-    height: 100%;
+    height: 64px;
+    margin: 0;
+    padding: 0;
   }
 
   .navbar-left {
@@ -135,36 +146,39 @@
   }
 
   .page-title {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 64px;
+    margin: 0;
+    padding: 0;
   }
 
   .user-name {
     display: none;
   }
 
+  /* All buttons same size and centered */
   .btn-back,
   .btn-theme,
   .btn-logout {
-    height: 40px;
-    min-height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 44px !important;
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     flex-shrink: 0;
+    margin: 0;
+    padding: 0 14px !important;
+    font-size: 13px;
+    font-weight: 500;
   }
 
   .btn-back {
-    width: 40px;
-    min-width: 40px;
-  }
-
-  .btn-theme,
-  .btn-logout {
-    padding: 8px 12px;
-    font-size: 12px;
+    width: 44px !important;
+    min-width: 44px !important;
+    padding: 0 !important;
   }
 }
