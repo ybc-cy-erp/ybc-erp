@@ -274,7 +274,8 @@ const blockchainService = {
 
   async getEVMTransactions(network, address, limit) {
     const config = NETWORK_APIS[network.toLowerCase()];
-    
+    const networkKey = network.toLowerCase();
+
     const url = `${config.explorer}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=${limit}&sort=desc`;
 
     const response = await fetch(url);
@@ -298,17 +299,66 @@ const blockchainService = {
     // Explorer API may return NOTOK/0 on free tier limits (especially some L2 endpoints)
     if (data.message === 'NOTOK' || data.status === '0') {
       const l2Networks = ['arbitrum', 'optimism', 'base'];
-      const isL2 = l2Networks.includes(network.toLowerCase());
+      const isL2 = l2Networks.includes(networkKey);
+
+      // Fallback for L2: Blockscout V2 API (public, no key)
+      if (isL2) {
+        return await this.getL2TransactionsViaBlockscout(networkKey, address, limit);
+      }
 
       return {
         transactions: [],
-        error: isL2
-          ? `Історія транзакцій для ${config.name} тимчасово недоступна через обмеження API експлорера. Перевіряйте рухи напряму в експлорері мережі.`
-          : 'Історія транзакцій тимчасово недоступна (ліміт API). Спробуйте пізніше.',
+        error: 'Історія транзакцій тимчасово недоступна (ліміт API). Спробуйте пізніше.',
       };
     }
 
     throw new Error(data.message || 'Failed to fetch transactions');
+  },
+
+  async getL2TransactionsViaBlockscout(network, address, limit) {
+    const blockscoutBase = {
+      arbitrum: 'https://arbitrum.blockscout.com',
+      optimism: 'https://optimism.blockscout.com',
+      base: 'https://base.blockscout.com',
+    };
+
+    const nativeCurrency = {
+      arbitrum: 'ETH',
+      optimism: 'ETH',
+      base: 'ETH',
+    };
+
+    const baseUrl = blockscoutBase[network];
+    if (!baseUrl) {
+      return {
+        transactions: [],
+        error: 'Blockscout fallback недоступний для цієї мережі',
+      };
+    }
+
+    const url = `${baseUrl}/api/v2/addresses/${address}/transactions?items_count=${limit}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data?.items || !Array.isArray(data.items)) {
+      return {
+        transactions: [],
+        error: 'Не вдалося отримати транзакції через Blockscout',
+      };
+    }
+
+    const transactions = data.items.map((tx) => ({
+      hash: tx.hash,
+      from: tx.from?.hash || tx.from || '',
+      to: tx.to?.hash || tx.to || '',
+      value: tx.value ? parseFloat(tx.value) / 1e18 : 0,
+      currency: nativeCurrency[network],
+      timestamp: tx.timestamp ? new Date(tx.timestamp).getTime() : Date.now(),
+      blockNumber: tx.block_number || null,
+      isError: tx.status !== 'ok' || tx.result === 'error' || tx.result === 'reverted',
+    }));
+
+    return { transactions };
   },
 
   /**
