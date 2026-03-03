@@ -393,11 +393,14 @@ export default function AccountsPage() {
                       <label>Мережа</label>
                       <select value={form.network} onChange={(e) => setForm({ ...form, network: e.target.value })}>
                         <option value="ethereum">Ethereum</option>
-                        <option value="bsc">Binance Smart Chain (BSC)</option>
+                        <option value="arbitrum">Arbitrum (L2)</option>
+                        <option value="optimism">Optimism (L2)</option>
+                        <option value="base">Base (L2)</option>
+                        <option value="polygon">Polygon</option>
+                        <option value="bsc">Binance Smart Chain</option>
+                        <option value="avalanche">Avalanche C-Chain</option>
                         <option value="tron">Tron</option>
                         <option value="bitcoin">Bitcoin</option>
-                        <option value="arbitrum">Arbitrum</option>
-                        <option value="optimism">Optimism</option>
                       </select>
                     </div>
                     <div className="form-group">

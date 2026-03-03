@@ -20,6 +20,30 @@ const NETWORK_APIS = {
     apiKey: 'YourApiKeyToken',
     nativeCurrency: 'MATIC',
   },
+  arbitrum: {
+    name: 'Arbitrum',
+    explorer: 'https://api.arbiscan.io/api',
+    apiKey: 'YourApiKeyToken',
+    nativeCurrency: 'ETH',
+  },
+  optimism: {
+    name: 'Optimism',
+    explorer: 'https://api-optimistic.etherscan.io/api',
+    apiKey: 'YourApiKeyToken',
+    nativeCurrency: 'ETH',
+  },
+  avalanche: {
+    name: 'Avalanche',
+    explorer: 'https://api.snowtrace.io/api',
+    apiKey: 'YourApiKeyToken',
+    nativeCurrency: 'AVAX',
+  },
+  base: {
+    name: 'Base',
+    explorer: 'https://api.basescan.org/api',
+    apiKey: 'YourApiKeyToken',
+    nativeCurrency: 'ETH',
+  },
   bitcoin: {
     name: 'Bitcoin',
     explorer: 'https://blockchain.info',
@@ -38,12 +62,20 @@ const TOKEN_CONTRACTS = {
     ethereum: '0xdac17f958d2ee523a2206206994597c13d831ec7',
     bsc: '0x55d398326f99059ff775485246999027b3197955',
     polygon: '0xc2132d05d31c914a87c6611c10748aeb04b58e8f',
+    arbitrum: '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9', // USDT on Arbitrum
+    optimism: '0x94b008aa00579c1307b0ef2c499ad98a8ce58e58', // USDT on Optimism
+    avalanche: '0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7', // USDT.e on Avalanche
+    base: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913', // USDC native on Base (USDT coming)
     tron: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t', // TRC-20 USDT
   },
   USDC: {
     ethereum: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
     bsc: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d',
     polygon: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
+    arbitrum: '0xaf88d065e77c8cc2239327c5edb3a432268e5831', // USDC native on Arbitrum
+    optimism: '0x7f5c764cbc14f9669b88837ca1490cca17c31607', // USDC on Optimism
+    avalanche: '0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e', // USDC on Avalanche
+    base: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913', // USDC native on Base
   },
 };
 
