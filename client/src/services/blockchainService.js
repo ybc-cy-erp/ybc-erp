@@ -274,6 +274,16 @@ const blockchainService = {
 
   async getEVMTransactions(network, address, limit) {
     const config = NETWORK_APIS[network.toLowerCase()];
+    
+    // Deprecated networks don't have free transaction API
+    const deprecatedNetworks = ['arbitrum', 'optimism', 'base'];
+    if (deprecatedNetworks.includes(network.toLowerCase())) {
+      return {
+        transactions: [],
+        error: 'Transaction history temporarily unavailable for L2 networks',
+      };
+    }
+
     const url = `${config.explorer}?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&page=1&offset=${limit}&sort=desc`;
 
     const response = await fetch(url);
@@ -286,11 +296,19 @@ const blockchainService = {
           from: tx.from,
           to: tx.to,
           value: parseFloat(tx.value) / 1e18,
-          currency: config.currency,
+          currency: config.nativeCurrency,
           timestamp: parseInt(tx.timeStamp) * 1000,
           blockNumber: tx.blockNumber,
           isError: tx.isError === '1',
         })),
+      };
+    }
+
+    // NOTOK error = deprecated API
+    if (data.message === 'NOTOK' || data.status === '0') {
+      return {
+        transactions: [],
+        error: data.message || 'API temporarily unavailable',
       };
     }
 
