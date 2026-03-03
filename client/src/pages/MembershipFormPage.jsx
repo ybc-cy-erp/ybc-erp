@@ -83,13 +83,20 @@ function MembershipFormPage() {
 
   const loadPlans = async () => {
     try {
-      const data = await membershipPlanService.getAll();
+      const response = await membershipPlanService.getAll();
+      console.log('Plans response:', response);
+      
+      // membershipPlanService returns { data: { plans: [...] } }
+      const allPlans = response?.data?.plans || [];
+      
       // Only show active plans
-      const activePlans = data.filter(p => p.status === 'active');
+      const activePlans = allPlans.filter(p => p && p.status === 'active');
       setPlans(activePlans);
+      setError(null);
     } catch (err) {
       console.error('Failed to load plans:', err);
       setError('Помилка завантаження тарифних планів');
+      setPlans([]);
     }
   };
 
