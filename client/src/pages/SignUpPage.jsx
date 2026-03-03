@@ -36,18 +36,11 @@ function SignUpPage() {
     try {
       setLoading(true);
 
-      // Get first tenant from database (single-tenant for now)
-      const { data: tenants, error: tenantError } = await supabase
-        .from('tenants')
-        .select('id')
-        .limit(1)
-        .single();
-
-      if (tenantError || !tenants) {
-        throw new Error('Не вдалося знайти організацію. Зверніться до адміністратора.');
-      }
-
-      const tenantId = tenants.id;
+      // Public signup should not depend on reading protected tables (RLS blocks anon in Firefox/Chrome alike)
+      // Single-tenant mode: use configured tenant id with safe fallback
+      const tenantId =
+        import.meta.env.VITE_PUBLIC_TENANT_ID ||
+        'e5a61f2f-5a98-4ff3-bd16-a53a6720dd00';
 
       // Create auth user
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
