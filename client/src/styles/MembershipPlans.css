@@ -92,6 +92,16 @@
   color: var(--text-secondary);
 }
 
+.plan-status.active {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+:root[data-theme='dark'] .plan-status.active {
+  background: #064E3B;
+  color: #6EE7B7;
+}
+
 .plan-actions {
   display: flex;
   gap: 8px;
@@ -99,22 +109,60 @@
   border-top: 1px solid var(--border-light);
 }
 
-.btn-edit, .btn-delete {
+.btn-edit {
   flex: 1;
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background: transparent;
-  color: var(--text-primary);
+  border: none;
+  background: #0A0A0A;
+  color: #FAFAFA;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.btn-edit:hover, .btn-delete:hover {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.25);
+.btn-edit:hover {
+  background: #1A1A1A;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+:root[data-theme='dark'] .btn-edit {
+  background: #FAFAFA;
+  color: #0A0A0A;
+}
+
+:root[data-theme='dark'] .btn-edit:hover {
+  background: #E5E5E5;
+}
+
+.btn-delete {
+  flex: 1;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  background: #FFE4E6;
+  color: #9F1239;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-delete:hover {
+  background: #FECDD3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(159, 18, 57, 0.15);
+}
+
+:root[data-theme='dark'] .btn-delete {
+  background: #4C0519;
+  color: #FECDD3;
+}
+
+:root[data-theme='dark'] .btn-delete:hover {
+  background: #5C0622;
 }
 
 .empty-state {
