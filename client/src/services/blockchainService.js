@@ -121,8 +121,12 @@ const blockchainService = {
 
   /**
    * Get wallet transactions from blockchain
+   * @param {string} network - Network name
+   * @param {string} address - Wallet address
+   * @param {number} limit - Number of transactions to fetch
+   * @param {string} currency - Currency to filter (optional, for tokens)
    */
-  async getTransactions(network, address, limit = 10) {
+  async getTransactions(network, address, limit = 10, currency = null) {
     try {
       const config = NETWORK_APIS[network.toLowerCase()];
       if (!config) {
@@ -132,6 +136,10 @@ const blockchainService = {
       if (network.toLowerCase() === 'bitcoin') {
         return await this.getBitcoinTransactions(address, limit);
       } else if (network.toLowerCase() === 'tron') {
+        const isToken = currency && currency !== 'TRX';
+        if (isToken) {
+          return await this.getTronTokenTransactions(address, currency, limit);
+        }
         return await this.getTronTransactions(address, limit);
       } else {
         return await this.getEVMTransactions(network, address, limit);
@@ -322,21 +330,78 @@ const blockchainService = {
   },
 
   async getTronTransactions(address, limit) {
-    const url = `https://api.trongrid.io/v1/accounts/${address}/transactions?limit=${limit}`;
+    const url = `https://api.trongrid.io/v1/accounts/${address}/transactions?limit=${limit}&only_confirmed=true`;
     const response = await fetch(url);
     const data = await response.json();
 
-    if (data.data) {
+    if (data.data && data.data.length > 0) {
+      return {
+        transactions: data.data.map(tx => {
+          // Parse TRX transfer
+          let value = 0;
+          let from = '';
+          let to = '';
+          
+          if (tx.raw_data?.contract?.[0]) {
+            const contract = tx.raw_data.contract[0];
+            if (contract.type === 'TransferContract') {
+              const params = contract.parameter.value;
+              value = (params.amount || 0) / 1e6; // Sun to TRX
+              from = this.base58ToAddress(params.owner_address);
+              to = this.base58ToAddress(params.to_address);
+            }
+          }
+
+          return {
+            hash: tx.txID,
+            from,
+            to,
+            value,
+            currency: 'TRX',
+            timestamp: tx.block_timestamp,
+            blockNumber: tx.blockNumber,
+            isError: !tx.ret || tx.ret[0]?.contractRet !== 'SUCCESS',
+          };
+        }),
+      };
+    }
+
+    return { transactions: [] };
+  },
+
+  async getTronTokenTransactions(address, currency, limit) {
+    const contractAddress = TOKEN_CONTRACTS[currency]?.tron;
+    if (!contractAddress) {
+      throw new Error(`No contract for ${currency} on Tron`);
+    }
+
+    // TRC-20 transfers (USDT)
+    const url = `https://api.trongrid.io/v1/accounts/${address}/transactions/trc20?limit=${limit}&contract_address=${contractAddress}&only_confirmed=true`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.data && data.data.length > 0) {
       return {
         transactions: data.data.map(tx => ({
-          hash: tx.txID,
+          hash: tx.transaction_id,
+          from: tx.from,
+          to: tx.to,
+          value: parseFloat(tx.value) / 1e6, // USDT has 6 decimals
+          currency: currency,
           timestamp: tx.block_timestamp,
-          type: tx.raw_data?.contract?.[0]?.type,
+          blockNumber: tx.block,
+          isError: false,
         })),
       };
     }
 
     return { transactions: [] };
+  },
+
+  // Helper to convert Tron base58 address to readable format
+  base58ToAddress(base58) {
+    // TronGrid returns hex addresses, just return as-is
+    return base58;
   },
 
   /**

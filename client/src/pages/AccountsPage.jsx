@@ -83,7 +83,8 @@ export default function AccountsPage() {
       const txData = await blockchainService.getTransactions(
         account.network,
         account.wallet_address,
-        20 // last 20 transactions
+        20, // last 20 transactions
+        account.currency // pass currency for token filtering
       );
       
       setShowTransactions({
@@ -94,6 +95,21 @@ export default function AccountsPage() {
     } catch (err) {
       alert(`Помилка завантаження транзакцій: ${err.message}`);
     }
+  };
+
+  const getExplorerUrl = (network, txHash) => {
+    const explorers = {
+      ethereum: `https://etherscan.io/tx/${txHash}`,
+      arbitrum: `https://arbiscan.io/tx/${txHash}`,
+      optimism: `https://optimistic.etherscan.io/tx/${txHash}`,
+      base: `https://basescan.org/tx/${txHash}`,
+      polygon: `https://polygonscan.com/tx/${txHash}`,
+      bsc: `https://bscscan.com/tx/${txHash}`,
+      avalanche: `https://snowtrace.io/tx/${txHash}`,
+      tron: `https://tronscan.org/#/transaction/${txHash}`,
+      bitcoin: `https://blockchain.info/tx/${txHash}`,
+    };
+    return explorers[network] || `#`;
   };
 
   const handleSubmit = async (e) => {
@@ -470,7 +486,7 @@ export default function AccountsPage() {
                         <tr key={idx} style={{ borderBottom: '1px solid var(--border-light)' }}>
                           <td style={{ padding: '10px', fontFamily: 'monospace', fontSize: '11px' }}>
                             <a 
-                              href={`https://etherscan.io/tx/${tx.hash}`} 
+                              href={getExplorerUrl(showTransactions.account.network, tx.hash)} 
                               target="_blank" 
                               rel="noopener noreferrer"
                               style={{ color: 'var(--text-primary)', textDecoration: 'none' }}
@@ -482,7 +498,7 @@ export default function AccountsPage() {
                             {new Date(tx.timestamp).toLocaleString('uk-UA')}
                           </td>
                           <td style={{ padding: '10px', textAlign: 'right', fontFamily: 'monospace' }}>
-                            {tx.value?.toFixed(8)} {tx.currency}
+                            {tx.value !== undefined ? Number(tx.value).toFixed(6) : '—'} {tx.currency || ''}
                           </td>
                           <td style={{ padding: '10px', textAlign: 'center' }}>
                             {tx.isError ? (
