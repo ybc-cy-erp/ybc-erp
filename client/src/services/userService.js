@@ -73,10 +73,10 @@ const userService = {
     const tenantId = getTenantId();
     if (!tenantId) throw normError(null, 'Tenant не визначено');
 
-    // Generate temporary password
+    // Generate temporary password (user will reset it via email link)
     const tempPassword = Math.random().toString(36).slice(-12) + 'Aa1!';
 
-    // Create auth user
+    // Create auth user with temp password
     const { data: authUser, error: signUpError } = await supabase.auth.signUp({
       email,
       password: tempPassword,
@@ -86,7 +86,7 @@ const userService = {
           tenant_id: tenantId,
           role,
         },
-        emailRedirectTo: `${window.location.origin}/login`,
+        emailRedirectTo: `${window.location.origin}/reset-password`,
       },
     });
 
@@ -107,17 +107,40 @@ const userService = {
       .single();
 
     if (userError) {
-      // Rollback: delete auth user if users table insert fails
-      console.error('Failed to create user record, rollback needed:', userError);
+      console.error('Failed to create user record:', userError);
       throw normError(userError, 'Помилка створення запису користувача');
+    }
+
+    // Send password reset email with magic link
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+
+    if (resetError) {
+      console.error('Failed to send reset email:', resetError);
+      // Don't fail the whole operation if email fails
     }
 
     return { 
       data: { 
         user: userData,
-        tempPassword,
+        emailSent: !resetError,
       } 
     };
+  },
+
+  async resetPassword(userId, email) {
+    const tenantId = getTenantId();
+    if (!tenantId) throw normError(null, 'Tenant не визначено');
+
+    // Send password reset email
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+
+    if (error) throw normError(error, 'Помилка відправки посилання');
+
+    return { data: { success: true } };
   },
 };
 

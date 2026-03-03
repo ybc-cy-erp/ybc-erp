@@ -51,20 +51,37 @@ function UsersPage({ embedded = false }) {
     e.preventDefault();
     try {
       const result = await userService.invite(inviteForm.email, inviteForm.name, inviteForm.role);
-      const tempPassword = result.data.tempPassword;
+      const emailSent = result.data.emailSent;
       
       setShowInviteModal(false);
       setInviteForm({ email: '', name: '', role: 'Staff' });
       loadUsers();
       
-      // Show temporary password to admin
-      alert(
-        `✅ Користувача створено!\n\n` +
-        `Email: ${inviteForm.email}\n` +
-        `Тимчасовий пароль: ${tempPassword}\n\n` +
-        `⚠️ Збережіть пароль і передайте користувачу!\n` +
-        `Він повинен змінити його після першого входу.`
-      );
+      // Show success message
+      if (emailSent) {
+        alert(
+          `✅ Користувача створено!\n\n` +
+          `📧 На адресу ${inviteForm.email} відправлено посилання для встановлення пароля.\n\n` +
+          `Користувач має перейти за посиланням та встановити пароль самостійно.`
+        );
+      } else {
+        alert(
+          `✅ Користувача створено!\n\n` +
+          `⚠️ Не вдалося відправити email.\n` +
+          `Скористайтесь кнопкою "Скинути пароль" щоб надіслати посилання.`
+        );
+      }
+    } catch (err) {
+      alert(`❌ Помилка: ${err.message}`);
+    }
+  };
+
+  const handleResetPassword = async (userId, email) => {
+    if (!window.confirm(`Відправити посилання для скидання пароля на ${email}?`)) return;
+    
+    try {
+      await userService.resetPassword(userId, email);
+      alert(`✅ Посилання відправлено на ${email}`);
     } catch (err) {
       alert(`❌ Помилка: ${err.message}`);
     }
@@ -95,6 +112,7 @@ function UsersPage({ embedded = false }) {
                 <th>Роль</th>
                 <th>Статус</th>
                 <th>Дата створення</th>
+                <th>Дії</th>
               </tr>
             </thead>
             <tbody>
@@ -126,6 +144,16 @@ function UsersPage({ embedded = false }) {
                   </td>
                   <td style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
                     {new Date(user.created_at).toLocaleDateString('uk-UA')}
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => handleResetPassword(user.id, user.email)}
+                      className="btn-secondary"
+                      style={{ padding: '6px 12px', fontSize: '12px', whiteSpace: 'nowrap' }}
+                      title="Відправити посилання для встановлення нового пароля"
+                    >
+                      🔑 Скинути пароль
+                    </button>
                   </td>
                 </tr>
               ))}

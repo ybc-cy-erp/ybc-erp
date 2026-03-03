@@ -3,6 +3,7 @@ import { AuthProvider, AuthContext } from './context/AuthContext';
 import { PageTitleProvider } from './context/PageTitleContext';
 import { useContext } from 'react';
 import LoginPage from './pages/LoginPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 import DashboardPage from './pages/DashboardPage';
 import MembershipPlansPage from './pages/MembershipPlansPage';
 import MembershipPlansFinderPage from './pages/MembershipPlansFinderPage';
@@ -82,6 +83,8 @@ function App() {
               <LoginPage />
             </PublicRoute>
           } />
+
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
 
           <Route path="/change-password" element={
             <PasswordChangeRoute>
