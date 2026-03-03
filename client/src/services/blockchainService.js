@@ -295,11 +295,16 @@ const blockchainService = {
       };
     }
 
-    // NOTOK error = deprecated API
+    // Explorer API may return NOTOK/0 on free tier limits (especially some L2 endpoints)
     if (data.message === 'NOTOK' || data.status === '0') {
+      const l2Networks = ['arbitrum', 'optimism', 'base'];
+      const isL2 = l2Networks.includes(network.toLowerCase());
+
       return {
         transactions: [],
-        error: data.message || 'API temporarily unavailable',
+        error: isL2
+          ? `Історія транзакцій для ${config.name} тимчасово недоступна через обмеження API експлорера. Перевіряйте рухи напряму в експлорері мережі.`
+          : 'Історія транзакцій тимчасово недоступна (ліміт API). Спробуйте пізніше.',
       };
     }
 
