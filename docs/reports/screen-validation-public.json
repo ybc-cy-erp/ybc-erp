@@ -1,0 +1,38 @@
+[
+  {
+    "mode": "public",
+    "route": "/login",
+    "module": "auth",
+    "status": "pass",
+    "check_selector": "form.login-form",
+    "check_passed": true,
+    "final_url_path": "/login",
+    "page_errors": [],
+    "console_errors": [],
+    "screenshot": "docs/reports/screenshots/auth/login.png"
+  },
+  {
+    "mode": "public",
+    "route": "/signup",
+    "module": "auth",
+    "status": "pass",
+    "check_selector": "form.login-form",
+    "check_passed": true,
+    "final_url_path": "/signup",
+    "page_errors": [],
+    "console_errors": [],
+    "screenshot": "docs/reports/screenshots/auth/signup.png"
+  },
+  {
+    "mode": "public",
+    "route": "/reset-password",
+    "module": "auth",
+    "status": "pass",
+    "check_selector": "form",
+    "check_passed": true,
+    "final_url_path": "/reset-password",
+    "page_errors": [],
+    "console_errors": [],
+    "screenshot": "docs/reports/screenshots/auth/reset-password.png"
+  }
+]

@@ -1,13 +1,11 @@
 import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
 import { dashboardService } from '../services/dashboardService';
 import DashboardLayout from '../components/layout/DashboardLayout';
 import '../styles/Dashboard.css';
 
 export default function DashboardPage() {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [metrics, setMetrics] = useState(null);

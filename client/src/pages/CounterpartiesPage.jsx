@@ -16,20 +16,12 @@ export default function CounterpartiesPage({ embedded = false }) {
   const [editingItem, setEditingItem] = useState(null);
   const [showFolderModal, setShowFolderModal] = useState(false);
   const [editingFolder, setEditingFolder] = useState(null);
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [filterType, setFilterType] = useState('all');
+  const [selectedTags] = useState([]);
 
   useEffect(() => {
+    setPageTitle('Контрагенти');
     loadData();
-  }, [selectedFolder, searchQuery]);
-
-  const getAllTags = () => {
-    const tags = new Set();
-    counterparties.forEach((cp) => {
-      if (cp.tags) cp.tags.forEach((tag) => tags.add(tag));
-    });
-    return Array.from(tags).sort();
-  };
+  }, [selectedFolder, searchQuery, setPageTitle]);
 
   const filteredCounterparties = counterparties.filter((cp) => {
     if (selectedTags.length > 0) {
@@ -48,7 +40,6 @@ export default function CounterpartiesPage({ embedded = false }) {
         counterpartyService.getFolders(),
       ]);
       setCounterparties(cpData);
-  const { setPageTitle } = usePageTitle();
       setFolders(foldersData);
     } catch (err) {
       console.error('Load error:', err);

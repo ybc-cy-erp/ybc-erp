@@ -28,7 +28,6 @@ function CurrencyExchangePage() {
       setLoading(true);
       const data = await currencyExchangeService.getAll();
       setExchanges(data);
-  const { setPageTitle } = usePageTitle();
     } catch (err) {
       console.error('Failed to load exchanges:', err);
     } finally {

@@ -25,9 +25,9 @@ const telegramService = {
       .from('telegram_settings')
       .select('*')
       .eq('tenant_id', tenantId)
-      .single();
+      .maybeSingle();
 
-    if (error && error.code !== 'PGRST116') {
+    if (error) {
       throw normError(error, 'Помилка завантаження налаштувань');
     }
 

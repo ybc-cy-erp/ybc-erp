@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../context/AuthContext';
 import { usePageTitle } from '../context/PageTitleContext';
 import membershipPlanService from '../services/membershipPlanService';
@@ -8,7 +7,6 @@ import PlanModal from '../components/memberships/PlanModal';
 import './MembershipPlansFinder.css';
 
 export default function MembershipPlansFinderPage({ embedded = false }) {
-  const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { setPageTitle } = usePageTitle();
   const [plans, setPlans] = useState([]);

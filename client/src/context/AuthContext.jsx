@@ -3,11 +3,39 @@ import { supabase } from '../services/supabase';
 
 export const AuthContext = createContext();
 
+const mapUser = (sbUser, token) => ({
+  id: sbUser.id,
+  email: sbUser.email,
+  name: sbUser.user_metadata?.name || sbUser.email,
+  role: sbUser.user_metadata?.role || 'Owner',
+  tenant_id: sbUser.user_metadata?.tenant_id || null,
+  force_password_change: !!sbUser.user_metadata?.force_password_change,
+  token,
+});
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const qaBypass = import.meta.env.VITE_QA_BYPASS_AUTH === 'true';
 
   useEffect(() => {
+    if (qaBypass) {
+      const mockUser = {
+        id: 'qa-user',
+        email: 'qa@ybc.local',
+        name: 'QA User',
+        role: 'Owner',
+        tenant_id: import.meta.env.VITE_PUBLIC_TENANT_ID || 'e5a61f2f-5a98-4ff3-bd16-a53a6720dd00',
+        force_password_change: false,
+        token: 'qa-token',
+      };
+      setUser(mockUser);
+      localStorage.setItem('jwt', mockUser.token);
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      setLoading(false);
+      return undefined;
+    }
+
     let mounted = true;
 
     const init = async () => {
@@ -47,17 +75,7 @@ export function AuthProvider({ children }) {
       mounted = false;
       subscription?.unsubscribe();
     };
-  }, []);
-
-  const mapUser = (sbUser, token) => ({
-    id: sbUser.id,
-    email: sbUser.email,
-    name: sbUser.user_metadata?.name || sbUser.email,
-    role: sbUser.user_metadata?.role || 'Owner',
-    tenant_id: sbUser.user_metadata?.tenant_id || null,
-    force_password_change: !!sbUser.user_metadata?.force_password_change,
-    token,
-  });
+  }, [qaBypass]);
 
   const login = async (email, password) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });

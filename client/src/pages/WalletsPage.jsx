@@ -16,12 +16,7 @@ function WalletsPage() {
   const [wallets, setWallets] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setPageTitle('Гаманці');
-    loadWallets();
-  }, []);
-
-  const loadWallets = async () => {
+  async function loadWallets() {
     setLoading(true);
     // Mock data - replace with real API when integrated
     setTimeout(() => {
@@ -33,11 +28,12 @@ function WalletsPage() {
       ]);
       setLoading(false);
     }, 500);
-  };
+  }
 
-  const getNetworkInfo = (networkId) => {
-    return NETWORKS.find(n => n.id === networkId) || {};
-  };
+  useEffect(() => {
+    setPageTitle('Гаманці');
+    loadWallets();
+  }, [setPageTitle]);
 
   const getTotalUSD = () => {
     return wallets.reduce((sum, w) => {

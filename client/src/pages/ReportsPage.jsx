@@ -44,7 +44,7 @@ function ReportsPage() {
 
       const [pl, bs, cf] = await Promise.all([
         reportService.getProfitLoss(startDate, endDate),
-        reportService.getBalanceSheet(),
+        reportService.getBalanceSheet(endDate),
         reportService.getCashFlow(startDate, endDate),
       ]);
 
@@ -102,21 +102,21 @@ function ReportsPage() {
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid var(--border-light)' }}>
                 <span style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Доходи</span>
                 <span style={{ fontSize: '16px', fontWeight: '600', fontFamily: 'monospace' }}>
-                  €{profitLoss?.revenue?.toLocaleString() || '0'}
+                  €{profitLoss?.total_revenue?.toLocaleString() || '0'}
                 </span>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid var(--border-light)' }}>
                 <span style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Витрати</span>
                 <span style={{ fontSize: '16px', fontWeight: '600', fontFamily: 'monospace' }}>
-                  €{profitLoss?.expenses?.toLocaleString() || '0'}
+                  €{profitLoss?.total_expenses?.toLocaleString() || '0'}
                 </span>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px' }}>
                 <span style={{ fontSize: '15px', fontWeight: '600' }}>Чистий прибуток</span>
-                <span style={{ fontSize: '20px', fontWeight: '700', fontFamily: 'monospace', color: profitLoss?.profit >= 0 ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
-                  €{profitLoss?.profit?.toLocaleString() || '0'}
+                <span style={{ fontSize: '20px', fontWeight: '700', fontFamily: 'monospace', color: profitLoss?.net_profit >= 0 ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
+                  €{profitLoss?.net_profit?.toLocaleString() || '0'}
                 </span>
               </div>
             </div>
@@ -139,21 +139,21 @@ function ReportsPage() {
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid var(--border-light)' }}>
                 <span style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Активи</span>
                 <span style={{ fontSize: '16px', fontWeight: '600', fontFamily: 'monospace' }}>
-                  €{balance?.assets?.toLocaleString() || '0'}
+                  €{balance?.total_assets?.toLocaleString() || '0'}
                 </span>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid var(--border-light)' }}>
                 <span style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Зобов'язання</span>
                 <span style={{ fontSize: '16px', fontWeight: '600', fontFamily: 'monospace' }}>
-                  €{balance?.liabilities?.toLocaleString() || '0'}
+                  €{balance?.total_liabilities?.toLocaleString() || '0'}
                 </span>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px' }}>
                 <span style={{ fontSize: '15px', fontWeight: '600' }}>Капітал</span>
                 <span style={{ fontSize: '20px', fontWeight: '700', fontFamily: 'monospace' }}>
-                  €{balance?.equity?.toLocaleString() || '0'}
+                  €{balance?.total_equity?.toLocaleString() || '0'}
                 </span>
               </div>
             </div>
@@ -176,28 +176,28 @@ function ReportsPage() {
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid var(--border-light)' }}>
                 <span style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Операційна діяльність</span>
                 <span style={{ fontSize: '16px', fontWeight: '600', fontFamily: 'monospace' }}>
-                  €{cashFlow?.operating?.toLocaleString() || '0'}
+                  €{cashFlow?.net_operating?.toLocaleString() || '0'}
                 </span>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid var(--border-light)' }}>
                 <span style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Інвестиційна</span>
                 <span style={{ fontSize: '16px', fontWeight: '600', fontFamily: 'monospace' }}>
-                  €{cashFlow?.investing?.toLocaleString() || '0'}
+                  €{cashFlow?.net_investing?.toLocaleString() || '0'}
                 </span>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '8px', borderBottom: '1px solid var(--border-light)' }}>
                 <span style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Фінансова</span>
                 <span style={{ fontSize: '16px', fontWeight: '600', fontFamily: 'monospace' }}>
-                  €{cashFlow?.financing?.toLocaleString() || '0'}
+                  €{cashFlow?.net_financing?.toLocaleString() || '0'}
                 </span>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: '8px' }}>
                 <span style={{ fontSize: '15px', fontWeight: '600' }}>Чиста зміна</span>
-                <span style={{ fontSize: '20px', fontWeight: '700', fontFamily: 'monospace', color: cashFlow?.netChange >= 0 ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
-                  €{cashFlow?.netChange?.toLocaleString() || '0'}
+                <span style={{ fontSize: '20px', fontWeight: '700', fontFamily: 'monospace', color: cashFlow?.net_change >= 0 ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
+                  €{cashFlow?.net_change?.toLocaleString() || '0'}
                 </span>
               </div>
             </div>

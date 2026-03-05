@@ -25,7 +25,6 @@ export default function DocumentsPage() {
       
       const data = await documentService.getAll(params);
       setDocuments(data);
-  const { setPageTitle } = usePageTitle();
     } catch (err) {
       console.error(err);
     } finally {

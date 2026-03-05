@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import './Sidebar.css';
 
 function Icon({ children }) {
@@ -127,8 +126,7 @@ const icons = {
 };
 
 export default function Sidebar() {
-  const { t } = useTranslation();
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const [theme] = useState(localStorage.getItem('theme') || 'light');
 
   const menuItems = [
     { path: '/dashboard', label: 'Головна', icon: icons.dashboard },

@@ -24,7 +24,7 @@ export default function MembershipModal({ membership, onClose }) {
   const [activeTab, setActiveTab] = useState('details'); // details | freeze
   const isEditing = !!membership;
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+  const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(membershipSchema),
     defaultValues: membership || {
       plan_id: '',

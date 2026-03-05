@@ -15,12 +15,13 @@ export default function ItemsPage() {
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [showFolderModal, setShowFolderModal] = useState(false);
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [selectedType, setSelectedType] = useState('all');
+  const [selectedTags] = useState([]);
+  const [selectedType] = useState('all');
 
   useEffect(() => {
+    setPageTitle('Товари та послуги');
     loadData();
-  }, [selectedFolder, searchQuery]);
+  }, [selectedFolder, searchQuery, setPageTitle]);
 
   const loadData = async () => {
     try {
@@ -30,7 +31,6 @@ export default function ItemsPage() {
         itemService.getFolders(),
       ]);
       setItems(itemsData);
-  const { setPageTitle } = usePageTitle();
       setFolders(foldersData);
     } catch (err) {
       console.error('Load error:', err);
@@ -119,14 +119,6 @@ export default function ItemsPage() {
   const handleDragOver = (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-  };
-
-  const getAllTags = () => {
-    const tags = new Set();
-    items.forEach((item) => {
-      if (item.tags) item.tags.forEach((tag) => tags.add(tag));
-    });
-    return Array.from(tags).sort();
   };
 
   const filteredItems = items.filter((item) => {

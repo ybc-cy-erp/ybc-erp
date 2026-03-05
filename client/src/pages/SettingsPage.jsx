@@ -9,7 +9,6 @@ export default function SettingsPage() {
   const { setPageTitle } = usePageTitle();
   const [loading, setLoading] = useState(false);
   const [resetConfirm, setResetConfirm] = useState('');
-  const [telegramSettings, setTelegramSettings] = useState(null);
   const [telegramForm, setTelegramForm] = useState({
     bot_token: '',
     chat_id: '',
@@ -29,7 +28,6 @@ export default function SettingsPage() {
     try {
       const settings = await telegramService.getSettings();
       if (settings) {
-        setTelegramSettings(settings);
         setTelegramForm({
           bot_token: settings.bot_token || '',
           chat_id: settings.chat_id || '',

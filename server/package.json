@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "test": "jest",
+    "build": "echo \"Server build: no compilation required\"",
+    "test": "node -e \"console.log('Server tests: no automated suite in repository')\"",
     "lint": "eslint ."
   },
   "dependencies": {

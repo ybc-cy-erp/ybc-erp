@@ -1,0 +1,32 @@
+[
+  {
+    "id": "dashboard_quick_action_membership",
+    "description": "Dashboard quick action navigates to membership creation",
+    "status": "pass"
+  },
+  {
+    "id": "finance_hub_navigation",
+    "description": "Finance hub card navigates to Accounts",
+    "status": "pass"
+  },
+  {
+    "id": "documents_hub_navigation",
+    "description": "Documents hub card navigates to journal",
+    "status": "pass"
+  },
+  {
+    "id": "reports_drilldown_navigation",
+    "description": "Reports page drilldown opens Profit & Loss detail",
+    "status": "pass"
+  },
+  {
+    "id": "directories_tabs_switch",
+    "description": "Directories tabs switch to users content",
+    "status": "pass"
+  },
+  {
+    "id": "users_invite_modal",
+    "description": "Users page opens invite modal",
+    "status": "pass"
+  }
+]

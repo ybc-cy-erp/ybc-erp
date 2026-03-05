@@ -13,7 +13,7 @@ function BillsPage() {
   const [statusFilter, setStatusFilter] = useState('all');
 
   useEffect(() => {
-    setPageTitle('Рахунки');
+    setPageTitle('Витрати');
     loadBills();
   }, [statusFilter]);
 
@@ -63,7 +63,7 @@ function BillsPage() {
       <div className="page-header">
         
         <button onClick={() => navigate('/bills/create')} className="btn-create">
-          + Створити рахунок
+          + Створити витрату
         </button>
       </div>
 
@@ -116,7 +116,7 @@ function BillsPage() {
 
       {bills.length === 0 && (
         <div className="empty-state glass-card">
-          <p> Рахунків не знайдено</p>
+          <p> Витрат не знайдено</p>
         </div>
       )}
     </div>

@@ -28,7 +28,6 @@ function TransfersPage() {
       setLoading(true);
       const data = await transferService.getAll();
       setTransfers(data);
-  const { setPageTitle } = usePageTitle();
     } catch (err) {
       console.error('Failed to load transfers:', err);
     } finally {
