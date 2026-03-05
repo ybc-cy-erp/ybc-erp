@@ -1,0 +1,17 @@
+[
+  {
+    "id": "prod_home_loads",
+    "status": "pass",
+    "final_url": "https://erp.ybc.com.cy/login"
+  },
+  {
+    "id": "prod_login_form",
+    "status": "pass",
+    "final_url": "https://erp.ybc.com.cy/login"
+  },
+  {
+    "id": "prod_private_route_redirect",
+    "status": "pass",
+    "final_url": "https://erp.ybc.com.cy/login"
+  }
+]
